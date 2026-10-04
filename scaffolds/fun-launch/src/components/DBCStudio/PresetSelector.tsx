@@ -28,6 +28,8 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
         return 'ph--buildings-bold';
       case 'exponential-degen':
         return 'ph--fire-bold';
+      case 'dao-conviction':
+        return 'ph--bank-bold';
       default:
         return 'ph--faders-bold';
     }
@@ -109,11 +111,16 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
 
               {/* Key specs pill */}
               <div className="mt-3.5 flex items-center justify-between border-t border-white/[0.06] pt-2.5 font-mono text-[11px]">
-                <span className="text-neutral-400">
-                  Target Cap: <strong className="text-white">{preset.migrationMarketCapSol} SOL</strong>
-                </span>
-                <span className="text-neutral-400">
-                  Graduation: <strong className="text-emerald-400">{preset.migrationQuoteThresholdSol} SOL</strong>
+                <div className="flex items-center gap-1.5">
+                  <span className="rounded bg-neutral-800 px-1.5 py-0.5 text-[9px] font-bold text-neutral-300 uppercase border border-white/5">
+                    {preset.quoteToken} PAIR
+                  </span>
+                  <span className="text-neutral-400 text-[10px]">
+                    Cap: <strong className="text-white">{preset.migrationMarketCapSol} {preset.quoteToken}</strong>
+                  </span>
+                </div>
+                <span className="text-neutral-400 text-[10px]">
+                  Target: <strong className="text-emerald-400">{preset.migrationQuoteThresholdSol} {preset.quoteToken}</strong>
                 </span>
               </div>
             </div>

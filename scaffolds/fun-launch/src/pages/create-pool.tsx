@@ -42,6 +42,7 @@ export default function CreatePool() {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
   const [selectedPreset, setSelectedPreset] = useState<DBCPreset>(DBC_PRESETS[0]);
+  const [assetClass, setAssetClass] = useState<'MEME' | 'EQUITY'>('MEME');
   const [customParams, setCustomParams] = useState({
     initialMcap: 25,
     migrationMcap: 600,
@@ -244,6 +245,57 @@ export default function CreatePool() {
                         <h2 className="text-base font-bold text-white">Token Identity</h2>
                         <p className="text-[11px] text-neutral-400">Basic metadata registered on Solana</p>
                       </div>
+                    </div>
+
+                    {/* Asset Class Architecture Selector (Stocklana / xStocks vs Meme) */}
+                    <div className="flex flex-col gap-2 rounded-xl bg-neutral-950/80 p-3 border border-white/[0.06]">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">
+                        Asset Class Architecture
+                      </span>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAssetClass('MEME');
+                            const preset = DBC_PRESETS.find((p) => p.id === 'anti-snipe');
+                            if (preset) setSelectedPreset(preset);
+                          }}
+                          className={`flex items-center justify-center gap-1.5 rounded-lg py-2 px-2 text-xs font-mono font-bold transition-all ${
+                            assetClass === 'MEME'
+                              ? 'bg-primary text-white shadow-md shadow-primary/25'
+                              : 'bg-neutral-900 text-neutral-400 hover:text-white border border-white/5'
+                          }`}
+                        >
+                          <span className="iconify h-3.5 w-3.5 ph--lightning-bold" />
+                          <span>Meme Fair Launch</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAssetClass('EQUITY');
+                            const preset = DBC_PRESETS.find((p) => p.id === 'rwa-equity');
+                            if (preset) setSelectedPreset(preset);
+                          }}
+                          className={`flex items-center justify-center gap-1.5 rounded-lg py-2 px-2 text-xs font-mono font-bold transition-all ${
+                            assetClass === 'EQUITY'
+                              ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/25'
+                              : 'bg-neutral-900 text-neutral-400 hover:text-white border border-white/5'
+                          }`}
+                        >
+                          <span className="iconify h-3.5 w-3.5 ph--buildings-bold" />
+                          <span>xStock / Equity (USDC)</span>
+                        </button>
+                      </div>
+
+                      {assetClass === 'EQUITY' && (
+                        <div className="mt-1 flex items-start gap-2 rounded-lg bg-cyan-950/30 border border-cyan-500/20 p-2.5 text-[11px] text-cyan-300">
+                          <span className="iconify h-4 w-4 shrink-0 mt-0.5 text-cyan-400 ph--info-bold" />
+                          <div>
+                            <strong className="text-white">Stocklana Equity Pair Mode</strong>: Settles in USDC quote token with a flat floor reserve price. Compatible with Ondo RFQ and Backpack Onchain.
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-4">
