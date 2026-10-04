@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Connection, Keypair, sendAndConfirmRawTransaction, Transaction } from '@solana/web3.js';
 
-const RPC_URL = process.env.RPC_URL as string;
-
-if (!RPC_URL) {
-  throw new Error('Missing required environment variables');
-}
+const RPC_URL =
+  process.env.RPC_URL &&
+  process.env.RPC_URL !== 'your_rpc_url' &&
+  process.env.RPC_URL.startsWith('http')
+    ? process.env.RPC_URL
+    : 'https://api.devnet.solana.com';
 
 type SendTransactionRequest = {
   signedTransaction: string; // base64 encoded signed transaction

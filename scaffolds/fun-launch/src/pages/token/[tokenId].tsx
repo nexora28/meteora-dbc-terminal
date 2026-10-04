@@ -58,25 +58,25 @@ export const TokenPageWithContext = () => {
       {/* On lg+ the page fits the viewport exactly (100vh minus 64px header,
           12px top gutter and 32px bottom gutter) and panels scroll internally */}
       <div className="flex flex-col lg:h-[calc(100vh-108px)]">
-        <div className="mb-4 flex shrink-0 rounded-lg border border-neutral-700 p-3">
+        <div className="mb-4 flex shrink-0 rounded-2xl border border-white/[0.08] bg-neutral-950/80 p-4 backdrop-blur-xl shadow-xl">
           <TokenHeader className="max-sm:order-1" />
         </div>
 
         <div className="flex w-full flex-col gap-4 md:flex-row lg:min-h-0 lg:flex-1">
-          <div className="flex flex-col gap-4 max-lg:mb-8 max-sm:w-full max-sm:order-3 lg:min-w-[400px] lg:overflow-y-auto">
+          <div className="flex flex-col gap-4 max-lg:mb-8 max-sm:w-full max-sm:order-3 lg:min-w-[420px] lg:overflow-y-auto rounded-2xl border border-white/[0.08] bg-neutral-950/70 p-4 backdrop-blur-xl shadow-xl">
             <TokenDetails />
-            <div>
+            <div className="rounded-xl overflow-hidden border border-white/[0.05]">
               <SwapWidget />
             </div>
           </div>
 
-          <div className="flex w-full flex-col border-neutral-850 max-sm:order-2 lg:min-h-0">
-            <div className="shrink-0">
+          <div className="flex w-full flex-col rounded-2xl border border-white/[0.08] bg-neutral-950/70 backdrop-blur-xl shadow-xl overflow-hidden max-sm:order-2 lg:min-h-0">
+            <div className="shrink-0 border-b border-white/[0.06] bg-neutral-900/40 p-1">
               <TokenStats key={`token-stats-${poolId}`} />
             </div>
 
             {/* Chart caps at 500px but shrinks on short screens so the tables keep room */}
-            <div className="flex h-[300px] w-full shrink-0 flex-col lg:h-[min(500px,55vh)]">
+            <div className="flex h-[320px] w-full shrink-0 flex-col lg:h-[min(500px,55vh)] bg-neutral-950/50">
               <TokenChartProvider>
                 <TokenChart />
               </TokenChartProvider>
@@ -84,7 +84,7 @@ export const TokenPageWithContext = () => {
 
             {/* Mobile: one screen tall; lg+: fills the space left under the chart.
                 Both ways the txns/holders tables scroll internally. */}
-            <TokenBottomPanel className="flex flex-col overflow-hidden max-lg:h-screen lg:min-h-0 lg:flex-1" />
+            <TokenBottomPanel className="flex flex-col overflow-hidden max-lg:h-screen lg:min-h-0 lg:flex-1 border-t border-white/[0.06]" />
           </div>
         </div>
       </div>

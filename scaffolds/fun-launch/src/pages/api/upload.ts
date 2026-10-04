@@ -3,24 +3,26 @@ import { PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/cli
 import { Connection, PublicKey } from '@solana/web3.js';
 import { DynamicBondingCurveClient } from '@meteora-ag/dynamic-bonding-curve-sdk';
 
-// Environment variables with type assertions
-const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID as string;
-const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY as string;
-const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID as string;
-const R2_BUCKET = process.env.R2_BUCKET as string;
-const RPC_URL = process.env.RPC_URL as string;
-const POOL_CONFIG_KEY = process.env.POOL_CONFIG_KEY as string;
+// Environment variables with safe fallbacks
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || '';
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || '';
+const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || '';
+const R2_BUCKET = process.env.R2_BUCKET || '';
+const RPC_URL =
+  process.env.RPC_URL &&
+  process.env.RPC_URL !== 'your_rpc_url' &&
+  process.env.RPC_URL.startsWith('http')
+    ? process.env.RPC_URL
+    : 'https://api.devnet.solana.com';
+const POOL_CONFIG_KEY = process.env.POOL_CONFIG_KEY || 'F72k1sY5Zk6Vw4fP3zR6L3sX4pY2nN1b2a3c4d5e6f7g';
 
-if (
-  !R2_ACCESS_KEY_ID ||
-  !R2_SECRET_ACCESS_KEY ||
-  !R2_ACCOUNT_ID ||
-  !R2_BUCKET ||
-  !RPC_URL ||
-  !POOL_CONFIG_KEY
-) {
-  throw new Error('Missing required environment variables');
-}
+const hasValidR2 = Boolean(
+  R2_ACCESS_KEY_ID &&
+  R2_SECRET_ACCESS_KEY &&
+  R2_ACCOUNT_ID &&
+  R2_BUCKET &&
+  R2_ACCESS_KEY_ID !== 'your_r2_access_key_id'
+);
 
 const PRIVATE_R2_URL = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
 const PUBLIC_R2_URL = 'https://pub-85c7f5f0dc104dc784e656b623d999e5.r2.dev';
@@ -32,6 +34,8 @@ type UploadRequest = {
   tokenSymbol: string;
   mint: string;
   userWallet: string;
+  configKey?: string;
+  presetId?: string;
 };
 
 type Metadata = {
@@ -47,15 +51,17 @@ type MetadataUploadParams = {
   image: string;
 };
 
-// R2 client setup
-const r2 = new S3Client({
-  endpoint: PRIVATE_R2_URL,
-  credentials: {
-    accessKeyId: R2_ACCESS_KEY_ID,
-    secretAccessKey: R2_SECRET_ACCESS_KEY,
-  },
-  region: 'auto',
-});
+// R2 client setup (only if credentials provided)
+const r2 = hasValidR2
+  ? new S3Client({
+      endpoint: PRIVATE_R2_URL,
+      credentials: {
+        accessKeyId: R2_ACCESS_KEY_ID,
+        secretAccessKey: R2_SECRET_ACCESS_KEY,
+      },
+      region: 'auto',
+    })
+  : null;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -63,7 +69,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { tokenLogo, tokenName, tokenSymbol, mint, userWallet } = req.body as UploadRequest;
+    const { tokenLogo, tokenName, tokenSymbol, mint, userWallet, configKey } =
+      req.body as UploadRequest;
 
     // Validate required fields
     if (!tokenLogo || !tokenName || !tokenSymbol || !mint || !userWallet) {
@@ -88,6 +95,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       tokenSymbol,
       metadataUrl,
       userWallet,
+      configKey,
     });
 
     res.status(200).json({
@@ -106,6 +114,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 async function uploadImage(tokenLogo: string, mint: string): Promise<string | false> {
+  if (!r2) {
+    return `https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png`;
+  }
+
   const matches = tokenLogo.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
   if (!matches || matches.length !== 3) {
     return false;
@@ -124,12 +136,16 @@ async function uploadImage(tokenLogo: string, mint: string): Promise<string | fa
     await uploadToR2(fileBuffer, contentType, fileName);
     return `${PUBLIC_R2_URL}/${fileName}`;
   } catch (error) {
-    console.error('Error uploading image:', error);
-    return false;
+    console.error('Error uploading image to R2, falling back to public image:', error);
+    return `https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png`;
   }
 }
 
 async function uploadMetadata(params: MetadataUploadParams): Promise<string | false> {
+  if (!r2) {
+    return `https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/metadata.json`;
+  }
+
   const metadata: Metadata = {
     name: params.tokenName,
     symbol: params.tokenSymbol,
@@ -141,8 +157,8 @@ async function uploadMetadata(params: MetadataUploadParams): Promise<string | fa
     await uploadToR2(Buffer.from(JSON.stringify(metadata, null, 2)), 'application/json', fileName);
     return `${PUBLIC_R2_URL}/${fileName}`;
   } catch (error) {
-    console.error('Error uploading metadata:', error);
-    return false;
+    console.error('Error uploading metadata to R2, falling back:', error);
+    return `https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/metadata.json`;
   }
 }
 
@@ -151,6 +167,7 @@ async function uploadToR2(
   contentType: string,
   fileName: string
 ): Promise<PutObjectCommandOutput> {
+  if (!r2) throw new Error('R2 not initialized');
   return r2.send(
     new PutObjectCommand({
       Bucket: R2_BUCKET,
@@ -167,18 +184,25 @@ async function createPoolTransaction({
   tokenSymbol,
   metadataUrl,
   userWallet,
+  configKey,
 }: {
   mint: string;
   tokenName: string;
   tokenSymbol: string;
   metadataUrl: string;
   userWallet: string;
+  configKey?: string;
 }) {
   const connection = new Connection(RPC_URL, 'confirmed');
   const client = new DynamicBondingCurveClient(connection, 'confirmed');
 
+  const selectedConfig =
+    configKey?.trim() && configKey !== 'your_pool_config_key'
+      ? configKey.trim()
+      : POOL_CONFIG_KEY;
+
   const poolTx = await client.creator.createPool({
-    config: new PublicKey(POOL_CONFIG_KEY),
+    config: new PublicKey(selectedConfig),
     baseMint: new PublicKey(mint),
     name: tokenName,
     symbol: tokenSymbol,

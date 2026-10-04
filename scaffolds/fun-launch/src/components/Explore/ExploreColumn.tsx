@@ -11,15 +11,47 @@ import { EXPLORE_FIXED_TIMEFRAME, useExplore } from '@/contexts/ExploreProvider'
 import { Pool } from '@/contexts/types';
 import { isHoverableDevice, useBreakpoint } from '@/lib/device';
 import { PausedIndicator } from './PausedIndicator';
+import { cn } from '@/lib/utils';
 
 type ExploreColumnProps = {
   tab: ExploreTab;
 };
 
-export const ExploreTabTitleMap: Record<ExploreTab, string> = {
-  [ExploreTab.NEW]: `New`,
-  [ExploreTab.GRADUATING]: `Soon`,
-  [ExploreTab.GRADUATED]: `Bonded`,
+export const ColumnMeta: Record<
+  ExploreTab,
+  {
+    title: string;
+    sub: string;
+    badge: string;
+    dotColor: string;
+    badgeColor: string;
+    icon: string;
+  }
+> = {
+  [ExploreTab.NEW]: {
+    title: 'NEW POOLS',
+    sub: 'Anti-Snipe Fee Decay Active',
+    badge: 'DECAY 99%→1%',
+    dotColor: 'bg-amber-400',
+    badgeColor: 'bg-amber-400/10 text-amber-400 border-amber-400/25',
+    icon: 'ph--lightning-bold',
+  },
+  [ExploreTab.GRADUATING]: {
+    title: 'GRADUATING SOON',
+    sub: '>70% Threshold to Migration',
+    badge: 'MOMENTUM',
+    dotColor: 'bg-primary',
+    badgeColor: 'bg-primary/10 text-primary border-primary/25',
+    icon: 'ph--fire-bold',
+  },
+  [ExploreTab.GRADUATED]: {
+    title: 'MIGRATED / BONDED',
+    sub: '100% Permanently Locked Meteora LP',
+    badge: 'METEORA DLMM',
+    dotColor: 'bg-emerald-400',
+    badgeColor: 'bg-emerald-400/10 text-emerald-400 border-emerald-400/25',
+    icon: 'ph--check-circle-bold',
+  },
 };
 
 export const ExploreColumn: React.FC<ExploreColumnProps> = ({ tab }) => {
@@ -29,22 +61,41 @@ export const ExploreColumn: React.FC<ExploreColumnProps> = ({ tab }) => {
     (paused: boolean) => setTabPaused(tab, paused),
     [setTabPaused, tab]
   );
+  const meta = ColumnMeta[tab] || {
+    title: ExploreTabTitleMap[tab] || 'POOLS',
+    sub: 'Dynamic Bonding Curve',
+    badge: 'LIVE',
+    dotColor: 'bg-primary',
+    badgeColor: 'bg-primary/10 text-primary border-primary/25',
+    icon: 'ph--activity-bold',
+  };
 
   return (
     // Fill the viewport below the header + page gutters on desktop
-    // (64px header + 12px top gutter + 32px bottom gutter + 2px borders)
-    <div className="flex flex-col h-full lg:h-[calc(100vh-110px)]">
+    <div className="flex flex-col h-full lg:h-[calc(100vh-130px)] bg-neutral-950/40">
       {/* Desktop Column Header */}
-      <div className="flex items-center justify-between p-3 max-lg:hidden">
-        <div className="flex items-center gap-x-2">
-          <h2 className="font-bold text-neutral-300">{ExploreTabTitleMap[tab]}</h2>
-          {isPaused && <PausedIndicator />}
+      <div className="flex items-center justify-between px-3.5 py-3 max-lg:hidden border-b border-white/[0.06] bg-neutral-900/60 backdrop-blur-md">
+        <div className="flex items-center gap-2.5">
+          <div className="relative flex h-2 w-2">
+            <span className={cn('animate-ping absolute inline-flex h-full w-full rounded-full opacity-75', meta.dotColor)} />
+            <span className={cn('relative inline-flex rounded-full h-2 w-2', meta.dotColor)} />
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <h2 className="font-mono text-xs font-bold tracking-wider text-white uppercase">{meta.title}</h2>
+              <span className={cn('rounded px-1.5 py-0.5 font-mono text-[9px] font-bold border', meta.badgeColor)}>
+                {meta.badge}
+              </span>
+            </div>
+            <span className="text-[10px] text-neutral-400 font-mono">{meta.sub}</span>
+          </div>
         </div>
+        {isPaused && <PausedIndicator />}
       </div>
 
       {/* List */}
-      <div className="relative flex-1 border-neutral-850 text-xs lg:border-t h-full">
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-2 bg-gradient-to-b from-neutral-950 to-transparent" />
+      <div className="relative flex-1 text-xs h-full">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-3 bg-gradient-to-b from-neutral-950 to-transparent" />
         <TokenCardListContainer
           tab={tab}
           request={request}

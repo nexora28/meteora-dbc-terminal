@@ -29,14 +29,13 @@ function AppProviders({ Component, pageProps }: AppProps) {
         wallets={wallets}
         config={{
           env: 'mainnet-beta',
-          autoConnect: true,
+          autoConnect: false,
           metadata: {
-            name: 'UnifiedWallet',
-            description: 'UnifiedWallet',
+            name: 'Meteora DBC Studio',
+            description: 'Meteora Dynamic Bonding Curve Studio on Solana',
             url: 'https://jup.ag',
             iconUrls: ['https://jup.ag/favicon.ico'],
           },
-          // notificationCallback: WalletNotification,
           theme: walletTheme,
           lang: 'en',
         }}

@@ -4,10 +4,15 @@ import { ExploreMsgHandler } from './ExploreMsgHandler';
 import { ExploreProvider } from '@/contexts/ExploreProvider';
 import { PropsWithChildren } from 'react';
 
+import { ExploreHero } from './ExploreHero';
+
 const Explore = () => {
   return (
     <ExploreContext>
-      <ExploreGrid className="flex-1" />
+      <div className="flex flex-col w-full">
+        <ExploreHero />
+        <ExploreGrid className="flex-1" />
+      </div>
     </ExploreContext>
   );
 };
