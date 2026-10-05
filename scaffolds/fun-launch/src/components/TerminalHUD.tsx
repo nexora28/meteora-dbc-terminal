@@ -13,7 +13,7 @@ export const TerminalHUD: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full border-b border-neutral-200 dark:border-white/[0.06] bg-neutral-100/90 dark:bg-neutral-950/90 px-3 py-1.5 text-[11px] font-mono backdrop-blur-md text-foreground">
+    <div className="w-full border-b border-neutral-800 bg-neutral-900/80 px-3 py-1.5 text-[11px] font-mono backdrop-blur-md text-foreground">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
         {/* Left: Engine & Network */}
         <div className="flex items-center gap-3 overflow-x-auto no-scrollbar">
@@ -22,26 +22,26 @@ export const TerminalHUD: React.FC = () => {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
-            <span className="font-semibold text-neutral-800 dark:text-neutral-200">SOLANA DEVNET</span>
+            <span className="font-semibold text-foreground">SOLANA DEVNET</span>
           </div>
 
-          <span className="text-neutral-400 dark:text-neutral-700">|</span>
+          <span className="text-neutral-500">|</span>
 
-          <div className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
+          <div className="flex items-center gap-1 text-neutral-400">
             <span>TPS:</span>
-            <span className="font-semibold text-neutral-800 dark:text-neutral-200">{tps.toLocaleString()}</span>
+            <span className="font-semibold text-foreground">{tps.toLocaleString()}</span>
           </div>
 
-          <span className="text-neutral-400 dark:text-neutral-700">|</span>
+          <span className="text-neutral-500">|</span>
 
-          <div className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
+          <div className="flex items-center gap-1 text-neutral-400">
             <span>SLOT:</span>
-            <span className="font-semibold text-neutral-800 dark:text-neutral-200">{slot.toLocaleString()}</span>
+            <span className="font-semibold text-foreground">{slot.toLocaleString()}</span>
           </div>
 
-          <span className="hidden text-neutral-400 dark:text-neutral-700 sm:inline">|</span>
+          <span className="hidden text-neutral-500 sm:inline">|</span>
 
-          <div className="hidden items-center gap-1 text-neutral-500 dark:text-neutral-400 sm:flex">
+          <div className="hidden items-center gap-1 text-neutral-400 sm:flex">
             <span>PRIORITY FEE:</span>
             <span className="font-semibold text-emerald-600 dark:text-emerald-400">100k μLamports</span>
           </div>

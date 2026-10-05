@@ -43,15 +43,15 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary border border-primary/20">
               <span className="iconify h-4 w-4 ph--squares-four-bold" />
             </div>
-            <h2 className="text-base md:text-lg font-bold tracking-tight text-neutral-900 dark:text-white">
+            <h2 className="text-base md:text-lg font-bold tracking-tight text-foreground font-mono uppercase">
               Bonding Curve Archetypes
             </h2>
           </div>
-          <span className="rounded-full border border-neutral-200 dark:border-white/[0.08] bg-neutral-100 dark:bg-neutral-900 px-2.5 py-0.5 font-mono text-[10px] text-neutral-600 dark:text-neutral-400">
+          <span className="rounded-full border border-neutral-800 bg-neutral-900/80 px-2.5 py-0.5 font-mono text-[10px] text-neutral-300">
             DBC v1.5 PRIMITIVE
           </span>
         </div>
-        <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
+        <p className="text-xs text-neutral-300 mt-1 font-sans">
           Select a mathematically tuned curve archetype for your asset class or customize parameters directly.
         </p>
       </div>
@@ -69,7 +69,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
               className={`group relative cursor-pointer rounded-xl border p-4 transition-all duration-200 ${
                 isSelected
                   ? 'border-primary bg-primary/[0.08] shadow-[0_0_25px_-5px_rgba(255,77,0,0.3)] ring-1 ring-primary/50'
-                  : 'border-neutral-200 dark:border-white/[0.08] bg-white dark:bg-neutral-950/60 hover:border-neutral-300 dark:hover:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-900/60 shadow-sm dark:shadow-none'
+                  : 'border-neutral-800 bg-neutral-900/60 hover:border-neutral-700 hover:bg-neutral-800/60'
               }`}
             >
               <div className="flex items-start justify-between gap-2">
@@ -78,13 +78,13 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                     className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
                       isSelected
                         ? 'border-primary bg-primary text-white shadow-sm'
-                        : 'border-neutral-200 dark:border-white/[0.08] bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white'
+                        : 'border-neutral-800 bg-neutral-900 text-neutral-300 group-hover:text-foreground'
                     }`}
                   >
                     <span className={`iconify h-4 w-4 ${icon}`} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-neutral-900 dark:text-white group-hover:text-primary transition-colors">
+                    <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
                       {preset.name}
                     </h3>
                     <span className={`inline-block rounded-full border px-2 py-0.2 text-[9px] font-mono font-semibold uppercase ${preset.badgeColor}`}>
@@ -95,7 +95,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
 
                 <div
                   className={`flex h-4 w-4 items-center justify-center rounded-full border transition-all ${
-                    isSelected ? 'border-primary bg-primary' : 'border-neutral-300 dark:border-neutral-700'
+                    isSelected ? 'border-primary bg-primary' : 'border-neutral-700'
                   }`}
                 >
                   {isSelected && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
@@ -103,23 +103,23 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
               </div>
 
               <div className="mt-2.5">
-                <p className="text-[11px] font-medium text-neutral-700 dark:text-neutral-300">{preset.tagline}</p>
-                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-1.5 line-clamp-2 leading-relaxed font-sans">
+                <p className="text-[11px] font-medium text-neutral-200">{preset.tagline}</p>
+                <p className="text-[11px] text-neutral-300 mt-1.5 line-clamp-2 leading-relaxed font-sans">
                   {preset.description}
                 </p>
               </div>
 
               {/* Key specs pill */}
-              <div className="mt-3.5 flex items-center justify-between border-t border-neutral-100 dark:border-white/[0.06] pt-2.5 font-mono text-[11px]">
+              <div className="mt-3.5 flex items-center justify-between border-t border-neutral-800 pt-2.5 font-mono text-[11px]">
                 <div className="flex items-center gap-1.5">
-                  <span className="rounded bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 text-[9px] font-bold text-neutral-700 dark:text-neutral-300 uppercase border border-neutral-200 dark:border-white/5">
+                  <span className="rounded bg-neutral-800/80 px-1.5 py-0.5 text-[9px] font-bold text-neutral-200 uppercase border border-neutral-700">
                     {preset.quoteToken} PAIR
                   </span>
-                  <span className="text-neutral-500 dark:text-neutral-400 text-[10px]">
-                    Cap: <strong className="text-neutral-900 dark:text-white">{preset.migrationMarketCapSol} {preset.quoteToken}</strong>
+                  <span className="text-neutral-400 text-[10px]">
+                    Cap: <strong className="text-foreground">{preset.migrationMarketCapSol} {preset.quoteToken}</strong>
                   </span>
                 </div>
-                <span className="text-neutral-500 dark:text-neutral-400 text-[10px]">
+                <span className="text-neutral-400 text-[10px]">
                   Target: <strong className="text-emerald-600 dark:text-emerald-400">{preset.migrationQuoteThresholdSol} {preset.quoteToken}</strong>
                 </span>
               </div>
@@ -130,16 +130,16 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
 
       {/* Custom Pro Parameters (Only shown when Custom Studio is selected) */}
       {selectedPreset.id === 'custom-studio' && (
-        <div className="rounded-xl border border-purple-500/40 bg-purple-50/50 dark:bg-purple-950/20 p-5 space-y-4 shadow-sm dark:shadow-[0_0_30px_-8px_rgba(168,85,247,0.2)]">
+        <div className="rounded-xl border border-purple-500/40 bg-purple-950/20 p-5 space-y-4 shadow-sm dark:shadow-[0_0_30px_-8px_rgba(168,85,247,0.2)]">
           <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
             <div className="flex items-center gap-2">
-              <span className="iconify h-4 w-4 text-purple-600 dark:text-purple-400 ph--sliders-bold" />
+              <span className="iconify h-4 w-4 text-purple-400 ph--sliders-bold" />
               <div>
-                <h4 className="text-sm font-bold text-neutral-900 dark:text-white">Custom Curve Engine Parameters</h4>
-                <p className="text-[11px] text-purple-700 dark:text-purple-300/80">Fine-tune mathematical slope and fee schedules</p>
+                <h4 className="text-sm font-bold text-foreground">Custom Curve Engine Parameters</h4>
+                <p className="text-[11px] text-purple-300/80">Fine-tune mathematical slope and fee schedules</p>
               </div>
             </div>
-            <span className="rounded-full bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 font-mono text-[10px] font-bold text-purple-700 dark:text-purple-300">
+            <span className="rounded-full bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 font-mono text-[10px] font-bold text-purple-300">
               INTERACTIVE
             </span>
           </div>

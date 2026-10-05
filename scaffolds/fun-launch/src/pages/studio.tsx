@@ -54,10 +54,10 @@ export default function StudioPage() {
                 <span className="iconify h-4 w-4 ph--sparkle-bold" />
                 Meteora Superteam Earn Track ($20,000 USDC)
               </div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white md:text-5xl">
+              <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
                 Dynamic Bonding <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-500 to-amber-500">Studio</span>
               </h1>
-              <p className="mt-3 text-xs md:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-sans">
+              <p className="mt-3 text-xs md:text-sm text-neutral-300 leading-relaxed font-sans">
                 The institutional algorithmic playground for Meteora DBC. Model multi-segment curves, simulate 99% anti-snipe fee decay, launch USDC-settled Stocklana equities, and export production SDK payloads.
               </p>
             </div>
@@ -73,35 +73,35 @@ export default function StudioPage() {
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="mt-8 grid grid-cols-2 gap-3 border-t border-neutral-200 dark:border-white/[0.06] pt-6 sm:grid-cols-4 font-mono text-xs">
+          <div className="mt-8 grid grid-cols-2 gap-3 border-t border-neutral-800 pt-6 sm:grid-cols-4 font-mono text-xs">
             <div>
-              <div className="text-neutral-500 dark:text-neutral-400 text-[10px] uppercase">DBC Engine</div>
-              <div className="mt-1 font-bold text-neutral-900 dark:text-white">Meteora DBC v1.5</div>
+              <div className="text-neutral-400 text-[10px] uppercase">DBC Engine</div>
+              <div className="mt-1 font-bold text-foreground">Meteora DBC v1.5</div>
             </div>
             <div>
-              <div className="text-neutral-500 dark:text-neutral-400 text-[10px] uppercase">Bot Protection</div>
+              <div className="text-neutral-400 text-[10px] uppercase">Bot Protection</div>
               <div className="mt-1 font-bold text-emerald-600 dark:text-emerald-400">Slot Decay (99% → 1%)</div>
             </div>
             <div>
-              <div className="text-neutral-500 dark:text-neutral-400 text-[10px] uppercase">Asset Class Support</div>
+              <div className="text-neutral-400 text-[10px] uppercase">Asset Class Support</div>
               <div className="mt-1 font-bold text-cyan-600 dark:text-cyan-400">Memes, xStocks & RWAs</div>
             </div>
             <div>
-              <div className="text-neutral-500 dark:text-neutral-400 text-[10px] uppercase">Graduation Pool</div>
+              <div className="text-neutral-400 text-[10px] uppercase">Graduation Pool</div>
               <div className="mt-1 font-bold text-primary">DLMM & DAMM v2 Locked</div>
             </div>
           </div>
         </div>
 
         {/* View Switcher: Interactive Simulator vs Preset Marketplace */}
-        <div className="flex items-center justify-between border-b border-neutral-200 dark:border-white/[0.08] pb-4">
+        <div className="flex items-center justify-between border-b border-neutral-800 pb-4">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setStudioView('simulator')}
               className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs md:text-sm font-mono font-bold transition-all ${
                 studioView === 'simulator'
                   ? 'bg-primary text-white shadow-lg shadow-primary/25'
-                  : 'bg-neutral-100 dark:bg-neutral-900/80 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/5'
+                  : 'bg-neutral-900/80 text-neutral-300 hover:text-foreground border border-neutral-800'
               }`}
             >
               <span className="iconify h-4 w-4 ph--cpu-bold" />
@@ -113,7 +113,7 @@ export default function StudioPage() {
               className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs md:text-sm font-mono font-bold transition-all ${
                 studioView === 'marketplace'
                   ? 'bg-primary text-white shadow-lg shadow-primary/25'
-                  : 'bg-neutral-100 dark:bg-neutral-900/80 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/5'
+                  : 'bg-neutral-900/80 text-neutral-300 hover:text-foreground border border-neutral-800'
               }`}
             >
               <span className="iconify h-4 w-4 ph--storefront-bold" />
@@ -124,8 +124,8 @@ export default function StudioPage() {
             </button>
           </div>
 
-          <span className="hidden sm:inline-block font-mono text-[11px] text-neutral-500">
-            Current: <strong className="text-neutral-900 dark:text-white">{selectedPreset.name}</strong>
+          <span className="hidden sm:inline-block font-mono text-[11px] text-neutral-400">
+            Current: <strong className="text-foreground">{selectedPreset.name}</strong>
           </span>
         </div>
 
@@ -146,23 +146,23 @@ export default function StudioPage() {
               </div>
 
               {/* Economic Summary */}
-              <div className="rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-neutral-100/80 dark:bg-neutral-950/40 p-5 space-y-3 font-mono text-xs">
-                <div className="flex items-center justify-between text-neutral-500 dark:text-neutral-400">
+              <div className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-5 space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between text-neutral-400">
                   <span className="text-[10px] uppercase font-bold tracking-wider">Estimated Creator Revenue</span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-bold">
                     ~{(selectedPreset.migrationQuoteThresholdSol * (selectedPreset.creatorFeeSharePercent / 100) * 0.05).toFixed(2)}{' '}
                     {selectedPreset.quoteToken}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-neutral-500 dark:text-neutral-400">
+                <div className="flex items-center justify-between text-neutral-400">
                   <span className="text-[10px] uppercase font-bold tracking-wider">Decay Slot Window</span>
-                  <span className="text-neutral-900 dark:text-white">
+                  <span className="text-foreground font-semibold">
                     {selectedPreset.decayDurationSlots > 0
                       ? `${selectedPreset.decayDurationSlots} slots (~20s)`
                       : 'None (Linear Floor)'}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-neutral-500 dark:text-neutral-400">
+                <div className="flex items-center justify-between text-neutral-400">
                   <span className="text-[10px] uppercase font-bold tracking-wider">Graduation Target</span>
                   <span className="text-cyan-600 dark:text-cyan-400 font-bold">{selectedPreset.migrationTarget}</span>
                 </div>
@@ -194,12 +194,12 @@ export default function StudioPage() {
         />
 
         {/* Feature Comparison Matrix */}
-        <div className="rounded-2xl border border-neutral-200 dark:border-white/[0.08] bg-white/80 dark:bg-neutral-950/70 p-6 md:p-8 space-y-6 backdrop-blur-xl shadow-xl">
+        <div className="rounded-2xl border border-neutral-800 bg-neutral-900/80 p-6 md:p-8 space-y-6 backdrop-blur-xl shadow-xl">
           <div>
-            <h2 className="text-lg md:text-xl font-bold tracking-tight text-neutral-900 dark:text-white font-mono uppercase">
+            <h2 className="text-lg md:text-xl font-bold tracking-tight text-foreground font-mono uppercase">
               Bonding Curve Archetype Comparison
             </h2>
-            <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1 font-sans">
+            <p className="text-xs text-neutral-300 mt-1 font-sans">
               Comparing how Meteora DBC configurations perform across different market conditions.
             </p>
           </div>
@@ -207,7 +207,7 @@ export default function StudioPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left font-mono text-xs">
               <thead>
-                <tr className="border-b border-neutral-200 dark:border-white/[0.06] text-neutral-500 dark:text-neutral-400 uppercase text-[10px]">
+                <tr className="border-b border-neutral-800 text-neutral-400 uppercase text-[10px]">
                   <th className="py-3 pr-4 font-semibold">Preset</th>
                   <th className="py-3 px-4 font-semibold">Target Asset</th>
                   <th className="py-3 px-4 font-semibold">Quote Token</th>
@@ -216,16 +216,16 @@ export default function StudioPage() {
                   <th className="py-3 pl-4 font-semibold">Migration Vault</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-100 dark:divide-white/[0.04] text-neutral-700 dark:text-neutral-300">
+              <tbody className="divide-y divide-neutral-800 text-neutral-200">
                 {DBC_PRESETS.map((p) => (
                   <tr
                     key={p.id}
                     onClick={() => setSelectedPreset(p)}
-                    className={`cursor-pointer transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-900/60 ${
-                      selectedPreset.id === p.id ? 'bg-primary/10 font-bold text-neutral-900 dark:text-white' : ''
+                    className={`cursor-pointer transition-colors hover:bg-neutral-800/50 ${
+                      selectedPreset.id === p.id ? 'bg-primary/10 font-bold text-foreground' : ''
                     }`}
                   >
-                    <td className="py-3.5 pr-4 font-bold text-neutral-900 dark:text-white flex items-center gap-2">
+                    <td className="py-3.5 pr-4 font-bold text-foreground flex items-center gap-2">
                       <span
                         className={`h-2 w-2 rounded-full ${
                           selectedPreset.id === p.id ? 'bg-primary' : 'bg-neutral-400 dark:bg-neutral-600'
@@ -233,7 +233,7 @@ export default function StudioPage() {
                       />
                       {p.name}
                     </td>
-                    <td className="py-3.5 px-4 text-neutral-700 dark:text-neutral-300">
+                    <td className="py-3.5 px-4 text-neutral-300">
                       {p.badge}
                     </td>
                     <td className="py-3.5 px-4 font-bold text-cyan-600 dark:text-cyan-400">
@@ -245,10 +245,10 @@ export default function StudioPage() {
                           {p.startingFeePercent}% → {p.endingFeePercent}%
                         </span>
                       ) : (
-                        <span className="text-neutral-500">Linear Floor (0%)</span>
+                        <span className="text-neutral-400">Linear Floor (0%)</span>
                       )}
                     </td>
-                    <td className="py-3.5 px-4 font-semibold text-neutral-900 dark:text-white">
+                    <td className="py-3.5 px-4 font-semibold text-foreground">
                       {p.migrationMarketCapSol} {p.quoteToken}
                     </td>
                     <td className="py-3.5 pl-4 font-semibold text-primary">{p.migrationTarget}</td>

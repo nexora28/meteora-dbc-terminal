@@ -45,14 +45,14 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
         <div>
           <div className="flex items-center gap-2">
             <span className="iconify h-5 w-5 text-amber-500 ph--storefront-bold" />
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground font-mono uppercase">
               DBC Config Preset Marketplace
             </h2>
             <span className="rounded-full bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 font-mono text-[10px] font-bold text-amber-600 dark:text-amber-400">
               OFFICIAL & COMMUNITY
             </span>
           </div>
-          <p className="mt-1 text-xs md:text-sm text-neutral-600 dark:text-neutral-400">
+          <p className="mt-1 text-xs md:text-sm text-neutral-300 font-sans">
             Battle-tested algorithmic launchpad parameters verified for maximum liquidity depth, bot protection, and fee accrual.
           </p>
         </div>
@@ -66,7 +66,7 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
               className={`rounded-lg px-3 py-1.5 transition-all ${
                 filter === cat
                   ? 'bg-primary text-white font-bold shadow-md shadow-primary/30'
-                  : 'bg-neutral-100 dark:bg-neutral-900/80 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/5'
+                  : 'bg-neutral-900/80 text-neutral-300 hover:text-foreground border border-neutral-800'
               }`}
             >
               {cat === 'EQUITY' ? 'xSTOCKS & RWA' : cat}
@@ -81,7 +81,7 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
           return (
             <div
               key={preset.id}
-              className="group relative flex flex-col justify-between rounded-2xl border border-neutral-200 dark:border-white/[0.08] bg-white dark:bg-neutral-950/70 p-5 backdrop-blur-xl transition-all duration-200 hover:border-primary/40 hover:bg-neutral-50 dark:hover:bg-neutral-900/80 shadow-sm dark:shadow-lg hover:shadow-primary/5"
+              className="group relative flex flex-col justify-between rounded-2xl border border-neutral-800 bg-neutral-900/70 p-5 backdrop-blur-xl transition-all duration-200 hover:border-primary/40 hover:bg-neutral-800/80 shadow-lg hover:shadow-primary/5"
             >
               <div>
                 {/* Header row */}
@@ -90,7 +90,7 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                     <span className={`inline-block w-fit rounded-full border px-2 py-0.5 text-[9px] font-mono font-bold uppercase mb-1.5 ${preset.badgeColor}`}>
                       {preset.badge}
                     </span>
-                    <h3 className="text-base font-bold text-neutral-900 dark:text-white group-hover:text-primary transition-colors">
+                    <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
                       {preset.name}
                     </h3>
                   </div>
@@ -100,34 +100,34 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                   </div>
                 </div>
 
-                <p className="text-xs text-neutral-700 dark:text-neutral-300 font-medium">{preset.tagline}</p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-2 line-clamp-3 leading-relaxed font-sans">
+                <p className="text-xs text-neutral-200 font-medium">{preset.tagline}</p>
+                <p className="text-xs text-neutral-300 mt-2 line-clamp-3 leading-relaxed font-sans">
                   {preset.description}
                 </p>
 
                 {/* Metrics Table */}
-                <div className="my-4 grid grid-cols-3 gap-2 rounded-xl bg-neutral-100 dark:bg-neutral-900/60 p-2.5 font-mono text-[11px] border border-neutral-200 dark:border-white/[0.04]">
+                <div className="my-4 grid grid-cols-3 gap-2 rounded-xl bg-neutral-900/60 p-2.5 font-mono text-[11px] border border-neutral-800">
                   <div>
-                    <span className="text-[10px] text-neutral-500 dark:text-neutral-400 uppercase block">Settlement</span>
-                    <strong className="text-neutral-900 dark:text-white">{preset.quoteToken}</strong>
+                    <span className="text-[10px] text-neutral-400 uppercase block">Settlement</span>
+                    <strong className="text-foreground">{preset.quoteToken}</strong>
                   </div>
                   <div>
-                    <span className="text-[10px] text-neutral-500 dark:text-neutral-400 uppercase block">Target Cap</span>
-                    <strong className="text-neutral-900 dark:text-white">{preset.migrationMarketCapSol} {preset.quoteToken}</strong>
+                    <span className="text-[10px] text-neutral-400 uppercase block">Target Cap</span>
+                    <strong className="text-foreground">{preset.migrationMarketCapSol} {preset.quoteToken}</strong>
                   </div>
                   <div>
-                    <span className="text-[10px] text-neutral-500 dark:text-neutral-400 uppercase block">Creator Yield</span>
+                    <span className="text-[10px] text-neutral-400 uppercase block">Creator Yield</span>
                     <strong className="text-emerald-600 dark:text-emerald-400">{preset.royaltyYield || '50% Share'}</strong>
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-between gap-2 border-t border-neutral-200 dark:border-white/[0.06] pt-3.5 mt-2">
+              <div className="flex items-center justify-between gap-2 border-t border-neutral-800 pt-3.5 mt-2">
                 <button
                   type="button"
                   onClick={() => handleCopyPresetJson(preset)}
-                  className="flex items-center gap-1.5 rounded-lg border border-neutral-200 dark:border-white/[0.08] bg-neutral-100 dark:bg-neutral-900 px-3 py-1.5 text-xs font-mono text-neutral-700 dark:text-neutral-300 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-white"
+                  className="flex items-center gap-1.5 rounded-lg border border-neutral-800 bg-neutral-900/80 px-3 py-1.5 text-xs font-mono text-neutral-300 transition-colors hover:bg-neutral-800 hover:text-foreground"
                 >
                   <span className="iconify h-3.5 w-3.5 ph--code-bold" />
                   <span>{copiedId === preset.id ? 'Copied JSON!' : 'Copy Config'}</span>

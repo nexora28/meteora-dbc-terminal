@@ -74,7 +74,7 @@ export const ExploreColumn: React.FC<ExploreColumnProps> = ({ tab }) => {
     // Fill the viewport below the header + page gutters on desktop
     <div className="flex flex-col h-full lg:h-[calc(100vh-130px)] bg-neutral-950/40">
       {/* Desktop Column Header */}
-      <div className="flex items-center justify-between px-3.5 py-3 max-lg:hidden border-b border-white/[0.06] bg-neutral-900/60 backdrop-blur-md">
+      <div className="flex items-center justify-between px-3.5 py-3 max-lg:hidden border-b border-neutral-800 bg-neutral-900/80 backdrop-blur-md">
         <div className="flex items-center gap-2.5">
           <div className="relative flex h-2 w-2">
             <span className={cn('animate-ping absolute inline-flex h-full w-full rounded-full opacity-75', meta.dotColor)} />
@@ -82,12 +82,12 @@ export const ExploreColumn: React.FC<ExploreColumnProps> = ({ tab }) => {
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <h2 className="font-mono text-xs font-bold tracking-wider text-white uppercase">{meta.title}</h2>
+              <h2 className="font-mono text-xs font-bold tracking-wider text-foreground uppercase">{meta.title}</h2>
               <span className={cn('rounded px-1.5 py-0.5 font-mono text-[9px] font-bold border', meta.badgeColor)}>
                 {meta.badge}
               </span>
             </div>
-            <span className="text-[10px] text-neutral-400 font-mono">{meta.sub}</span>
+            <span className="text-[10px] text-neutral-300 font-mono">{meta.sub}</span>
           </div>
         </div>
         {isPaused && <PausedIndicator />}

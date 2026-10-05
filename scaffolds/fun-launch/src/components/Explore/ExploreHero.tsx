@@ -53,10 +53,10 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
               </span>
             </div>
 
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold tracking-tight text-foreground">
               Launch & Trade <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-500 to-amber-500">Anti-Snipe Curves</span>
             </h1>
-            <p className="mt-1 text-xs text-neutral-600 dark:text-neutral-400 max-w-xl font-sans">
+            <p className="mt-1 text-xs text-neutral-300 max-w-xl font-sans">
               Next-gen bonding curves with dynamic 99% fee decay shields and automatic Meteora DLMM graduation.
             </p>
           </div>
@@ -69,13 +69,13 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
               className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-mono font-medium transition-all ${
                 specsOpen
                   ? 'border-primary/50 bg-primary/15 text-primary shadow-sm shadow-primary/20'
-                  : 'border-neutral-200 dark:border-white/[0.08] bg-neutral-100 dark:bg-neutral-900/80 text-neutral-700 dark:text-neutral-300 hover:border-neutral-300 dark:hover:border-white/[0.15] hover:text-neutral-900 dark:hover:text-white'
+                  : 'border-neutral-800 bg-neutral-900/80 text-neutral-200 hover:border-neutral-700 hover:text-foreground'
               }`}
             >
               <span className="iconify h-3.5 w-3.5 text-primary ph--shield-check-bold" />
               <span>Protocol Specs</span>
               <span
-                className={`iconify h-3 w-3 text-neutral-500 dark:text-neutral-400 transition-transform duration-200 ${
+                className={`iconify h-3 w-3 text-neutral-400 transition-transform duration-200 ${
                   specsOpen ? 'rotate-180 text-primary' : ''
                 } ph--caret-down-bold`}
               />
@@ -101,11 +101,11 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
 
         {/* Collapsible Protocol Specs Drawer (Compact, uncluttered) */}
         {specsOpen && (
-          <div className="rounded-xl border border-neutral-200 dark:border-white/[0.08] bg-neutral-100/90 dark:bg-neutral-900/70 p-4 backdrop-blur-md animate-in fade-in-50 duration-200">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-200 dark:border-white/[0.06] pb-3 mb-3">
+          <div className="rounded-xl border border-neutral-800 bg-neutral-900/70 p-4 backdrop-blur-md animate-in fade-in-50 duration-200">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-800 pb-3 mb-3">
               <div className="flex items-center gap-2">
                 <span className="iconify h-4 w-4 text-primary ph--info-bold" />
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white">
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-foreground">
                   Aegis Engine Quick Specs
                 </span>
               </div>
@@ -119,26 +119,26 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
-              <div className="rounded-lg bg-white dark:bg-neutral-950/80 p-2.5 border border-neutral-200 dark:border-white/[0.04] shadow-sm dark:shadow-none">
-                <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 uppercase">Anti-Snipe Defense</div>
-                <div className="text-sm font-bold font-mono text-neutral-900 dark:text-white mt-0.5">99% → 1.25%</div>
-                <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-mono">Decays over 50 slots</div>
+              <div className="rounded-lg bg-neutral-950/80 p-2.5 border border-neutral-800 shadow-sm">
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">Anti-Snipe Defense</div>
+                <div className="text-sm font-bold font-mono text-foreground mt-0.5">99% → 1.25%</div>
+                <div className="text-[10px] text-neutral-400 font-mono">Decays over 50 slots</div>
               </div>
 
-              <div className="rounded-lg bg-white dark:bg-neutral-950/80 p-2.5 border border-neutral-200 dark:border-white/[0.04] shadow-sm dark:shadow-none">
-                <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 uppercase">Graduation Target</div>
+              <div className="rounded-lg bg-neutral-950/80 p-2.5 border border-neutral-800 shadow-sm">
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">Graduation Target</div>
                 <div className="text-sm font-bold font-mono text-emerald-600 dark:text-emerald-400 mt-0.5">$69,000 MCAP</div>
                 <div className="text-[10px] text-emerald-600/80 dark:text-emerald-400/80 font-mono">~85 SOL Migration</div>
               </div>
 
-              <div className="rounded-lg bg-white dark:bg-neutral-950/80 p-2.5 border border-neutral-200 dark:border-white/[0.04] shadow-sm dark:shadow-none">
-                <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 uppercase">LP Custody</div>
+              <div className="rounded-lg bg-neutral-950/80 p-2.5 border border-neutral-800 shadow-sm">
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">LP Custody</div>
                 <div className="text-sm font-bold font-mono text-cyan-600 dark:text-cyan-400 mt-0.5">100% Permanently Locked</div>
                 <div className="text-[10px] text-cyan-600/80 dark:text-cyan-400/80 font-mono">Burned into Meteora DLMM</div>
               </div>
 
-              <div className="rounded-lg bg-white dark:bg-neutral-950/80 p-2.5 border border-neutral-200 dark:border-white/[0.04] shadow-sm dark:shadow-none">
-                <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 uppercase">Asset Classes</div>
+              <div className="rounded-lg bg-neutral-950/80 p-2.5 border border-neutral-800 shadow-sm">
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">Asset Classes</div>
                 <div className="text-sm font-bold font-mono text-amber-600 dark:text-amber-400 mt-0.5">Meme & xStock Equity</div>
                 <div className="text-[10px] text-amber-600/80 dark:text-amber-400/80 font-mono">SOL & USDC Quotes</div>
               </div>
@@ -147,7 +147,7 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
         )}
 
         {/* Filter Matrix & Search Bar */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 border-t border-neutral-200 dark:border-white/[0.06] pt-3">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 border-t border-neutral-800 pt-3">
           <div className="flex flex-wrap items-center gap-1.5">
             {filters.map((f) => (
               <button
@@ -156,7 +156,7 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
                 className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-mono font-medium transition-all ${
                   activeFilter === f.id
                     ? 'bg-primary text-white shadow-md shadow-primary/30 font-bold'
-                    : 'bg-neutral-100 dark:bg-neutral-900/80 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-850 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/[0.04]'
+                    : 'bg-neutral-900/80 text-neutral-300 hover:bg-neutral-850 hover:text-foreground border border-neutral-800'
                 }`}
               >
                 <span className={`iconify h-3 w-3 ${f.icon}`} />
@@ -167,18 +167,18 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
 
           {/* Search Box */}
           <div className="relative min-w-[220px] md:min-w-[260px]">
-            <span className="iconify pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400 dark:text-neutral-500 ph--magnifying-glass-bold" />
+            <span className="iconify pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400 ph--magnifying-glass-bold" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange?.(e.target.value)}
               placeholder="Search symbol, name, mint..."
-              className="w-full rounded-lg border border-neutral-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900/90 py-1.5 pl-9 pr-3 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500 font-mono focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary shadow-sm dark:shadow-none"
+              className="w-full rounded-lg border border-neutral-800 bg-neutral-900 py-1.5 pl-9 pr-3 text-xs text-foreground placeholder-neutral-400 font-mono focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary shadow-sm"
             />
             {searchQuery && (
               <button
                 onClick={() => onSearchChange?.('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-foreground"
               >
                 <span className="iconify h-3 w-3 ph--x-bold" />
               </button>
