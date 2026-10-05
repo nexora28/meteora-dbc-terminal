@@ -65,7 +65,7 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
               onClick={() => setFilter(cat)}
               className={`rounded-lg px-3 py-1.5 transition-all ${
                 filter === cat
-                  ? 'bg-primary text-white font-bold shadow-md shadow-primary/30'
+                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold shadow-md shadow-indigo-500/25'
                   : 'bg-neutral-900/80 text-neutral-300 hover:text-foreground border border-neutral-800'
               }`}
             >
@@ -81,7 +81,7 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
           return (
             <div
               key={preset.id}
-              className="group relative flex flex-col justify-between rounded-2xl border border-neutral-800 bg-neutral-900/70 p-5 backdrop-blur-xl transition-all duration-200 hover:border-primary/40 hover:bg-neutral-800/80 shadow-lg hover:shadow-primary/5"
+              className="group relative flex flex-col justify-between rounded-2xl border border-neutral-800 bg-neutral-900/70 p-5 backdrop-blur-xl transition-all duration-200 hover:border-violet-500/40 hover:bg-neutral-800/80 shadow-lg hover:shadow-indigo-500/10"
             >
               <div>
                 {/* Header row */}
@@ -134,7 +134,7 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                   <button
                     type="button"
                     onClick={() => onSelectPreset(preset)}
-                    className="flex items-center gap-1 rounded-lg border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-mono font-bold text-primary transition-colors hover:bg-primary/20"
+                    className="flex items-center gap-1 rounded-lg border border-violet-500/40 bg-violet-500/10 px-3 py-1.5 text-xs font-mono font-bold text-violet-400 transition-colors hover:bg-violet-500/20"
                   >
                     <span>Simulate</span>
                     <span className="iconify h-3.5 w-3.5 ph--play-bold" />
@@ -143,7 +143,7 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                   <Link href={`/create-pool?preset=${preset.id}`}>
                     <button
                       type="button"
-                      className="flex items-center gap-1 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-mono font-bold text-white shadow-md shadow-primary/30 transition-all hover:bg-primary-500"
+                      className="flex items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 px-3.5 py-1.5 text-xs font-mono font-bold text-white shadow-md shadow-indigo-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
                     >
                       <span>Deploy Pool</span>
                       <span className="iconify h-3.5 w-3.5 ph--arrow-right-bold" />

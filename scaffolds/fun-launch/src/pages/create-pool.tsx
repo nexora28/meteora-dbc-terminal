@@ -22,7 +22,7 @@ const poolSchema = z.object({
 });
 
 const inputClassName =
-  'w-full rounded-xl border border-neutral-800 bg-neutral-900 p-3 text-sm text-foreground placeholder:text-neutral-400 transition-all focus:border-primary focus:bg-neutral-850 focus:outline-none focus:ring-2 focus:ring-primary/25 font-sans shadow-sm';
+  'w-full rounded-xl border border-neutral-800 bg-neutral-900 p-3 text-sm text-foreground placeholder:text-neutral-400 transition-all focus:border-violet-500 focus:bg-neutral-850 focus:outline-none focus:ring-2 focus:ring-violet-500/25 font-sans shadow-sm';
 
 interface FormValues {
   tokenName: string;
@@ -193,12 +193,12 @@ export default function CreatePool() {
                   TERMINAL
                 </Link>
                 <span className="text-neutral-500 font-mono">/</span>
-                <span className="text-xs font-mono text-primary font-semibold">
+                <span className="text-xs font-mono text-violet-400 font-semibold">
                   POOL DEPLOYMENT COCKPIT
                 </span>
               </div>
               <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-foreground">
-                Launch On-Chain <span className="text-primary">DBC Pool</span>
+                Launch On-Chain <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400">DBC Pool</span>
               </h1>
               <p className="text-xs md:text-sm text-neutral-300 mt-1">
                 Configure token metadata, assign your bonding curve archetype, and graduate into DAMM v2.
@@ -238,7 +238,7 @@ export default function CreatePool() {
                   {/* Token Details Card */}
                   <div className="terminal-panel rounded-2xl p-5 sm:p-6 space-y-5">
                     <div className="flex items-center gap-2.5 border-b border-neutral-800 pb-3.5">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary border border-primary/20">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-tr from-violet-600 to-indigo-600 text-white shadow-md shadow-indigo-500/20">
                         <span className="iconify h-4 w-4 ph--coin-vertical-bold" />
                       </div>
                       <div>
@@ -543,7 +543,7 @@ export default function CreatePool() {
                   )}
 
                   {/* Sticky Launch Action Panel */}
-                  <div className="sticky bottom-4 z-20 flex items-center justify-between gap-4 rounded-2xl border border-primary/30 bg-neutral-950/95 p-4 shadow-2xl backdrop-blur-xl">
+                  <div className="sticky bottom-4 z-20 flex items-center justify-between gap-4 rounded-2xl border border-violet-500/30 bg-neutral-950/95 p-4 shadow-2xl backdrop-blur-xl">
                     <div className="flex flex-col">
                       <span className="text-[10px] font-mono text-neutral-400">READY TO INITIALIZE</span>
                       <div className="flex items-center gap-2">
@@ -573,7 +573,7 @@ const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
       <Button
         type="button"
         onClick={() => setShowModal(true)}
-        className="h-12 px-6 gap-2 text-sm font-bold bg-primary text-white hover:bg-primary-400 shadow-lg shadow-primary/25"
+        className="h-12 px-6 gap-2 text-sm font-bold bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-lg shadow-indigo-500/25 border-0"
       >
         <span className="iconify h-4 w-4 ph--wallet-bold" />
         <span>Connect Wallet</span>
@@ -583,7 +583,7 @@ const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
 
   return (
     <Button
-      className="flex items-center gap-2 h-12 px-8 text-sm font-bold bg-gradient-to-r from-primary via-primary-500 to-amber-600 text-white shadow-xl shadow-primary/30 hover:opacity-95"
+      className="flex items-center gap-2 h-12 px-8 text-sm font-bold bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 text-white shadow-xl shadow-indigo-500/30 border-0 transition-all hover:scale-[1.02] active:scale-[0.98]"
       type="submit"
       disabled={isSubmitting}
     >

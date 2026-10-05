@@ -58,15 +58,15 @@ export const Header = () => {
               href="/"
               className="flex items-center gap-2.5 rounded-lg focus-visible:outline-none group"
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary via-primary-500 to-amber-600 text-white shadow-lg shadow-primary/25 transition-transform group-hover:scale-105">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-cyan-400 text-white shadow-lg shadow-indigo-500/25 transition-transform group-hover:scale-105">
                 <span className="iconify h-5 w-5 ph--shield-check-bold" />
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
                   <span className="font-extrabold tracking-tight text-foreground text-base md:text-lg">
-                    AEGIS <span className="text-primary font-black">DBC</span>
+                    AEGIS <span className="bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent font-black">DBC</span>
                   </span>
-                  <span className="rounded bg-primary/15 border border-primary/30 px-1.5 py-0.2 text-[9px] font-mono font-bold text-primary uppercase">
+                  <span className="rounded bg-violet-500/10 border border-violet-500/25 px-1.5 py-0.2 text-[9px] font-mono font-bold text-violet-400 uppercase">
                     v1.5
                   </span>
                 </div>
@@ -92,7 +92,7 @@ export const Header = () => {
                 href="/studio"
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                   router.pathname === '/studio'
-                    ? 'bg-primary/15 text-primary font-bold border border-primary/30'
+                    ? 'bg-violet-500/15 text-violet-400 font-bold border border-violet-500/30'
                     : 'text-neutral-300 hover:bg-neutral-800/60 hover:text-foreground'
                 }`}
               >
@@ -103,7 +103,7 @@ export const Header = () => {
                 href="/docs"
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                   router.pathname === '/docs' || router.pathname === '/architecture'
-                    ? 'bg-primary/15 text-primary font-bold border border-primary/30'
+                    ? 'bg-violet-500/15 text-violet-400 font-bold border border-violet-500/30'
                     : 'text-neutral-300 hover:bg-neutral-800/60 hover:text-foreground'
                 }`}
               >
@@ -118,7 +118,7 @@ export const Header = () => {
                   onClick={() => setMenuOpen(!menuOpen)}
                   className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all border ${
                     menuOpen
-                      ? 'border-primary/50 bg-primary/10 text-primary'
+                      ? 'border-violet-500/50 bg-violet-500/10 text-violet-400'
                       : 'border-neutral-800 bg-neutral-900/80 text-foreground hover:bg-neutral-800 hover:text-foreground'
                   }`}
                   aria-expanded={menuOpen}

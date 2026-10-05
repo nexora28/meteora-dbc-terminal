@@ -68,7 +68,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
               onClick={() => onSelectPreset(preset)}
               className={`group relative cursor-pointer rounded-xl border p-3.5 transition-all duration-200 ${
                 isSelected
-                  ? 'border-primary bg-primary/[0.08] shadow-[0_0_25px_-5px_rgba(255,77,0,0.3)] ring-1 ring-primary/50'
+                  ? 'border-violet-500/80 bg-gradient-to-b from-violet-500/[0.12] to-indigo-500/[0.04] shadow-[0_0_25px_-5px_rgba(139,92,246,0.3)] ring-1 ring-violet-500/40'
                   : 'border-neutral-800 bg-neutral-900/60 hover:border-neutral-700 hover:bg-neutral-800/60'
               }`}
             >
@@ -77,7 +77,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                   <div
                     className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
                       isSelected
-                        ? 'border-primary bg-primary text-white shadow-sm'
+                        ? 'border-violet-500 bg-gradient-to-tr from-violet-600 to-indigo-600 text-white shadow-sm shadow-indigo-500/25'
                         : 'border-neutral-800 bg-neutral-900 text-neutral-300 group-hover:text-foreground'
                     }`}
                   >
@@ -95,7 +95,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
 
                 <div
                   className={`flex h-4 w-4 items-center justify-center rounded-full border transition-all ${
-                    isSelected ? 'border-primary bg-primary' : 'border-neutral-700'
+                    isSelected ? 'border-violet-500 bg-gradient-to-r from-violet-600 to-cyan-500' : 'border-neutral-700'
                   }`}
                 >
                   {isSelected && <div className="h-1.5 w-1.5 rounded-full bg-white" />}

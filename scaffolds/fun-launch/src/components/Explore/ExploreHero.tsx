@@ -28,7 +28,7 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
         {/* Sleek Minimalist Terminal Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary via-primary-500 to-amber-600 text-white shadow-md shadow-primary/20">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-cyan-400 text-white shadow-md shadow-indigo-500/25">
               <span className="iconify h-5 w-5 ph--shield-check-bold" />
             </div>
             <div>
@@ -36,8 +36,8 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
                 <span className="font-mono text-sm md:text-base font-bold tracking-tight text-foreground uppercase">
                   Aegis Terminal
                 </span>
-                <span className="flex items-center gap-1 rounded bg-primary/10 border border-primary/25 px-1.5 py-0.2 font-mono text-[9px] font-bold text-primary">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="flex items-center gap-1 rounded bg-violet-500/10 border border-violet-500/25 px-1.5 py-0.2 font-mono text-[9px] font-bold text-violet-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
                   DBC v1.5
                 </span>
                 <span className="rounded bg-neutral-800 px-1.5 py-0.2 font-mono text-[9px] text-neutral-300">
@@ -56,13 +56,13 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
               href="/docs"
               className="flex items-center gap-1.5 rounded-xl border border-neutral-800 bg-neutral-900/80 px-3 py-1.5 text-xs font-mono font-medium text-neutral-200 transition-all hover:bg-neutral-800 hover:text-foreground"
             >
-              <span className="iconify h-3.5 w-3.5 text-primary ph--book-open-bold" />
+              <span className="iconify h-3.5 w-3.5 text-violet-400 ph--book-open-bold" />
               <span>Docs & Math ↗</span>
             </Link>
 
             <Link
               href="/studio"
-              className="flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-mono font-bold text-primary transition-all hover:bg-primary/20"
+              className="flex items-center gap-1.5 rounded-xl border border-violet-500/30 bg-violet-500/10 px-3 py-1.5 text-xs font-mono font-bold text-violet-400 transition-all hover:bg-violet-500/20"
             >
               <span className="iconify h-3.5 w-3.5 ph--cpu-bold" />
               <span>Simulator</span>
@@ -70,7 +70,7 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
 
             <Link
               href="/create-pool"
-              className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-primary via-primary-500 to-amber-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-md shadow-primary/20 transition-all hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 px-3.5 py-1.5 text-xs font-bold text-white shadow-md shadow-indigo-500/20 transition-all hover:shadow-indigo-500/35 hover:scale-[1.02] active:scale-[0.98]"
             >
               <span className="iconify h-3.5 w-3.5 ph--plus-circle-bold" />
               <span>Launch</span>
@@ -87,7 +87,7 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
                 onClick={() => onFilterChange?.(f.id)}
                 className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-mono transition-all ${
                   activeFilter === f.id
-                    ? 'bg-primary text-white shadow-md shadow-primary/30 font-bold'
+                    ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-indigo-500/30 font-bold'
                     : 'bg-neutral-900/80 text-neutral-300 hover:bg-neutral-800 hover:text-foreground border border-neutral-800'
                 }`}
               >

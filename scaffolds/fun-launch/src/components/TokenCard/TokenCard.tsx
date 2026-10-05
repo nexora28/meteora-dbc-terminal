@@ -28,9 +28,9 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
       return { label: 'DLMM BONDED', color: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' };
     }
     if (bondingProgress >= 70) {
-      return { label: 'GRADUATING', color: 'bg-primary/15 text-primary border-primary/30' };
+      return { label: 'GRADUATING', color: 'bg-violet-500/15 text-violet-400 border-violet-500/30' };
     }
-    return { label: 'ANTI-SNIPE DECAY', color: 'bg-amber-500/15 text-amber-400 border-amber-500/30' };
+    return { label: 'ANTI-SNIPE DECAY', color: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30' };
   }, [bondingProgress, isBonded]);
 
   const handleQuickBuy = (e: React.MouseEvent, solAmount: number) => {
@@ -43,12 +43,12 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
     <div
       ref={(el) => rowRef(el, pool.id)}
       data-pool-id={pool.id}
-      className="group relative m-2 flex flex-col gap-2 rounded-xl border border-neutral-800 bg-neutral-900/60 p-3 text-xs backdrop-blur-sm transition-all duration-200 hover:border-primary/40 hover:bg-neutral-850 shadow-sm"
+      className="group relative m-2 flex flex-col gap-2 rounded-xl border border-neutral-800 bg-neutral-900/60 p-3 text-xs backdrop-blur-sm transition-all duration-200 hover:border-violet-500/40 hover:bg-neutral-850 hover:shadow-lg hover:shadow-indigo-500/10"
     >
       {/* 1st row: Icon + Info + Mcap */}
       <div className="flex items-center gap-3">
         <div className="relative shrink-0">
-          <div className="overflow-hidden rounded-xl border border-neutral-800 group-hover:border-primary/40 transition-colors">
+          <div className="overflow-hidden rounded-xl border border-neutral-800 group-hover:border-violet-500/40 transition-colors">
             <TrenchesPoolTokenIcon width={46} height={46} pool={pool} />
           </div>
           <span className="pointer-events-none absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[9px]">
@@ -104,7 +104,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
       <div className="flex flex-col gap-1 rounded-lg bg-neutral-950/60 p-2 border border-neutral-800">
         <div className="flex items-center justify-between font-mono text-[10px] text-neutral-400">
           <span className="flex items-center gap-1">
-            <span className="text-primary font-bold">DBC CURVE:</span>
+            <span className="text-violet-400 font-bold">DBC CURVE:</span>
             <span>{isBonded ? 'GRADUATED TO METEORA DLMM' : `${bondingProgress.toFixed(1)}% PROGRESS`}</span>
           </span>
           <span className="text-neutral-400">TARGET: $69K</span>
@@ -115,7 +115,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
               'h-full rounded-full transition-all duration-500',
               isBonded
                 ? 'bg-gradient-to-r from-emerald-500 to-teal-400'
-                : 'bg-gradient-to-r from-primary to-amber-400'
+                : 'bg-gradient-to-r from-violet-600 via-indigo-500 to-cyan-400'
             )}
             style={{ width: `${bondingProgress}%` }}
           />
@@ -133,14 +133,14 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
         <div className="z-[2] flex items-center gap-1">
           <button
             onClick={(e) => handleQuickBuy(e, 0.1)}
-            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-colors hover:bg-primary hover:text-white border border-neutral-700"
+            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700"
             title="Quick buy 0.1 SOL"
           >
             0.1 SOL
           </button>
           <button
             onClick={(e) => handleQuickBuy(e, 0.5)}
-            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-colors hover:bg-primary hover:text-white border border-neutral-700"
+            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700"
             title="Quick buy 0.5 SOL"
           >
             0.5 SOL

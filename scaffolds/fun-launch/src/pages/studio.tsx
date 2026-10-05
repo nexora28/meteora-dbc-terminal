@@ -45,17 +45,17 @@ export default function StudioPage() {
       <div className="mx-auto w-full max-w-6xl space-y-8 py-6 md:py-10">
         {/* Hero Section */}
         <div className="relative overflow-hidden rounded-2xl border border-neutral-200 dark:border-white/[0.08] bg-white/80 dark:bg-neutral-950/80 p-5 md:p-7 shadow-xl dark:shadow-2xl backdrop-blur-xl">
-          <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/15 blur-[90px]" />
-          <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-amber-500/10 blur-[90px]" />
+          <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-violet-600/20 blur-[100px]" />
+          <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-cyan-500/15 blur-[100px]" />
 
           <div className="relative z-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold text-primary mb-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-violet-400 mb-2">
                 <span className="iconify h-3.5 w-3.5 ph--sparkle-bold" />
                 Meteora DBC v1.5 Engine
               </div>
               <h1 className="text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
-                Dynamic Bonding <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-500 to-amber-500">Studio</span>
+                Dynamic Bonding <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400">Studio</span>
               </h1>
               <p className="mt-1 text-xs md:text-sm text-neutral-400 font-sans">
                 Simulate multi-segment DBC curves, test anti-snipe fee decay, and export production SDK configs.
@@ -65,12 +65,12 @@ export default function StudioPage() {
             <div className="flex items-center gap-3 shrink-0">
               <Link href="/docs">
                 <Button variant="outline" className="h-10 px-4 gap-1.5 text-xs font-mono border-neutral-800 bg-neutral-900/60 text-neutral-300 hover:text-white">
-                  <span className="iconify h-3.5 w-3.5 ph--book-open-bold" />
+                  <span className="iconify h-3.5 w-3.5 text-violet-400 ph--book-open-bold" />
                   Docs & Math ↗
                 </Button>
               </Link>
               <Link href={`/create-pool?preset=${selectedPreset.id}`}>
-                <Button className="h-10 px-4 gap-2 text-xs md:text-sm font-bold shadow-lg shadow-primary/25 bg-primary text-white hover:bg-primary-500">
+                <Button className="h-10 px-4 gap-2 text-xs md:text-sm font-bold shadow-lg shadow-indigo-500/25 bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 text-white border-0 transition-all hover:scale-[1.02] active:scale-[0.98]">
                   <span className="iconify h-4 w-4 ph--rocket-launch-bold" />
                   Launch this Curve
                 </Button>
@@ -86,7 +86,7 @@ export default function StudioPage() {
               onClick={() => setStudioView('simulator')}
               className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs md:text-sm font-mono font-bold transition-all ${
                 studioView === 'simulator'
-                  ? 'bg-primary text-white shadow-lg shadow-primary/25'
+                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-indigo-500/25'
                   : 'bg-neutral-900/80 text-neutral-300 hover:text-foreground border border-neutral-800'
               }`}
             >
@@ -98,13 +98,13 @@ export default function StudioPage() {
               onClick={() => setStudioView('marketplace')}
               className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs md:text-sm font-mono font-bold transition-all ${
                 studioView === 'marketplace'
-                  ? 'bg-primary text-white shadow-lg shadow-primary/25'
+                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-indigo-500/25'
                   : 'bg-neutral-900/80 text-neutral-300 hover:text-foreground border border-neutral-800'
               }`}
             >
               <span className="iconify h-4 w-4 ph--storefront-bold" />
               <span>Preset Marketplace</span>
-              <span className="rounded bg-amber-400/20 px-1.5 py-0.2 text-[9px] font-bold text-amber-600 dark:text-amber-400">
+              <span className="rounded bg-cyan-400/20 border border-cyan-400/30 px-1.5 py-0.2 text-[9px] font-bold text-cyan-400">
                 POPULAR
               </span>
             </button>

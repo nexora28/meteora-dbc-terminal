@@ -32,10 +32,10 @@ export default function ArchitecturePage() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="flex h-2 w-2 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-400" />
                 </span>
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-primary">
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-violet-400">
                   AEGIS DBC CORE SPECIFICATIONS
                 </span>
                 <span className="rounded bg-neutral-800 px-2 py-0.5 font-mono text-[10px] text-neutral-300">
@@ -43,7 +43,7 @@ export default function ArchitecturePage() {
                 </span>
               </div>
               <h1 className="text-2xl md:text-4xl font-extrabold text-foreground tracking-tight">
-                Institutional Algorithmic <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-500 to-amber-500">Bonding Engine</span>
+                Institutional Algorithmic <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400">Bonding Engine</span>
               </h1>
               <p className="mt-2 text-xs md:text-sm text-neutral-300 max-w-3xl leading-relaxed">
                 Complete technical, economic, and mathematical breakdown of Aegis launch mechanics: multi-segment fee decay, MEV bot neutralization, Stocklana linear reserve pricing, and automated Meteora DLMM v2 liquidity graduation.
@@ -53,14 +53,14 @@ export default function ArchitecturePage() {
             <div className="flex shrink-0 items-center gap-3">
               <Link
                 href="/studio"
-                className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-4 py-2.5 text-xs font-bold text-primary hover:bg-primary/20 transition-all"
+                className="flex items-center gap-2 rounded-xl border border-violet-500/40 bg-violet-500/10 px-4 py-2.5 text-xs font-bold text-violet-400 hover:bg-violet-500/20 transition-all"
               >
                 <span className="iconify h-4 w-4 ph--cpu-bold" />
                 <span>Test in Simulator</span>
               </Link>
               <Link
                 href="/create-pool"
-                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary via-primary-500 to-amber-600 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-indigo-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
                 <span className="iconify h-4 w-4 ph--rocket-launch-bold" />
                 <span>Launch Token</span>
@@ -82,7 +82,7 @@ export default function ArchitecturePage() {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-2 rounded-lg px-3.5 py-2 text-xs font-mono font-medium transition-all ${
                 activeTab === tab.id
-                  ? 'bg-primary text-white font-bold shadow-md shadow-primary/25'
+                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold shadow-md shadow-indigo-500/25'
                   : 'bg-neutral-900/80 text-neutral-300 hover:bg-neutral-850 hover:text-foreground border border-neutral-800'
               }`}
             >

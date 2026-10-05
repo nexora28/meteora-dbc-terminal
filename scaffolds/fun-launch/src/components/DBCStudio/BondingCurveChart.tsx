@@ -90,7 +90,7 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
       {/* Terminal Title Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/15 text-primary border border-primary/30">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-violet-600 via-indigo-600 to-cyan-500 text-white shadow-md shadow-indigo-500/20">
             <span className="iconify h-4 w-4 ph--chart-line-up-bold" />
           </div>
           <div>
@@ -114,7 +114,7 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
             onClick={() => setViewMode('price')}
             className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-all ${
               viewMode === 'price'
-                ? 'bg-primary text-white shadow-sm'
+                ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-sm'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
@@ -124,7 +124,7 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
             onClick={() => setViewMode('mcap')}
             className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-all ${
               viewMode === 'mcap'
-                ? 'bg-primary text-white shadow-sm'
+                ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-sm'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
@@ -140,20 +140,20 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
           className="w-full h-[280px] sm:h-[320px] md:h-[340px] select-none"
         >
           <defs>
-            <linearGradient id="neonOrangeArea" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ff4d00" stopOpacity="0.45" />
-              <stop offset="50%" stopColor="#ff4d00" stopOpacity="0.12" />
-              <stop offset="100%" stopColor="#ff4d00" stopOpacity="0" />
+            <linearGradient id="cyberIrisArea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.45" />
+              <stop offset="50%" stopColor="#6366f1" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
             </linearGradient>
 
-            <linearGradient id="neonOrangeStroke" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#ff8533" />
-              <stop offset="60%" stopColor="#ff4d00" />
-              <stop offset="100%" stopColor="#ff1a00" />
+            <linearGradient id="cyberIrisStroke" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#c084fc" />
+              <stop offset="50%" stopColor="#818cf8" />
+              <stop offset="100%" stopColor="#22d3ee" />
             </linearGradient>
 
-            <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#ff4d00" floodOpacity="0.75" />
+            <filter id="cyberGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#8b5cf6" floodOpacity="0.8" />
             </filter>
           </defs>
 
@@ -194,16 +194,16 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
           </text>
 
           {/* Area fill */}
-          <path d={areaD} fill="url(#neonOrangeArea)" />
+          <path d={areaD} fill="url(#cyberIrisArea)" />
 
           {/* Curve stroke with neon glow */}
           <path
             d={pathD}
             fill="none"
-            stroke="url(#neonOrangeStroke)"
-            strokeWidth="3"
+            stroke="url(#cyberIrisStroke)"
+            strokeWidth="3.5"
             strokeLinecap="round"
-            filter="url(#neonGlow)"
+            filter="url(#cyberGlow)"
           />
 
           {/* Interactive Simulation Marker */}
@@ -256,8 +256,8 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
                   cx={cx}
                   cy={cy}
                   r={isHovered ? 6 : 4}
-                  fill={isHovered ? '#ff4d00' : '#0b0f17'}
-                  stroke={isHovered ? '#ffffff' : '#ff7733'}
+                  fill={isHovered ? '#8b5cf6' : '#0e111d'}
+                  stroke={isHovered ? '#ffffff' : '#a78bfa'}
                   strokeWidth="2"
                   className="transition-all duration-150"
                 />
