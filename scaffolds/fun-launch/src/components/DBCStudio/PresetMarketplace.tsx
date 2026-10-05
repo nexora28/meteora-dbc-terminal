@@ -100,10 +100,7 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                   </div>
                 </div>
 
-                <p className="text-xs text-neutral-200 font-medium">{preset.tagline}</p>
-                <p className="text-xs text-neutral-300 mt-2 line-clamp-3 leading-relaxed font-sans">
-                  {preset.description}
-                </p>
+                <p className="text-xs text-neutral-300 font-sans">{preset.tagline}</p>
 
                 {/* Metrics Table */}
                 <div className="my-4 grid grid-cols-3 gap-2 rounded-xl bg-neutral-900/60 p-2.5 font-mono text-[11px] border border-neutral-800">

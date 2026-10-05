@@ -48,11 +48,11 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
             </h2>
           </div>
           <span className="rounded-full border border-neutral-800 bg-neutral-900/80 px-2.5 py-0.5 font-mono text-[10px] text-neutral-300">
-            DBC v1.5 PRIMITIVE
+            DBC v1.5
           </span>
         </div>
-        <p className="text-xs text-neutral-300 mt-1 font-sans">
-          Select a mathematically tuned curve archetype for your asset class or customize parameters directly.
+        <p className="text-xs text-neutral-400 mt-1 font-sans">
+          Select a curve archetype or customize parameters below.
         </p>
       </div>
 
@@ -66,7 +66,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
             <div
               key={preset.id}
               onClick={() => onSelectPreset(preset)}
-              className={`group relative cursor-pointer rounded-xl border p-4 transition-all duration-200 ${
+              className={`group relative cursor-pointer rounded-xl border p-3.5 transition-all duration-200 ${
                 isSelected
                   ? 'border-primary bg-primary/[0.08] shadow-[0_0_25px_-5px_rgba(255,77,0,0.3)] ring-1 ring-primary/50'
                   : 'border-neutral-800 bg-neutral-900/60 hover:border-neutral-700 hover:bg-neutral-800/60'
@@ -102,11 +102,8 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
                 </div>
               </div>
 
-              <div className="mt-2.5">
-                <p className="text-[11px] font-medium text-neutral-200">{preset.tagline}</p>
-                <p className="text-[11px] text-neutral-300 mt-1.5 line-clamp-2 leading-relaxed font-sans">
-                  {preset.description}
-                </p>
+              <div className="mt-2">
+                <p className="text-[11px] text-neutral-300 font-sans">{preset.tagline}</p>
               </div>
 
               {/* Key specs pill */}
@@ -136,7 +133,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({
               <span className="iconify h-4 w-4 text-purple-400 ph--sliders-bold" />
               <div>
                 <h4 className="text-sm font-bold text-foreground">Custom Curve Engine Parameters</h4>
-                <p className="text-[11px] text-purple-300/80">Fine-tune mathematical slope and fee schedules</p>
+                <p className="text-[11px] text-purple-300/80">Fine-tune curve slope & fee schedules</p>
               </div>
             </div>
             <span className="rounded-full bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 font-mono text-[10px] font-bold text-purple-300">

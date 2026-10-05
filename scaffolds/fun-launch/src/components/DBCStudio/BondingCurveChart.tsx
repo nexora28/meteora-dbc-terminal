@@ -23,8 +23,8 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
   const migrationThreshold = customMigrationThreshold ?? preset.migrationQuoteThresholdSol;
 
   // Chart dimensions
-  const width = 600;
-  const height = 240;
+  const width = 640;
+  const height = 320;
   const padding = { top: 28, right: 35, bottom: 42, left: 68 };
 
   const graphWidth = width - padding.left - padding.right;
@@ -103,7 +103,7 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
               </span>
             </div>
             <p className="text-[11px] text-neutral-400 font-mono">
-              Live mathematical simulation with DAMM v2 liquidity graduation
+              Dynamic price & fee simulation
             </p>
           </div>
         </div>
@@ -137,8 +137,7 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
       <div className="relative w-full overflow-hidden rounded-xl border border-white/[0.06] bg-neutral-950/70 p-3 backdrop-blur-md">
         <svg
           viewBox={`0 0 ${width} ${height}`}
-          className="w-full h-auto select-none"
-          style={{ maxHeight: '240px' }}
+          className="w-full h-[280px] sm:h-[320px] md:h-[340px] select-none"
         >
           <defs>
             <linearGradient id="neonOrangeArea" x1="0" y1="0" x2="0" y2="1">

@@ -44,51 +44,37 @@ export default function StudioPage() {
 
       <div className="mx-auto w-full max-w-6xl space-y-8 py-6 md:py-10">
         {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-2xl border border-neutral-200 dark:border-white/[0.08] bg-white/80 dark:bg-neutral-950/80 p-6 md:p-10 shadow-xl dark:shadow-2xl backdrop-blur-xl">
+        <div className="relative overflow-hidden rounded-2xl border border-neutral-200 dark:border-white/[0.08] bg-white/80 dark:bg-neutral-950/80 p-5 md:p-7 shadow-xl dark:shadow-2xl backdrop-blur-xl">
           <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/15 blur-[90px]" />
           <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-amber-500/10 blur-[90px]" />
 
           <div className="relative z-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary mb-3">
-                <span className="iconify h-4 w-4 ph--sparkle-bold" />
-                Meteora Superteam Earn Track ($20,000 USDC)
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-semibold text-primary mb-2">
+                <span className="iconify h-3.5 w-3.5 ph--sparkle-bold" />
+                Meteora DBC v1.5 Engine
               </div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
+              <h1 className="text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
                 Dynamic Bonding <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-500 to-amber-500">Studio</span>
               </h1>
-              <p className="mt-3 text-xs md:text-sm text-neutral-300 leading-relaxed font-sans">
-                The institutional algorithmic playground for Meteora DBC. Model multi-segment curves, simulate 99% anti-snipe fee decay, launch USDC-settled Stocklana equities, and export production SDK payloads.
+              <p className="mt-1 text-xs md:text-sm text-neutral-400 font-sans">
+                Simulate multi-segment DBC curves, test anti-snipe fee decay, and export production SDK configs.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+            <div className="flex items-center gap-3 shrink-0">
+              <Link href="/docs">
+                <Button variant="outline" className="h-10 px-4 gap-1.5 text-xs font-mono border-neutral-800 bg-neutral-900/60 text-neutral-300 hover:text-white">
+                  <span className="iconify h-3.5 w-3.5 ph--book-open-bold" />
+                  Docs & Math ↗
+                </Button>
+              </Link>
               <Link href={`/create-pool?preset=${selectedPreset.id}`}>
-                <Button className="w-full sm:w-auto h-11 px-5 gap-2 text-sm font-bold shadow-lg shadow-primary/25 bg-primary text-white hover:bg-primary-500">
+                <Button className="h-10 px-4 gap-2 text-xs md:text-sm font-bold shadow-lg shadow-primary/25 bg-primary text-white hover:bg-primary-500">
                   <span className="iconify h-4 w-4 ph--rocket-launch-bold" />
                   Launch this Curve
                 </Button>
               </Link>
-            </div>
-          </div>
-
-          {/* Quick Metrics Bar */}
-          <div className="mt-8 grid grid-cols-2 gap-3 border-t border-neutral-800 pt-6 sm:grid-cols-4 font-mono text-xs">
-            <div>
-              <div className="text-neutral-400 text-[10px] uppercase">DBC Engine</div>
-              <div className="mt-1 font-bold text-foreground">Meteora DBC v1.5</div>
-            </div>
-            <div>
-              <div className="text-neutral-400 text-[10px] uppercase">Bot Protection</div>
-              <div className="mt-1 font-bold text-emerald-600 dark:text-emerald-400">Slot Decay (99% → 1%)</div>
-            </div>
-            <div>
-              <div className="text-neutral-400 text-[10px] uppercase">Asset Class Support</div>
-              <div className="mt-1 font-bold text-cyan-600 dark:text-cyan-400">Memes, xStocks & RWAs</div>
-            </div>
-            <div>
-              <div className="text-neutral-400 text-[10px] uppercase">Graduation Pool</div>
-              <div className="mt-1 font-bold text-primary">DLMM & DAMM v2 Locked</div>
             </div>
           </div>
         </div>
@@ -199,8 +185,8 @@ export default function StudioPage() {
             <h2 className="text-lg md:text-xl font-bold tracking-tight text-foreground font-mono uppercase">
               Bonding Curve Archetype Comparison
             </h2>
-            <p className="text-xs text-neutral-300 mt-1 font-sans">
-              Comparing how Meteora DBC configurations perform across different market conditions.
+            <p className="text-xs text-neutral-400 mt-1 font-sans">
+              Meteora DBC configuration parameters across asset classes.
             </p>
           </div>
 
