@@ -105,28 +105,50 @@
 
 /* High-Tech Terminal Glass & Glow Utilities */
 .terminal-panel {
-  background: rgba(11, 14, 21, 0.8);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dark .terminal-panel {
+  background: rgba(11, 14, 21, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .terminal-panel-glow {
-  background: rgba(14, 18, 27, 0.88);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgb(var(--primary) / 0.4);
+  box-shadow: 0 0 25px -8px rgb(var(--primary) / 0.25);
+}
+
+.dark .terminal-panel-glow {
+  background: rgba(14, 18, 27, 0.88);
   border: 1px solid rgba(255, 77, 0, 0.3);
   box-shadow: 0 0 35px -10px rgba(255, 77, 0, 0.2);
 }
 
 .terminal-card {
-  background: rgba(13, 17, 25, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.dark .terminal-card {
+  background: rgba(13, 17, 25, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 .terminal-card:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgb(var(--primary) / 0.5);
+  box-shadow: 0 4px 20px -6px rgb(var(--primary) / 0.15);
+}
+
+.dark .terminal-card:hover {
   background: rgba(18, 24, 36, 0.9);
   border-color: rgba(255, 77, 0, 0.4);
   box-shadow: 0 4px 24px -6px rgba(255, 77, 0, 0.15);
@@ -134,10 +156,17 @@
 
 .terminal-grid-bg {
   background-image: 
+    radial-gradient(circle at 50% 0%, rgb(var(--primary) / 0.06) 0%, transparent 60%),
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+}
+
+.dark .terminal-grid-bg {
+  background-image: 
     radial-gradient(circle at 50% 0%, rgba(255, 77, 0, 0.08) 0%, transparent 60%),
     linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 100% 100%, 32px 32px, 32px 32px;
 }
 
 .glow-orange-sm {

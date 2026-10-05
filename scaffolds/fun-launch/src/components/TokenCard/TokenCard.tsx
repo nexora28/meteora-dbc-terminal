@@ -43,15 +43,15 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
     <div
       ref={(el) => rowRef(el, pool.id)}
       data-pool-id={pool.id}
-      className="group relative m-2 flex flex-col gap-2 rounded-xl border border-white/[0.06] bg-neutral-900/40 p-3 text-xs backdrop-blur-sm transition-all duration-200 hover:border-primary/40 hover:bg-neutral-900/80 hover:shadow-lg hover:shadow-primary/5"
+      className="group relative m-2 flex flex-col gap-2 rounded-xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-neutral-900/40 p-3 text-xs backdrop-blur-sm transition-all duration-200 hover:border-primary/40 hover:bg-neutral-50 dark:hover:bg-neutral-900/80 shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-lg"
     >
       {/* 1st row: Icon + Info + Mcap */}
       <div className="flex items-center gap-3">
         <div className="relative shrink-0">
-          <div className="overflow-hidden rounded-xl border border-white/[0.08] group-hover:border-primary/40 transition-colors">
+          <div className="overflow-hidden rounded-xl border border-neutral-200 dark:border-white/[0.08] group-hover:border-primary/40 transition-colors">
             <TrenchesPoolTokenIcon width={46} height={46} pool={pool} />
           </div>
-          <span className="pointer-events-none absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-neutral-950 border border-white/10 text-[9px]">
+          <span className="pointer-events-none absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-950 border border-neutral-300 dark:border-white/10 text-[9px]">
             ⚡
           </span>
         </div>
@@ -60,7 +60,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
           <div className="flex items-center justify-between gap-1">
             <div className="flex items-center gap-1.5 overflow-hidden">
-              <span className="truncate font-mono text-sm font-bold text-white group-hover:text-primary transition-colors">
+              <span className="truncate font-mono text-sm font-bold text-neutral-900 dark:text-white group-hover:text-primary transition-colors">
                 {pool.baseAsset.symbol}
               </span>
               <span className={cn('rounded px-1.5 py-0.2 font-mono text-[9px] font-bold border uppercase shrink-0', archetypeTag.color)}>
@@ -69,18 +69,18 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
             </div>
 
             {/* Market Cap */}
-            <div className="shrink-0 font-mono font-bold text-neutral-200">
+            <div className="shrink-0 font-mono font-bold text-neutral-800 dark:text-neutral-200">
               <TokenCardMcapMetric mcap={pool.baseAsset.mcap} />
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-neutral-400">
+          <div className="flex items-center justify-between text-neutral-500 dark:text-neutral-400">
             <div className="flex items-center gap-1 text-[11px] truncate z-10">
-              <span className="truncate text-neutral-400">{pool.baseAsset.name}</span>
+              <span className="truncate text-neutral-600 dark:text-neutral-400">{pool.baseAsset.name}</span>
               <Copyable
                 name="Address"
                 copyText={pool.baseAsset.id}
-                className="z-[2] flex items-center text-neutral-500 duration-300 hover:text-white"
+                className="z-[2] flex items-center text-neutral-400 dark:text-neutral-500 duration-300 hover:text-neutral-900 dark:hover:text-white"
               >
                 {(copied) => (
                   copied ? (
@@ -101,15 +101,15 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
       </div>
 
       {/* 2nd row: Bonding Curve Progress bar */}
-      <div className="flex flex-col gap-1 rounded-lg bg-neutral-950/60 p-2 border border-white/[0.03]">
-        <div className="flex items-center justify-between font-mono text-[10px] text-neutral-400">
+      <div className="flex flex-col gap-1 rounded-lg bg-neutral-100 dark:bg-neutral-950/60 p-2 border border-neutral-200 dark:border-white/[0.03]">
+        <div className="flex items-center justify-between font-mono text-[10px] text-neutral-500 dark:text-neutral-400">
           <span className="flex items-center gap-1">
             <span className="text-primary font-bold">DBC CURVE:</span>
             <span>{isBonded ? 'GRADUATED TO METEORA DLMM' : `${bondingProgress.toFixed(1)}% PROGRESS`}</span>
           </span>
           <span className="text-neutral-500">TARGET: $69K</span>
         </div>
-        <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-neutral-800/80">
+        <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800/80">
           <div
             className={cn(
               'h-full rounded-full transition-all duration-500',
@@ -125,7 +125,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
       {/* 3rd row: Age, Socials, and Quick Buy Chips */}
       <div className="flex items-center justify-between pt-0.5">
         <div className="flex items-center gap-2 text-neutral-500">
-          <TokenAge className="font-mono text-[10px] text-neutral-400" date={pool.createdAt} />
+          <TokenAge className="font-mono text-[10px] text-neutral-500 dark:text-neutral-400" date={pool.createdAt} />
           <TokenSocials className="z-[2]" token={pool.baseAsset} />
         </div>
 
@@ -133,14 +133,14 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
         <div className="z-[2] flex items-center gap-1">
           <button
             onClick={(e) => handleQuickBuy(e, 0.1)}
-            className="rounded bg-neutral-800/80 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-300 transition-colors hover:bg-primary hover:text-white"
+            className="rounded bg-neutral-100 dark:bg-neutral-800/80 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-700 dark:text-neutral-300 transition-colors hover:bg-primary hover:text-white border border-neutral-200 dark:border-transparent"
             title="Quick buy 0.1 SOL"
           >
             0.1 SOL
           </button>
           <button
             onClick={(e) => handleQuickBuy(e, 0.5)}
-            className="rounded bg-neutral-800/80 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-300 transition-colors hover:bg-primary hover:text-white"
+            className="rounded bg-neutral-100 dark:bg-neutral-800/80 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-700 dark:text-neutral-300 transition-colors hover:bg-primary hover:text-white border border-neutral-200 dark:border-transparent"
             title="Quick buy 0.5 SOL"
           >
             0.5 SOL

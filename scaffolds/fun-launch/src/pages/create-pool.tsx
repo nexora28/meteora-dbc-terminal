@@ -22,7 +22,7 @@ const poolSchema = z.object({
 });
 
 const inputClassName =
-  'w-full rounded-xl border border-white/[0.08] bg-neutral-950/80 p-3 text-sm text-white placeholder:text-neutral-500 transition-all focus:border-primary focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary/25 font-sans';
+  'w-full rounded-xl border border-neutral-300 dark:border-white/[0.08] bg-white dark:bg-neutral-950/80 p-3 text-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500 transition-all focus:border-primary focus:bg-neutral-50 dark:focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary/25 font-sans shadow-sm dark:shadow-none';
 
 interface FormValues {
   tokenName: string;
@@ -183,38 +183,38 @@ export default function CreatePool() {
         {/* Cockpit Main Container */}
         <main className="mx-auto w-full max-w-7xl px-3 py-6 md:px-6 md:py-10 space-y-8">
           {/* Header Title & Status */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/[0.08] pb-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-neutral-200 dark:border-white/[0.08] pb-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Link
                   href="/"
-                  className="text-xs font-mono text-neutral-400 hover:text-white transition-colors"
+                  className="text-xs font-mono text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
                 >
                   TERMINAL
                 </Link>
-                <span className="text-neutral-600 font-mono">/</span>
+                <span className="text-neutral-400 dark:text-neutral-600 font-mono">/</span>
                 <span className="text-xs font-mono text-primary font-semibold">
                   POOL DEPLOYMENT COCKPIT
                 </span>
               </div>
-              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-white">
+              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
                 Launch On-Chain <span className="text-primary">DBC Pool</span>
               </h1>
-              <p className="text-xs md:text-sm text-neutral-400 mt-1">
+              <p className="text-xs md:text-sm text-neutral-600 dark:text-neutral-400 mt-1">
                 Configure token metadata, assign your bonding curve archetype, and graduate into DAMM v2.
               </p>
             </div>
 
             {/* Quick Stat Pill */}
-            <div className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-neutral-950/70 p-2.5 font-mono text-xs">
-              <div className="flex items-center gap-1.5 text-neutral-400">
-                <span className="text-neutral-500">Selected Curve:</span>
-                <span className="font-bold text-white">{selectedPreset.name}</span>
+            <div className="flex items-center gap-3 rounded-xl border border-neutral-200 dark:border-white/[0.08] bg-white/80 dark:bg-neutral-950/70 p-2.5 font-mono text-xs shadow-sm dark:shadow-none">
+              <div className="flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400">
+                <span className="text-neutral-400 dark:text-neutral-500">Selected Curve:</span>
+                <span className="font-bold text-neutral-900 dark:text-white">{selectedPreset.name}</span>
               </div>
-              <div className="h-3 w-px bg-neutral-800" />
+              <div className="h-3 w-px bg-neutral-200 dark:bg-neutral-800" />
               <div className="flex items-center gap-1">
-                <span className="text-neutral-500">Target:</span>
-                <span className="font-bold text-emerald-400">
+                <span className="text-neutral-400 dark:text-neutral-500">Target:</span>
+                <span className="font-bold text-emerald-600 dark:text-emerald-400">
                   {selectedPreset.migrationQuoteThresholdSol} SOL
                 </span>
               </div>
@@ -237,19 +237,19 @@ export default function CreatePool() {
                 <div className="lg:col-span-5 space-y-6">
                   {/* Token Details Card */}
                   <div className="terminal-panel rounded-2xl p-5 sm:p-6 space-y-5">
-                    <div className="flex items-center gap-2.5 border-b border-white/[0.08] pb-3.5">
+                    <div className="flex items-center gap-2.5 border-b border-neutral-200 dark:border-white/[0.08] pb-3.5">
                       <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary border border-primary/20">
                         <span className="iconify h-4 w-4 ph--coin-vertical-bold" />
                       </div>
                       <div>
-                        <h2 className="text-base font-bold text-white">Token Identity</h2>
-                        <p className="text-[11px] text-neutral-400">Basic metadata registered on Solana</p>
+                        <h2 className="text-base font-bold text-neutral-900 dark:text-white">Token Identity</h2>
+                        <p className="text-[11px] text-neutral-500 dark:text-neutral-400">Basic metadata registered on Solana</p>
                       </div>
                     </div>
 
                     {/* Asset Class Architecture Selector (Stocklana / xStocks vs Meme) */}
-                    <div className="flex flex-col gap-2 rounded-xl bg-neutral-950/80 p-3 border border-white/[0.06]">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">
+                    <div className="flex flex-col gap-2 rounded-xl bg-neutral-100 dark:bg-neutral-950/80 p-3 border border-neutral-200 dark:border-white/[0.06]">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
                         Asset Class Architecture
                       </span>
                       <div className="grid grid-cols-2 gap-2">
@@ -263,7 +263,7 @@ export default function CreatePool() {
                           className={`flex items-center justify-center gap-1.5 rounded-lg py-2 px-2 text-xs font-mono font-bold transition-all ${
                             assetClass === 'MEME'
                               ? 'bg-primary text-white shadow-md shadow-primary/25'
-                              : 'bg-neutral-900 text-neutral-400 hover:text-white border border-white/5'
+                              : 'bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/5'
                           }`}
                         >
                           <span className="iconify h-3.5 w-3.5 ph--lightning-bold" />
@@ -280,7 +280,7 @@ export default function CreatePool() {
                           className={`flex items-center justify-center gap-1.5 rounded-lg py-2 px-2 text-xs font-mono font-bold transition-all ${
                             assetClass === 'EQUITY'
                               ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/25'
-                              : 'bg-neutral-900 text-neutral-400 hover:text-white border border-white/5'
+                              : 'bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/5'
                           }`}
                         >
                           <span className="iconify h-3.5 w-3.5 ph--buildings-bold" />
@@ -289,10 +289,10 @@ export default function CreatePool() {
                       </div>
 
                       {assetClass === 'EQUITY' && (
-                        <div className="mt-1 flex items-start gap-2 rounded-lg bg-cyan-950/30 border border-cyan-500/20 p-2.5 text-[11px] text-cyan-300">
-                          <span className="iconify h-4 w-4 shrink-0 mt-0.5 text-cyan-400 ph--info-bold" />
+                        <div className="mt-1 flex items-start gap-2 rounded-lg bg-cyan-100/50 dark:bg-cyan-950/30 border border-cyan-400/30 dark:border-cyan-500/20 p-2.5 text-[11px] text-cyan-800 dark:text-cyan-300">
+                          <span className="iconify h-4 w-4 shrink-0 mt-0.5 text-cyan-600 dark:text-cyan-400 ph--info-bold" />
                           <div>
-                            <strong className="text-white">Stocklana Equity Pair Mode</strong>: Settles in USDC quote token with a flat floor reserve price. Compatible with Ondo RFQ and Backpack Onchain.
+                            <strong className="text-neutral-900 dark:text-white">Stocklana Equity Pair Mode</strong>: Settles in USDC quote token with a flat floor reserve price. Compatible with Ondo RFQ and Backpack Onchain.
                           </div>
                         </div>
                       )}
@@ -302,7 +302,7 @@ export default function CreatePool() {
                       <div>
                         <label
                           htmlFor="tokenName"
-                          className="block text-xs font-semibold text-neutral-300 mb-1.5"
+                          className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1.5"
                         >
                           Token Name*
                         </label>
@@ -326,7 +326,7 @@ export default function CreatePool() {
                       <div>
                         <label
                           htmlFor="tokenSymbol"
-                          className="block text-xs font-semibold text-neutral-300 mb-1.5"
+                          className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1.5"
                         >
                           Token Symbol (Ticker)*
                         </label>
@@ -351,13 +351,13 @@ export default function CreatePool() {
                       <div>
                         <label
                           htmlFor="tokenLogo"
-                          className="block text-xs font-semibold text-neutral-300 mb-1.5"
+                          className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1.5"
                         >
                           Token Avatar / Logo*
                         </label>
                         <form.Field name="tokenLogo">
                           {(field) => (
-                            <div className="rounded-xl border border-dashed border-white/[0.12] bg-neutral-950/50 p-4 text-center transition-all hover:border-primary/50">
+                            <div className="rounded-xl border border-dashed border-neutral-300 dark:border-white/[0.12] bg-neutral-50 dark:bg-neutral-950/50 p-4 text-center transition-all hover:border-primary/50">
                               {logoPreview ? (
                                 <div className="flex flex-col items-center gap-2">
                                   <img
@@ -365,7 +365,7 @@ export default function CreatePool() {
                                     alt="Logo preview"
                                     className="h-16 w-16 rounded-full object-cover border-2 border-primary shadow-md"
                                   />
-                                  <span className="text-xs text-neutral-300 font-mono">
+                                  <span className="text-xs text-neutral-700 dark:text-neutral-300 font-mono">
                                     {field.state.value?.name}
                                   </span>
                                   <label
@@ -377,13 +377,13 @@ export default function CreatePool() {
                                 </div>
                               ) : (
                                 <div>
-                                  <span className="iconify w-8 h-8 mx-auto mb-2 text-neutral-500 ph--cloud-arrow-up-bold" />
-                                  <p className="text-neutral-400 text-xs mb-3 font-mono">
+                                  <span className="iconify w-8 h-8 mx-auto mb-2 text-neutral-400 dark:text-neutral-500 ph--cloud-arrow-up-bold" />
+                                  <p className="text-neutral-500 dark:text-neutral-400 text-xs mb-3 font-mono">
                                     PNG, JPG, SVG or WEBP (max 2MB)
                                   </p>
                                   <label
                                     htmlFor="tokenLogo"
-                                    className="inline-flex cursor-pointer items-center rounded-lg border border-white/[0.1] bg-neutral-900 px-4 py-2 text-xs font-semibold text-neutral-200 transition-colors hover:bg-neutral-800"
+                                    className="inline-flex cursor-pointer items-center rounded-lg border border-neutral-300 dark:border-white/[0.1] bg-white dark:bg-neutral-900 px-4 py-2 text-xs font-semibold text-neutral-800 dark:text-neutral-200 transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 shadow-sm dark:shadow-none"
                                   >
                                     Browse Files
                                   </label>
@@ -415,13 +415,13 @@ export default function CreatePool() {
 
                   {/* Social Links Card */}
                   <div className="terminal-panel rounded-2xl p-5 sm:p-6 space-y-4">
-                    <div className="flex items-center gap-2.5 border-b border-white/[0.08] pb-3.5">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    <div className="flex items-center gap-2.5 border-b border-neutral-200 dark:border-white/[0.08] pb-3.5">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
                         <span className="iconify h-4 w-4 ph--globe-bold" />
                       </div>
                       <div>
-                        <h2 className="text-base font-bold text-white">Social Telemetry (Optional)</h2>
-                        <p className="text-[11px] text-neutral-400">Embedded in on-chain token metadata</p>
+                        <h2 className="text-base font-bold text-neutral-900 dark:text-white">Social Telemetry (Optional)</h2>
+                        <p className="text-[11px] text-neutral-500 dark:text-neutral-400">Embedded in on-chain token metadata</p>
                       </div>
                     </div>
 
@@ -429,7 +429,7 @@ export default function CreatePool() {
                       <div>
                         <label
                           htmlFor="website"
-                          className="block text-xs font-semibold text-neutral-300 mb-1"
+                          className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1"
                         >
                           Project Website
                         </label>
@@ -451,7 +451,7 @@ export default function CreatePool() {
                       <div>
                         <label
                           htmlFor="twitter"
-                          className="block text-xs font-semibold text-neutral-300 mb-1"
+                          className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1"
                         >
                           Twitter / X Profile
                         </label>
@@ -473,21 +473,21 @@ export default function CreatePool() {
                   </div>
 
                   {/* Pre-flight Technical Checklist */}
-                  <div className="rounded-xl border border-white/[0.06] bg-neutral-950/40 p-4 space-y-2.5 font-mono text-[11px]">
-                    <div className="text-neutral-400 font-bold uppercase tracking-wider text-[10px]">
+                  <div className="rounded-xl border border-neutral-200 dark:border-white/[0.06] bg-neutral-100/80 dark:bg-neutral-950/40 p-4 space-y-2.5 font-mono text-[11px]">
+                    <div className="text-neutral-500 dark:text-neutral-400 font-bold uppercase tracking-wider text-[10px]">
                       Deployment Pre-Flight Checks
                     </div>
-                    <div className="flex items-center justify-between text-neutral-300">
+                    <div className="flex items-center justify-between text-neutral-700 dark:text-neutral-300">
                       <span>Liquidity Engine</span>
-                      <span className="text-emerald-400 font-semibold">Meteora DBC v1.5</span>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Meteora DBC v1.5</span>
                     </div>
-                    <div className="flex items-center justify-between text-neutral-300">
+                    <div className="flex items-center justify-between text-neutral-700 dark:text-neutral-300">
                       <span>Graduation Pool</span>
-                      <span className="text-cyan-400 font-semibold">Meteora DAMM v2</span>
+                      <span className="text-cyan-600 dark:text-cyan-400 font-semibold">Meteora DAMM v2</span>
                     </div>
-                    <div className="flex items-center justify-between text-neutral-300">
+                    <div className="flex items-center justify-between text-neutral-700 dark:text-neutral-300">
                       <span>Anti-Snipe Defense</span>
-                      <span className="text-emerald-400 font-semibold">
+                      <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
                         {selectedPreset.antiSnipeFeeEnabled ? 'Active' : 'Standard'}
                       </span>
                     </div>
@@ -543,12 +543,12 @@ export default function CreatePool() {
                   )}
 
                   {/* Sticky Launch Action Panel */}
-                  <div className="sticky bottom-4 z-20 flex items-center justify-between gap-4 rounded-2xl border border-primary/30 bg-neutral-950/95 p-4 shadow-2xl backdrop-blur-xl">
+                  <div className="sticky bottom-4 z-20 flex items-center justify-between gap-4 rounded-2xl border border-primary/30 bg-white/95 dark:bg-neutral-950/95 p-4 shadow-2xl backdrop-blur-xl">
                     <div className="flex flex-col">
-                      <span className="text-[10px] font-mono text-neutral-400">READY TO INITIALIZE</span>
+                      <span className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400">READY TO INITIALIZE</span>
                       <div className="flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                        <span className="text-sm font-bold text-white">{selectedPreset.name}</span>
+                        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-sm font-bold text-neutral-900 dark:text-white">{selectedPreset.name}</span>
                       </div>
                     </div>
 
@@ -605,12 +605,12 @@ const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
 const PoolCreationSuccess = () => {
   return (
     <div className="terminal-panel-glow mx-auto max-w-xl rounded-2xl p-8 text-center space-y-6">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400">
         <span className="iconify ph--check-circle-bold w-9 h-9" />
       </div>
       <div>
-        <h2 className="text-2xl md:text-3xl font-extrabold text-white">Pool Deployed Successfully!</h2>
-        <p className="text-neutral-400 text-xs md:text-sm mt-2 max-w-md mx-auto leading-relaxed">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-neutral-900 dark:text-white">Pool Deployed Successfully!</h2>
+        <p className="text-neutral-600 dark:text-neutral-400 text-xs md:text-sm mt-2 max-w-md mx-auto leading-relaxed">
           Your token is live on Meteora Dynamic Bonding Curve. Traders can now buy, sell, and build volume
           towards automatic DAMM v2 graduation.
         </p>
@@ -618,7 +618,7 @@ const PoolCreationSuccess = () => {
       <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
         <Link
           href="/"
-          className="rounded-xl border border-white/[0.1] bg-neutral-900 px-6 py-3 text-xs font-bold text-white transition-colors hover:bg-neutral-800"
+          className="rounded-xl border border-neutral-200 dark:border-white/[0.1] bg-neutral-100 dark:bg-neutral-900 px-6 py-3 text-xs font-bold text-neutral-900 dark:text-white transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"
         >
           View On Explore
         </Link>

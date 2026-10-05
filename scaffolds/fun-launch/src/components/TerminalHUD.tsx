@@ -13,7 +13,7 @@ export const TerminalHUD: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full border-b border-white/[0.06] bg-neutral-950/90 px-3 py-1.5 text-[11px] font-mono backdrop-blur-md">
+    <div className="w-full border-b border-neutral-200 dark:border-white/[0.06] bg-neutral-100/90 dark:bg-neutral-950/90 px-3 py-1.5 text-[11px] font-mono backdrop-blur-md text-foreground">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
         {/* Left: Engine & Network */}
         <div className="flex items-center gap-3 overflow-x-auto no-scrollbar">
@@ -22,39 +22,39 @@ export const TerminalHUD: React.FC = () => {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
-            <span className="font-semibold text-neutral-200">SOLANA DEVNET</span>
+            <span className="font-semibold text-neutral-800 dark:text-neutral-200">SOLANA DEVNET</span>
           </div>
 
-          <span className="text-neutral-700">|</span>
+          <span className="text-neutral-400 dark:text-neutral-700">|</span>
 
-          <div className="flex items-center gap-1 text-neutral-400">
-            <span className="text-neutral-500">TPS:</span>
-            <span className="font-semibold text-neutral-200">{tps.toLocaleString()}</span>
+          <div className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
+            <span>TPS:</span>
+            <span className="font-semibold text-neutral-800 dark:text-neutral-200">{tps.toLocaleString()}</span>
           </div>
 
-          <span className="text-neutral-700">|</span>
+          <span className="text-neutral-400 dark:text-neutral-700">|</span>
 
-          <div className="flex items-center gap-1 text-neutral-400">
-            <span className="text-neutral-500">SLOT:</span>
-            <span className="font-semibold text-neutral-200">{slot.toLocaleString()}</span>
+          <div className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
+            <span>SLOT:</span>
+            <span className="font-semibold text-neutral-800 dark:text-neutral-200">{slot.toLocaleString()}</span>
           </div>
 
-          <span className="hidden text-neutral-700 sm:inline">|</span>
+          <span className="hidden text-neutral-400 dark:text-neutral-700 sm:inline">|</span>
 
-          <div className="hidden items-center gap-1 text-neutral-400 sm:flex">
-            <span className="text-neutral-500">PRIORITY FEE:</span>
-            <span className="font-medium text-emerald-400">100k μLamports</span>
+          <div className="hidden items-center gap-1 text-neutral-500 dark:text-neutral-400 sm:flex">
+            <span>PRIORITY FEE:</span>
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">100k μLamports</span>
           </div>
         </div>
 
         {/* Right: Meteora DBC Program Engine */}
         <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-[10px] text-primary">
+          <div className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[10px] text-primary">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="font-bold tracking-wider">METEORA DBC v1.5</span>
+            <span className="font-bold tracking-wider">AEGIS · METEORA DBC</span>
           </div>
 
-          <div className="hidden rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-semibold text-cyan-400 md:inline-block">
+          <div className="hidden rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-semibold text-cyan-600 dark:text-cyan-400 md:inline-block">
             DAMM v2 POOLS ACTIVE
           </div>
         </div>
