@@ -1,4 +1,7 @@
-# Meteora Invent
+# Meteora Invent & DBC Terminal
+
+> 🌟 **Featured Hackathon Submission**: [**Meteora DBC Launch Terminal & Algorithmic Curve Studio**](scaffolds/fun-launch)  
+> An institutional-grade launch terminal, interactive curve simulator, preset marketplace, and developer exporter powered by Meteora Dynamic Bonding Curves (DBC).
 
 A toolkit consisting of everything you need to invent innovative token launches on Meteora.
 

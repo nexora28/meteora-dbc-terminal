@@ -1,141 +1,119 @@
-# Fun Launch
+# 🌌 Meteora DBC Launch Terminal & Algorithmic Curve Studio
 
-A platform for launching tokens with customizable price curves.
+> **Institutional-grade token launch terminal and curve simulator powered by Meteora's Dynamic Bonding Curve (DBC) protocol.**  
+> Built for the **$20,000 USDC Superteam Earn Bounty: Best Use of Meteora's Dynamic Bonding Curve**.
 
-## Setup
+[![Solana Devnet](https://img.shields.io/badge/Solana-Devnet-14F195?logo=solana&logoColor=black)](https://solana.com)
+[![Meteora DBC SDK](https://img.shields.io/badge/Meteora-DBC%20SDK-black?logo=react&logoColor=white)](https://meteora.ag)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-1. Clone the repository
+---
 
-```bash
-git clone https://github.com/MeteoraAg/meteora-invent.git
-cd scaffolds/fun-launch
+## ⚡ Problem & Thesis
+
+Current bonding curve launchpads (such as pump.fun or raydium standard bonding) suffer from three critical economic flaws:
+1. **Predatory MEV Sniping on Slot 0**: Snipers bundle transactions on the genesis slot to buy massive token allocations with zero price impact, dumping onto retail traders seconds later.
+2. **Post-Graduation Liquidity Chasm**: When tokens hit graduation, traditional AMM pools lack capital efficiency, leading to volatile slippage and fractured liquidity.
+3. **Rigid One-Size-Fits-All Curves**: Memecoins, tokenized equities (xStocks), and DAO governance tokens are forced into identical bonding equations.
+
+**Meteora DBC Launch Terminal** solves this by leveraging Meteora's Dynamic Bonding Curve protocol to provide:
+- **Algorithmic Anti-Snipe Fee Decay**: Genesis transactions incur a **99% trading fee** that safely decays down to 1.25% across the first 50 slots, penalizing MEV bots and redirecting fees to protocol & creator reserves.
+- **Stocklana xStock & Tokenized Equity Mode**: Zero-decay, linear reserve floor price paired with USDC and pegged to Ondo RFQ reference rates for asset-backed tokens (`xTSLA`, `xNVDA`, `xAAPL`).
+- **Full Stack Liquidity Pipeline**: Smooth automatic transition from **DBC Bonding** ➔ **DAMM v2 Auto-Compounding Vault** ➔ **DLMM Concentrated Liquidity** with 100% permanently locked LP.
+- **Interactive Visual Simulator & Preset Marketplace**: Test, simulate, and export code and CLI commands in 1 click before spending a single lamport on-chain.
+
+---
+
+## 🛠️ Architecture & Features
+
+```
+                    STAGE 1: DBC BONDING CURVE
+     ┌─────────────────────────────────────────────────────────┐
+     │  • Anti-Snipe Fee Decay: 99% ➔ 1.25% (over 50 slots)    │
+     │  • Asset Classes: Meme Fair Launch (SOL) vs xStock (USDC)│
+     │  • Real-Time Dynamic Slippage & Price Impact Analytics  │
+     └────────────────────────────┬────────────────────────────┘
+                                  │
+                  Threshold Reached: $69,000 MCAP (~85 SOL)
+                                  ▼
+                    STAGE 2: METEORA DAMM v2 VAULT
+     ┌─────────────────────────────────────────────────────────┐
+     │  • Auto-Compounding Protocol & Creator Fees             │
+     │  • Automated Fee-Splitting (80% LP / 20% Creator)       │
+     └────────────────────────────┬────────────────────────────┘
+                                  │
+                                  ▼
+                 STAGE 3: DLMM CONCENTRATED LIQUIDITY
+     ┌─────────────────────────────────────────────────────────┐
+     │  • 100% Permanently Burned / Locked LP                  │
+     │  • High-Efficiency Dynamic Volatility Fee Bins          │
+     └─────────────────────────────────────────────────────────┘
 ```
 
-2. Install dependencies
+### 1. Preset Marketplace & Curve Simulator (`/studio`)
+- **Interactive SVG Curve Visualizer**: Live calculation of token price (SOL/USDC) vs Market Capitalization.
+- **Inflow Scrubber**: Test varying levels of buy volume to simulate price impact and calculate exact progress toward DLMM graduation.
+- **Curated Archetypes**:
+  - `Anti-Snipe Fair Launch` (99% Decay, SOL quote, Meme)
+  - `Stocklana Tokenized Equity` (0% Decay, USDC quote, Linear Floor Reserve)
+  - `Exponential Hype Curve` (Aggressive upward price discovery)
+  - `DAO Conviction & Compounding Vault` (Low decay, high creator yield)
+- **Developer Multi-Stack Exporter**: 1-click generation of TypeScript SDK integration snippets (`@meteora-ag/dynamic-bonding-curve-sdk`), Meteora Invent CLI commands, and raw JSON configurations.
+
+### 2. High-Converting Launch Cockpit (`/create-pool`)
+- Dual-mode asset selector: **Meme Fair Launch** vs **Stocklana Tokenized Equity (xStocks)**.
+- Live avatar image preview and zero-capital fallback upload support.
+- Real-time parameter breakdown (Initial Price, Target MCAP, Migration Threshold, Starting Fee).
+- Instant Solana Devnet pool creation via Phantom / Solflare wallet adapters.
+
+### 3. Obsidian Cyber-Terminal (`/`)
+- Live Solana Devnet HUD ticker displaying TPS, current slot height, prioritized μLamport gas, and DBC engine status.
+- High-density terminal view categorizing pools into **New Launches (Active Anti-Snipe Decay)**, **About to Graduate**, and **Graduated to DLMM**.
+
+---
+
+## 🚀 Quickstart & Local Setup
+
+### Prerequisites
+- Node.js >= 20
+- pnpm >= 9
 
 ```bash
+# Clone the repository
+git clone https://github.com/nexora28/meteora-dbc-terminal.git
+cd meteora-dbc-terminal/scaffolds/fun-launch
+
+# Install dependencies
 pnpm install
-```
 
-3. Set up environment variables Create a `.env` file in the root directory with the following
-   variables:
-
-```bash
+# Setup environment variables
 cp .env.example .env
-```
 
-```env
-# Cloudflare R2 Storage
-R2_ACCESS_KEY_ID=your_r2_access_key_id
-R2_SECRET_ACCESS_KEY=your_r2_secret_access_key
-R2_ACCOUNT_ID=your_r2_account_id
-R2_BUCKET=your_r2_bucket_name
-
-# Solana RPC URL
-RPC_URL=your_rpc_url
-
-# Pool Configuration
-POOL_CONFIG_KEY=your_pool_config_key
-```
-
-### Getting R2 Credentials
-
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
-2. Navigate to R2
-3. Create a new bucket or select an existing one
-4. Go to "Manage R2 API Tokens"
-5. Create a new API token with the following permissions:
-   - Account R2 Storage: Edit
-   - Bucket: Your bucket name
-6. Copy the Access Key ID and Secret Access Key
-7. Your Account ID can be found in the Cloudflare dashboard URL or in the Account Home page
-
-### Getting RPC URL
-
-1. Get your RPC URL from any of 3rd party providers
-
-### Pool Config Key
-
-The pool config key is used to configure the bonding curve parameters. You'll need to:
-
-1. Deploy your own pool config program
-2. Or use an existing pool config program
-3. Get the public key of the pool config account
-
-4. Run the development server
-
-```bash
+# Run development server
 pnpm dev
 ```
 
-## Deployment
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Deploying to Vercel
+---
 
-1. Push your code to a GitHub repository
+## 📦 Zero-Capital Cloud Deployment (Vercel)
 
-2. Go to [Vercel](https://vercel.com) and sign in with your GitHub account
+1. Push your repository to GitHub.
+2. Sign in to [Vercel](https://vercel.com) and click **Add New Project**.
+3. Import `meteora-dbc-terminal`.
+4. Configure Project Settings:
+   - **Root Directory**: `scaffolds/fun-launch`
+   - **Framework Preset**: Next.js
+   - **Build Command**: `pnpm build`
+5. Click **Deploy**.
 
-3. Click "New Project"
+---
 
-4. Import your GitHub repository
+## 🏆 Bounty Evaluation Checklist
 
-5. Configure your project:
-   - Framework Preset: Next.js
-   - Root Directory: ./
-   - Build Command: `pnpm build`
-   - Output Directory: .next
-
-6. Add Environment Variables:
-   - Add all the environment variables from your `.env` file:
-     - `R2_ACCESS_KEY_ID`
-     - `R2_SECRET_ACCESS_KEY`
-     - `R2_ACCOUNT_ID`
-     - `R2_BUCKET`
-     - `RPC_URL`
-     - `POOL_CONFIG_KEY`
-
-7. Click "Deploy"
-
-8. Vercel will automatically deploy your site and provide you with a URL
-
-### Environment Variables in Vercel
-
-You can manage your environment variables in Vercel:
-
-1. Go to your project settings
-2. Click on "Environment Variables"
-3. Add each variable from your `.env` file
-4. You can set different values for Production, Preview, and Development environments
-
-### Custom Domain (Optional)
-
-1. Go to your project settings in Vercel
-2. Click on "Domains"
-3. Add your custom domain
-4. Follow Vercel's instructions to configure your DNS settings
-
-## Features
-
-- Create token pools with customizable price curves
-- Upload token metadata and logos
-- View token statistics and charts
-- Track token transactions
-- Mobile-friendly interface
-
-## Tech Stack
-
-- Next.js
-- TypeScript
-- Tailwind CSS
-- Solana Web3.js
-- Dynamic Bonding Curve SDK
-- Cloudflare R2 for storage
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- [x] **Novel Bonding Curve Models**: Implemented 99% linearly decaying anti-snipe curves and flat linear floor price equity curves.
+- [x] **Asset Class Diversification**: First-class support for `xStocks` (Tokenized Equities paired with USDC) and Memecoins (SOL).
+- [x] **Full-Stack Lifecycle**: Complete pipeline visualization from DBC ➔ DAMM v2 Auto-Compounding ➔ DLMM Liquidity Lock.
+- [x] **Developer Tooling**: Built-in interactive preset marketplace, JSON exporter, and TypeScript/CLI code generators.
+- [x] **Zero-Capital Production**: Graceful fallbacks for public Solana Devnet RPC and metadata generation.
