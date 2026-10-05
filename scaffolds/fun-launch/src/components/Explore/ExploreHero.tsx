@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 type ExploreHeroProps = {
@@ -14,128 +14,140 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
   activeFilter = 'all',
   onFilterChange,
 }) => {
+  const [specsOpen, setSpecsOpen] = useState(false);
+
   const filters = [
     { id: 'all', label: 'ALL CURVES', icon: 'ph--lightning-bold' },
-    { id: 'anti-snipe', label: 'ANTI-SNIPE (FEE DECAY)', icon: 'ph--shield-check-bold' },
-    { id: 'rwa', label: 'RWA & FLOOR SECURED', icon: 'ph--buildings-bold' },
-    { id: 'exponential', label: 'EXPONENTIAL HYPETRAIN', icon: 'ph--rocket-launch-bold' },
+    { id: 'anti-snipe', label: 'ANTI-SNIPE SHIELD', icon: 'ph--shield-check-bold' },
+    { id: 'rwa', label: 'xSTOCK EQUITIES', icon: 'ph--buildings-bold' },
+    { id: 'exponential', label: 'EXPONENTIAL HYPE', icon: 'ph--rocket-launch-bold' },
     { id: 'graduated', label: 'METEORA DLMM', icon: 'ph--diamond-bold' },
   ];
 
   return (
-    <div className="relative mb-4 w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-neutral-950/70 p-4 md:p-6 backdrop-blur-xl">
+    <div className="relative mb-4 w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-neutral-950/70 p-4 md:p-5 backdrop-blur-xl">
       {/* Decorative corner crosshairs */}
       <span className="pointer-events-none absolute top-2 left-2 font-mono text-[10px] text-primary/40 select-none">+</span>
       <span className="pointer-events-none absolute top-2 right-2 font-mono text-[10px] text-primary/40 select-none">+</span>
       <span className="pointer-events-none absolute bottom-2 left-2 font-mono text-[10px] text-primary/40 select-none">+</span>
       <span className="pointer-events-none absolute bottom-2 right-2 font-mono text-[10px] text-primary/40 select-none">+</span>
 
-      {/* Background glow mesh */}
-      <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/10 blur-[80px]" />
-      <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-amber-500/10 blur-[80px]" />
+      {/* Subtle ambient background glow */}
+      <div className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full bg-primary/10 blur-[70px]" />
+      <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-amber-500/10 blur-[70px]" />
 
-      <div className="relative z-10 flex flex-col gap-6">
-        {/* Top telemetry & Protocol Status */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] pb-4">
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
-            </span>
-            <span className="font-mono text-[11px] font-semibold tracking-wider text-primary uppercase">
-              METEORA DYNAMIC BONDING CURVE (DBC) PROTOCOL
-            </span>
-            <span className="rounded bg-neutral-800/80 px-1.5 py-0.5 font-mono text-[10px] text-neutral-400">
-              v1.4 DEVNET
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs font-mono text-neutral-400">
-            <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              <span>FEE DECAY: <strong className="text-white">ACTIVE</strong></span>
+      <div className="relative z-10 flex flex-col gap-4">
+        {/* Compact Clean Header Row */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+              </span>
+              <span className="font-mono text-[11px] font-bold tracking-wider text-primary uppercase">
+                AEGIS DYNAMIC BONDING TERMINAL
+              </span>
+              <span className="rounded bg-neutral-800/80 px-1.5 py-0.2 font-mono text-[10px] text-neutral-400">
+                SOLANA DEVNET
+              </span>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-              <span>GRADUATION: <strong className="text-white">$69K MCAP</strong></span>
-            </div>
-          </div>
-        </div>
 
-        {/* Main Content & Actions */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div className="max-w-2xl">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              Institutional Algorithmic <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-300 to-amber-400">Bonding Curves</span>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold tracking-tight text-white">
+              Launch & Trade <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-300 to-amber-400">Anti-Snipe Curves</span>
             </h1>
-            <p className="mt-2 text-xs md:text-sm text-neutral-400 leading-relaxed font-sans">
-              Deploy custom programmatic fee curves that extinguish MEV snipers with decaying fees, enforce floor prices for real assets, and automatically migrate permanent liquidity to Meteora DLMM v2.
+            <p className="mt-1 text-xs text-neutral-400 max-w-xl font-sans">
+              Next-gen bonding curves with dynamic 99% fee decay shields and automatic Meteora DLMM graduation.
             </p>
           </div>
 
-          {/* Action CTAs */}
-          <div className="flex shrink-0 flex-wrap items-center gap-3">
-            <Link
-              href="/create-pool"
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary via-primary-500 to-amber-600 px-5 py-2.5 text-xs md:text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all duration-200 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
+          {/* Action Buttons & Expandable Specs Trigger */}
+          <div className="flex shrink-0 flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setSpecsOpen(!specsOpen)}
+              className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-mono font-medium transition-all ${
+                specsOpen
+                  ? 'border-primary/50 bg-primary/15 text-primary shadow-sm shadow-primary/20'
+                  : 'border-white/[0.08] bg-neutral-900/80 text-neutral-300 hover:border-white/[0.15] hover:text-white'
+              }`}
             >
-              <span className="iconify h-4 w-4 ph--plus-circle-bold" />
-              <span>Launch Dynamic Token</span>
-            </Link>
+              <span className="iconify h-3.5 w-3.5 text-primary ph--shield-check-bold" />
+              <span>Protocol Specs</span>
+              <span
+                className={`iconify h-3 w-3 text-neutral-400 transition-transform duration-200 ${
+                  specsOpen ? 'rotate-180 text-primary' : ''
+                } ph--caret-down-bold`}
+              />
+            </button>
+
             <Link
               href="/studio"
-              className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-4 py-2.5 text-xs md:text-sm font-bold text-primary transition-all duration-200 hover:bg-primary/20 hover:border-primary"
+              className="flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3.5 py-2 text-xs font-bold text-primary transition-all hover:bg-primary/20 hover:border-primary"
             >
-              <span className="iconify h-4 w-4 ph--cpu-bold" />
-              <span>DBC Studio Simulator</span>
-              <span className="rounded bg-primary/20 px-1.5 py-0.5 text-[9px] font-mono font-black text-primary uppercase">
-                Interactive
-              </span>
+              <span className="iconify h-3.5 w-3.5 ph--cpu-bold" />
+              <span>Curve Studio</span>
+            </Link>
+
+            <Link
+              href="/create-pool"
+              className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-primary via-primary-500 to-amber-600 px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20 transition-all hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span className="iconify h-3.5 w-3.5 ph--plus-circle-bold" />
+              <span>Launch Token</span>
             </Link>
           </div>
         </div>
 
-        {/* Protocol Metric Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
-          <div className="rounded-xl border border-white/[0.06] bg-neutral-900/60 p-3 backdrop-blur-sm">
-            <div className="flex items-center justify-between text-neutral-400 mb-1">
-              <span className="text-[10px] font-mono tracking-wider uppercase">Anti-Snipe Defense</span>
-              <span className="iconify h-3.5 w-3.5 text-primary ph--shield-check-bold" />
+        {/* Collapsible Protocol Specs Drawer (Compact, uncluttered) */}
+        {specsOpen && (
+          <div className="rounded-xl border border-white/[0.08] bg-neutral-900/70 p-4 backdrop-blur-md animate-in fade-in-50 duration-200">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-3 mb-3">
+              <div className="flex items-center gap-2">
+                <span className="iconify h-4 w-4 text-primary ph--info-bold" />
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-white">
+                  Aegis Engine Quick Specs
+                </span>
+              </div>
+              <Link
+                href="/architecture"
+                className="flex items-center gap-1 font-mono text-xs font-bold text-primary hover:underline"
+              >
+                <span>Read Full Institutional Specs & Mathematics</span>
+                <span className="iconify h-3 w-3 ph--arrow-right-bold" />
+              </Link>
             </div>
-            <div className="text-base md:text-lg font-bold font-mono text-white">99% → 1%</div>
-            <div className="text-[10px] text-neutral-400 font-mono">Decays over initial 50 slots</div>
-          </div>
 
-          <div className="rounded-xl border border-white/[0.06] bg-neutral-900/60 p-3 backdrop-blur-sm">
-            <div className="flex items-center justify-between text-neutral-400 mb-1">
-              <span className="text-[10px] font-mono tracking-wider uppercase">Graduation Destination</span>
-              <span className="iconify h-3.5 w-3.5 text-emerald-400 ph--diamond-bold" />
-            </div>
-            <div className="text-base md:text-lg font-bold font-mono text-white">Meteora DLMM</div>
-            <div className="text-[10px] text-emerald-400/90 font-mono">100% Permanently locked LP</div>
-          </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+              <div className="rounded-lg bg-neutral-950/80 p-2.5 border border-white/[0.04]">
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">Anti-Snipe Defense</div>
+                <div className="text-sm font-bold font-mono text-white mt-0.5">99% → 1.25%</div>
+                <div className="text-[10px] text-neutral-400 font-mono">Decays over 50 slots</div>
+              </div>
 
-          <div className="rounded-xl border border-white/[0.06] bg-neutral-900/60 p-3 backdrop-blur-sm">
-            <div className="flex items-center justify-between text-neutral-400 mb-1">
-              <span className="text-[10px] font-mono tracking-wider uppercase">Floor Price Security</span>
-              <span className="iconify h-3.5 w-3.5 text-cyan-400 ph--chart-line-up-bold" />
-            </div>
-            <div className="text-base md:text-lg font-bold font-mono text-white">Guaranteed</div>
-            <div className="text-[10px] text-cyan-400/90 font-mono">RWA Linear Reserve Backing</div>
-          </div>
+              <div className="rounded-lg bg-neutral-950/80 p-2.5 border border-white/[0.04]">
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">Graduation Target</div>
+                <div className="text-sm font-bold font-mono text-emerald-400 mt-0.5">$69,000 MCAP</div>
+                <div className="text-[10px] text-emerald-400/80 font-mono">~85 SOL Migration</div>
+              </div>
 
-          <div className="rounded-xl border border-white/[0.06] bg-neutral-900/60 p-3 backdrop-blur-sm">
-            <div className="flex items-center justify-between text-neutral-400 mb-1">
-              <span className="text-[10px] font-mono tracking-wider uppercase">Available Presets</span>
-              <span className="iconify h-3.5 w-3.5 text-amber-400 ph--sliders-horizontal-bold" />
+              <div className="rounded-lg bg-neutral-950/80 p-2.5 border border-white/[0.04]">
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">LP Custody</div>
+                <div className="text-sm font-bold font-mono text-cyan-400 mt-0.5">100% Permanently Locked</div>
+                <div className="text-[10px] text-cyan-400/80 font-mono">Burned into Meteora DLMM</div>
+              </div>
+
+              <div className="rounded-lg bg-neutral-950/80 p-2.5 border border-white/[0.04]">
+                <div className="text-[10px] font-mono text-neutral-400 uppercase">Asset Classes</div>
+                <div className="text-sm font-bold font-mono text-amber-400 mt-0.5">Meme & xStock Equity</div>
+                <div className="text-[10px] text-amber-400/80 font-mono">SOL & USDC Quotes</div>
+              </div>
             </div>
-            <div className="text-base md:text-lg font-bold font-mono text-white">4 Architectures</div>
-            <div className="text-[10px] text-amber-400/90 font-mono">Fully mathematically tested</div>
           </div>
-        </div>
+        )}
 
         {/* Filter Matrix & Search Bar */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 border-t border-white/[0.06] pt-4">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 border-t border-white/[0.06] pt-3">
           <div className="flex flex-wrap items-center gap-1.5">
             {filters.map((f) => (
               <button
@@ -154,13 +166,13 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
           </div>
 
           {/* Search Box */}
-          <div className="relative min-w-[240px] md:min-w-[280px]">
+          <div className="relative min-w-[220px] md:min-w-[260px]">
             <span className="iconify pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500 ph--magnifying-glass-bold" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange?.(e.target.value)}
-              placeholder="Search by symbol, name, or mint..."
+              placeholder="Search symbol, name, mint..."
               className="w-full rounded-lg border border-white/[0.08] bg-neutral-900/90 py-1.5 pl-9 pr-3 text-xs text-white placeholder-neutral-500 font-mono focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             />
             {searchQuery && (
@@ -177,3 +189,5 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
     </div>
   );
 };
+
+export default ExploreHero;
