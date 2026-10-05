@@ -99,6 +99,17 @@ export const Header = () => {
                 <span className="iconify h-3.5 w-3.5 ph--cpu-bold" />
                 <span>Curve Studio</span>
               </Link>
+              <Link
+                href="/docs"
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  router.pathname === '/docs' || router.pathname === '/architecture'
+                    ? 'bg-primary/15 text-primary font-bold border border-primary/30'
+                    : 'text-neutral-300 hover:bg-neutral-800/60 hover:text-foreground'
+                }`}
+              >
+                <span className="iconify h-3.5 w-3.5 ph--book-open-bold" />
+                <span>Docs</span>
+              </Link>
 
               {/* Dropdown Menu Trigger Button */}
               <div className="relative" ref={dropdownRef}>
@@ -133,21 +144,21 @@ export const Header = () => {
 
                     <div className="flex flex-col gap-0.5">
                       <Link
-                        href="/architecture"
+                        href="/docs"
                         className="flex items-start gap-2.5 rounded-xl p-2.5 text-left transition-colors hover:bg-neutral-800/60 group"
                       >
                         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                          <span className="iconify h-4 w-4 ph--shield-check-bold" />
+                          <span className="iconify h-4 w-4 ph--book-open-bold" />
                         </div>
                         <div>
                           <div className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                            <span>Protocol Architecture</span>
+                            <span>Protocol Documentation</span>
                             <span className="rounded bg-primary/20 px-1 py-0.2 text-[8px] font-mono text-primary uppercase">
-                              Specs
+                              Docs
                             </span>
                           </div>
                           <div className="text-[11px] text-neutral-300 font-sans mt-0.5 leading-snug">
-                            Anti-snipe fee decay formulas, linear equity curves, and DLMM graduation.
+                            Mathematical models, anti-snipe formulas, and DLMM graduation specs.
                           </div>
                         </div>
                       </Link>
@@ -248,11 +259,11 @@ export const Header = () => {
                       Explore Terminal
                     </Link>
                     <Link
-                      href="/architecture"
+                      href="/docs"
                       className="rounded-lg px-3 py-2 text-primary hover:bg-neutral-800/60 font-semibold flex items-center justify-between"
                     >
-                      <span>Protocol Architecture</span>
-                      <span className="iconify h-3.5 w-3.5 ph--shield-check-bold" />
+                      <span>Documentation & Math</span>
+                      <span className="iconify h-3.5 w-3.5 ph--book-open-bold" />
                     </Link>
                     <Link
                       href="/studio"
