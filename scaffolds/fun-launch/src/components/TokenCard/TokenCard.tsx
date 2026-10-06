@@ -22,6 +22,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
   const stats = pool.baseAsset[`stats${timeframe}`];
   const bondingProgress = Math.min(100, Math.max(0, pool.baseAsset.bondingCurve ?? (pool as any).bondingCurve ?? 24));
   const isBonded = bondingProgress >= 100;
+  const [customSol, setCustomSol] = React.useState<string>('');
 
   const archetypeTag = React.useMemo(() => {
     if (isBonded) {
@@ -37,6 +38,15 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
     e.stopPropagation();
     e.preventDefault();
     window.location.href = `/token/${pool.baseAsset.id}?buy=${solAmount}`;
+  };
+
+  const handleCustomBuySubmit = (e: React.FormEvent | React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const parsed = parseFloat(customSol);
+    if (!isNaN(parsed) && parsed > 0) {
+      window.location.href = `/token/${pool.baseAsset.id}?buy=${parsed}`;
+    }
   };
 
   return (
@@ -243,22 +253,50 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
           <TokenSocials className="z-[2]" token={pool.baseAsset} />
         </div>
 
-        {/* Quick Buy Action Pills */}
+        {/* Quick Buy Action Pills & Inline Custom Input (Axiom / GMGN style) */}
         <div className="z-[2] flex items-center gap-1">
           <button
             onClick={(e) => handleQuickBuy(e, 0.1)}
-            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700"
+            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700 active:scale-95"
             title="Quick buy 0.1 SOL"
           >
-            0.1 SOL
+            0.1
           </button>
           <button
             onClick={(e) => handleQuickBuy(e, 0.5)}
-            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700"
+            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700 active:scale-95"
             title="Quick buy 0.5 SOL"
           >
-            0.5 SOL
+            0.5
           </button>
+          <button
+            onClick={(e) => handleQuickBuy(e, 1.0)}
+            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700 active:scale-95"
+            title="Quick buy 1.0 SOL"
+          >
+            1.0
+          </button>
+          <form
+            onSubmit={handleCustomBuySubmit}
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center rounded border border-neutral-700 bg-neutral-950/80 px-1 py-0.5"
+          >
+            <input
+              type="text"
+              placeholder="SOL"
+              value={customSol}
+              onChange={(e) => setCustomSol(e.target.value)}
+              className="w-9 bg-transparent font-mono text-[10px] text-neutral-200 placeholder-neutral-600 outline-none"
+            />
+            <button
+              type="submit"
+              disabled={!customSol}
+              className="rounded bg-violet-600/80 px-1 py-0.2 font-mono text-[9px] font-bold text-white transition-all hover:bg-violet-500 disabled:opacity-40"
+              title="Instant inline buy custom SOL"
+            >
+              BUY
+            </button>
+          </form>
         </div>
       </div>
 
