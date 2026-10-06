@@ -67,13 +67,23 @@ Aegis solves this by unleashing the unexploited superpowers of **Meteora Dynamic
 
 ## 🎛️ Core Modules
 
-### 1. Explore Terminal (`/`)
+### 1. Explore Terminal (`/`) — Axiom / GMGN Degen Terminal Grade
 - **Real-Time Solana Devnet HUD:** Live block slot height, TPS monitor, μLamport gas estimator, and DBC engine status.
+- **On-Chain Security & Risk Forensics Strip (Per-Card):**
+  - **Dev Wallet Retention (`DEV`):** Color-coded dev balance percentage (0% emerald, ≤5% cyan, ≤12% amber, >12% high-risk rose).
+  - **Top 10 Concentration (`TOP10`):** Instant whale dump exposure check.
+  - **Mint & Freeze Authority Badges:** `MINT ✓` & `FRZ ✓` verification badges (revocation confirmation).
+  - **Sniper / Insider Detector:** Slot 0 bundle detector counter (`0s`).
+- **Dynamic Anti-Snipe Fee Decay Radar:**
+  - Real-time radar ping showing current decaying fee: `ANTI-SNIPE DECAY: 8.4% ➔ 1.0%` with remaining slots countdown (`~400ms` per slot).
+  - Displays `METEORA DLMM ACTIVE: Dynamic 0.25% - 2% fee` upon graduation.
+- **Fast 1-Click Buy Execution Suite:**
+  - Preset quick-buy chips: `0.1 SOL`, `0.5 SOL`, and `1.0 SOL`.
+  - Inline custom amount input: type any SOL amount and hit `BUY` without modal redirects.
 - **Three-Tier Density Columns:**
   - `New Pools`: Active bonding pools within the anti-snipe decay window.
   - `Graduating Soon`: Pools above 70% threshold nearing AMM migration.
   - `Migrated / Bonded`: Permanent DLMM pools with locked liquidity.
-- **Quick-Buy Chips & Bonding Progress Bars:** Instant execution and live liquidity tracking.
 - **Adaptive Light/Dark Cyberpunk Aesthetics:** High contrast semantic tokens designed for trading desks.
 
 ### 2. Algorithmic Curve Studio (`/studio`)
@@ -107,35 +117,30 @@ Aegis solves this by unleashing the unexploited superpowers of **Meteora Dynamic
 > **Pro Tip for Recording:** You **do NOT need to be on camera** or show your face. Record your screen using **OBS Studio**, **Loom**, or **Windows Game Bar** (`Win + G`), then paste this exact script into a free AI voiceover tool (such as **ElevenLabs**, **Clipchamp**, or **CapCut**).
 
 ```text
-[0:00 - 0:25] THE HOOK & THE EXPLORE TERMINAL
-Screen: Show the Explore Terminal (http://localhost:3000) on Solana Devnet. Toggle light and dark mode in the top right.
+[0:00 - 0:25] THE HOOK & THE AXIOM-STYLE TERMINAL
+Screen: Show the Explore Terminal (http://localhost:3000) on Solana Devnet. Hover over the cards, showing the live HUD, the security forensics strip, and theme toggle.
 Voiceover:
-"This is Aegis: the institutional-grade launch terminal and curve simulator powered by Meteora's Dynamic Bonding Curve protocol. Traditional launchpads like Pump.fun suffer from slot-zero bot sniping and rigid, one-size-fits-all curves. Aegis changes that. On our Explore Terminal, every pool is categorized across its bonding lifecycle: from active anti-snipe decay, to nearing graduation, to permanently locked Meteora DLMM pools."
+"This is Aegis: an institutional-grade Solana launch terminal and algorithmic curve simulator powered by Meteora's Dynamic Bonding Curves. Traditional launchpads like Pump.fun are riddled with slot-zero MEV snipers and rigid, one-size-fits-all curves. Aegis turns the tables by pairing the speed and risk forensics of terminals like Axiom and GMGN with Meteora's mathematical fee decay."
 
-[0:25 - 0:55] THE CURVE STUDIO & INFLOW SCRUBBER
-Screen: Click 'Curve Studio' in the header. Drag the 'Simulate SOL Inflow' slider back and forth to show the price curve animating.
+[0:25 - 0:50] ON-CHAIN SECURITY FORENSICS & ANTI-SNIPE DECAY
+Screen: Zoom in on a Token Card. Hover over DEV hold %, TOP10, MINT/FRZ badges, and the live Anti-Snipe Decay radar. Show the 0.1, 0.5, 1.0 SOL pills and inline input.
 Voiceover:
-"What makes Meteora DBC truly powerful is its mathematical flexibility. In the Aegis Curve Studio, creators and developers can model custom curves before deploying. Watch what happens as I scrub the simulated SOL inflow: the SVG visualizer updates price impact in real time, calculating fee schedules and graduation thresholds dynamically."
+"Notice how every token card comes loaded with on-chain risk telemetry: Dev retention %, Top 10 concentration, and verified mint and freeze authority revocations. Best of all, check out our live Anti-Snipe Decay radar: displaying the starting 20% penalty decaying in real-time down to 1% across active Solana slots, protecting retail from predatory front-runners. And traders can execute instantly with one-click SOL pills or direct inline buys."
 
-[0:55 - 1:25] PRESETS & STOCKLANA EQUITIES
-Screen: Click on 'Stocklana Tokenized Equity' preset card, then scroll down to the Archetype Comparison table.
+[0:50 - 1:20] THE CURVE STUDIO & INFLOW SCRUBBER
+Screen: Click 'Curve Studio' in the header. Drag the 'Simulate SOL Inflow' scrubber back and forth to show the SVG curve react in real time.
 Voiceover:
-"We've pre-engineered four battle-tested archetypes. For memecoins, our Anti-Snipe Armor charges bots a 99% fee on slot zero, decaying to 1% over 120 slots. For real-world assets and equities, our Stocklana mode uses USDC settlement and a flat reserve floor to eliminate impermanent loss. And with our Preset Marketplace, deploying any curve is a single click."
+"What makes Meteora DBC truly revolutionary is its mathematical flexibility. In our Curve Studio, creators model and stress-test custom bonding curves before touching mainnet. As I scrub simulated SOL inflows, our visualizer recalculates market cap, price impact, and fee decay live on screen."
 
-[1:25 - 1:45] DEVELOPER EXPORTER & CLI INTEGRATION
-Screen: Scroll down to the 'Developer Tooling & Migration Pipeline' section. Click 'TypeScript SDK', 'Invent CLI', and 'Copy Code'.
+[1:20 - 1:40] PRESET MARKETPLACE & STOCKLANA EQUITIES
+Screen: Click the 'Stocklana Tokenized Equity' preset card. Scroll down to show the Archetype Comparison table and Developer Exporter tabs.
 Voiceover:
-"Aegis isn't just a launchpad—it's a developer workbench. Teams can export copy-pasteable TypeScript SDK code and Meteora Invent CLI commands directly from the UI, cutting smart contract deployment time from days to seconds."
+"We provide four battle-tested presets out of the box—from Anti-Snipe memecoins to Stocklana mode for tokenized real-world equities settled in USDC. And for builders, our multi-stack exporter generates ready-to-run TypeScript SDK snippets and Meteora Invent CLI commands in one click."
 
-[1:45 - 2:05] LAUNCHING ON DEVNET
-Screen: Click 'Launch this Curve' or navigate to /create-pool. Show the form with the selected preset loaded.
+[1:40 - 2:00] GRADUATION PIPELINE & BOUNTY CONCLUSION
+Screen: Navigate to the graduated pools column or click into a token page to show the DLMM floor and Jupiter swap terminal.
 Voiceover:
-"When a creator is ready to launch, our cockpit sets up the token mint, metadata, and bonding parameters on Solana Devnet. Upon hitting graduation, liquidity migrates automatically into Meteora DAMM v2 auto-compounding vaults and DLMM concentrated bins—with 100% of liquidity permanently burned and locked."
-
-[2:05 - 2:20] SUMMARY & METEORA BOUNTY
-Screen: Return to the home screen showing the live HUD ticker.
-Voiceover:
-"Aegis proves that bonding curves can be bot-proof, mathematically expressive, and institutional-ready. Built with Meteora DBC v1.5 for the Superteam Earn Bounty. Thank you."
+"Upon hitting graduation, liquidity migrates automatically into Meteora DAMM v2 auto-compounding vaults and DLMM concentrated bins—with 100% of LP permanently burned and locked. Aegis proves that bonding curves can be bot-proof, mathematically expressive, and institutional-ready. Built with Meteora DBC for the Superteam Earn Bounty. Thank you!"
 ```
 
 ---
