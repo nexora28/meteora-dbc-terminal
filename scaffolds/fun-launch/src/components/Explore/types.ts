@@ -237,6 +237,13 @@ export type Pool = {
 
   // frontend field
   streamed?: boolean;
+  antiSnipe?: {
+    startFeeBps: number;
+    decayEndSlot: number;
+    decayDurationSlots: number;
+    currentFeeBps: number;
+    remainingSlots: number;
+  };
 };
 
 export type Asset = Pool['baseAsset'];

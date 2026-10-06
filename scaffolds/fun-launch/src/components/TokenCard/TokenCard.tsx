@@ -205,6 +205,37 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
         </div>
       </div>
 
+      {/* Dynamic Anti-Snipe Fee Decay Strip (Meteora DBC Feature Moat) */}
+      {pool.antiSnipe ? (
+        <div className="z-[2] flex items-center justify-between gap-1 rounded-md bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent px-2 py-0.5 border border-amber-500/20 font-mono text-[9.5px]">
+          <div className="flex items-center gap-1 text-amber-400">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+            </span>
+            <span className="font-semibold uppercase tracking-wider">ANTI-SNIPE DECAY:</span>
+            <span className="font-bold text-amber-300">
+              {(pool.antiSnipe.currentFeeBps / 100).toFixed(1)}%
+            </span>
+            <span className="text-neutral-500">➔</span>
+            <span className="text-emerald-400 font-bold">1.0%</span>
+          </div>
+          <div className="flex items-center gap-1 font-semibold text-neutral-400" title="Slots remaining until floor fee is reached (~400ms per slot)">
+            <span className="text-amber-300">{pool.antiSnipe.remainingSlots}</span>
+            <span className="text-[8.5px] text-neutral-500 uppercase">slots left</span>
+          </div>
+        </div>
+      ) : isBonded ? (
+        <div className="z-[2] flex items-center justify-between gap-1 rounded-md bg-emerald-500/5 px-2 py-0.5 border border-emerald-500/20 font-mono text-[9.5px]">
+          <div className="flex items-center gap-1 text-emerald-400">
+            <span className="iconify h-2.5 w-2.5 text-emerald-400 ph--check-circle-fill" />
+            <span className="font-semibold">METEORA DLMM ACTIVE:</span>
+            <span className="text-neutral-300">Dynamic 0.25% - 2% fee via bin volatility</span>
+          </div>
+          <span className="text-[9px] font-bold text-emerald-400/90">FLOOR REACHED</span>
+        </div>
+      ) : null}
+
       {/* 3rd row: Age, Socials, and Quick Buy Chips */}
       <div className="flex items-center justify-between pt-0.5">
         <div className="flex items-center gap-2 text-neutral-400">

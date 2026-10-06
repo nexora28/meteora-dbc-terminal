@@ -11,6 +11,13 @@ export const SEED_POOLS_RECENT: Pool[] = [
     bondingCurve: 22,
     volume24h: 3840,
     isUnreliable: false,
+    antiSnipe: {
+      startFeeBps: 1500, // 15% starting fee
+      decayEndSlot: 150,
+      decayDurationSlots: 150,
+      currentFeeBps: 840, // 8.4% current decaying fee
+      remainingSlots: 68,
+    },
     baseAsset: {
       id: 'AEGISx111111111111111111111111111111111111',
       name: 'Aegis Protocol',
@@ -73,6 +80,13 @@ export const SEED_POOLS_RECENT: Pool[] = [
     bondingCurve: 38,
     volume24h: 7650,
     isUnreliable: false,
+    antiSnipe: {
+      startFeeBps: 2000, // 20% starting fee
+      decayEndSlot: 200,
+      decayDurationSlots: 200,
+      currentFeeBps: 320, // 3.2% near floor
+      remainingSlots: 24,
+    },
     baseAsset: {
       id: 'CYBERx222222222222222222222222222222222222',
       name: 'Cybernetic AI',
@@ -135,6 +149,13 @@ export const SEED_POOLS_RECENT: Pool[] = [
     bondingCurve: 16,
     volume24h: 2150,
     isUnreliable: false,
+    antiSnipe: {
+      startFeeBps: 2500, // 25% starting fee
+      decayEndSlot: 150,
+      decayDurationSlots: 150,
+      currentFeeBps: 1820, // 18.2% high decaying fee
+      remainingSlots: 92,
+    },
     baseAsset: {
       id: 'NEOx33333333333333333333333333333333333333',
       name: 'NeoTokyo Syndicate',
