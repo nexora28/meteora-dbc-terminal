@@ -122,6 +122,89 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
         </div>
       </div>
 
+      {/* Security & Risk Forensics Strip (Axiom / GMGN style) */}
+      <div className="z-[2] flex items-center justify-between gap-1 rounded-md bg-neutral-950/70 px-2 py-1 border border-neutral-800/80 font-mono text-[10px]">
+        {/* Dev Hold */}
+        <div className="flex items-center gap-1" title="Dev Wallet Holding %">
+          <span className="text-neutral-500">DEV</span>
+          <span
+            className={cn(
+              'font-semibold',
+              (pool.baseAsset.audit?.devBalancePercentage ?? 0) === 0
+                ? 'text-emerald-400'
+                : (pool.baseAsset.audit?.devBalancePercentage ?? 0) <= 5
+                ? 'text-cyan-400'
+                : (pool.baseAsset.audit?.devBalancePercentage ?? 0) <= 12
+                ? 'text-amber-400'
+                : 'text-rose-400'
+            )}
+          >
+            {pool.baseAsset.audit?.devBalancePercentage !== undefined
+              ? `${pool.baseAsset.audit.devBalancePercentage}%`
+              : '0%'}
+          </span>
+        </div>
+
+        {/* Top 10 Concentration */}
+        <div className="flex items-center gap-1" title="Top 10 Holders Concentration %">
+          <span className="text-neutral-500">TOP10</span>
+          <span
+            className={cn(
+              'font-semibold',
+              (pool.baseAsset.audit?.topHoldersPercentage ?? 12) <= 15
+                ? 'text-emerald-400'
+                : (pool.baseAsset.audit?.topHoldersPercentage ?? 12) <= 30
+                ? 'text-amber-400'
+                : 'text-rose-400'
+            )}
+          >
+            {pool.baseAsset.audit?.topHoldersPercentage !== undefined
+              ? `${pool.baseAsset.audit.topHoldersPercentage}%`
+              : '12.4%'}
+          </span>
+        </div>
+
+        {/* Mint / Freeze Badges */}
+        <div className="flex items-center gap-1">
+          <span
+            className={cn(
+              'rounded px-1 py-0.2 text-[9px] font-bold border',
+              pool.baseAsset.audit?.mintAuthorityDisabled !== false
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                : 'bg-rose-500/15 text-rose-400 border-rose-500/30'
+            )}
+            title={pool.baseAsset.audit?.mintAuthorityDisabled !== false ? 'Mint Authority Revoked (Safe)' : 'Mint Authority Active (Risk)'}
+          >
+            MINT {pool.baseAsset.audit?.mintAuthorityDisabled !== false ? '✓' : '⚠️'}
+          </span>
+          <span
+            className={cn(
+              'rounded px-1 py-0.2 text-[9px] font-bold border',
+              pool.baseAsset.audit?.freezeAuthorityDisabled !== false
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                : 'bg-rose-500/15 text-rose-400 border-rose-500/30'
+            )}
+            title={pool.baseAsset.audit?.freezeAuthorityDisabled !== false ? 'Freeze Authority Revoked (Safe)' : 'Freeze Authority Active (Risk)'}
+          >
+            FRZ {pool.baseAsset.audit?.freezeAuthorityDisabled !== false ? '✓' : '⚠️'}
+          </span>
+        </div>
+
+        {/* Sniper Count */}
+        <div
+          className={cn(
+            'flex items-center gap-0.5 text-[9px] font-semibold',
+            (pool.baseAsset.audit?.snipersCount ?? 0) === 0
+              ? 'text-emerald-400'
+              : 'text-amber-400'
+          )}
+          title="Slot 0 / Sniper Bundle Detections"
+        >
+          <span className="iconify h-2.5 w-2.5 ph--shield-check-bold" />
+          <span>{pool.baseAsset.audit?.snipersCount ?? 0}s</span>
+        </div>
+      </div>
+
       {/* 3rd row: Age, Socials, and Quick Buy Chips */}
       <div className="flex items-center justify-between pt-0.5">
         <div className="flex items-center gap-2 text-neutral-400">

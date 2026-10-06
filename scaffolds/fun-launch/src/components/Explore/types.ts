@@ -225,6 +225,7 @@ export type Pool = {
           lpBurnedPercentage: number | undefined;
           devBalancePercentage?: number;
           devMigrations?: number;
+          snipersCount?: number;
         }
       | undefined;
     organicScore?: number | undefined;

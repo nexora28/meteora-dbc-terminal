@@ -28,6 +28,14 @@ export const SEED_POOLS_RECENT: Pool[] = [
       organicScore: 92,
       organicScoreLabel: 'high',
       isVerified: true,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 14.5,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 0,
+        snipersCount: 0,
+      },
       stats5m: {
         priceChange: 14.2,
         volumeChange: 220,
@@ -82,6 +90,14 @@ export const SEED_POOLS_RECENT: Pool[] = [
       organicScore: 88,
       organicScoreLabel: 'high',
       isVerified: true,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 18.2,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 2.1,
+        snipersCount: 0,
+      },
       stats5m: {
         priceChange: 6.8,
         volumeChange: 140,
@@ -135,6 +151,14 @@ export const SEED_POOLS_RECENT: Pool[] = [
       organicScore: 82,
       organicScoreLabel: 'medium',
       isVerified: false,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 22.4,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 4.5,
+        snipersCount: 1,
+      },
       stats5m: {
         priceChange: 3.2,
         buyVolume: 420,
@@ -190,6 +214,14 @@ export const SEED_POOLS_GRADUATING: Pool[] = [
       organicScore: 96,
       organicScoreLabel: 'high',
       isVerified: true,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 11.2,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 0,
+        snipersCount: 0,
+      },
       stats5m: {
         priceChange: 8.4,
         buyVolume: 2400,
@@ -242,6 +274,14 @@ export const SEED_POOLS_GRADUATING: Pool[] = [
       organicScore: 98,
       organicScoreLabel: 'high',
       isVerified: true,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 15.6,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 2.1,
+        snipersCount: 0,
+      },
       stats5m: {
         priceChange: 1.2,
         buyVolume: 4500,
@@ -294,6 +334,14 @@ export const SEED_POOLS_GRADUATING: Pool[] = [
       organicScore: 94,
       organicScoreLabel: 'high',
       isVerified: true,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 18.3,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 1.5,
+        snipersCount: 0,
+      },
       stats5m: {
         priceChange: 12.5,
         buyVolume: 3200,
@@ -351,6 +399,14 @@ export const SEED_POOLS_GRADUATED: Pool[] = [
       organicScore: 99,
       organicScoreLabel: 'high',
       isVerified: true,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 8.9,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 0,
+        snipersCount: 0,
+      },
       stats5m: {
         priceChange: 0.4,
         buyVolume: 8200,
@@ -405,6 +461,14 @@ export const SEED_POOLS_GRADUATED: Pool[] = [
       organicScore: 95,
       organicScoreLabel: 'high',
       isVerified: true,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 12.1,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 0,
+        snipersCount: 0,
+      },
       stats5m: {
         priceChange: 2.1,
         buyVolume: 5100,
@@ -459,6 +523,14 @@ export const SEED_POOLS_GRADUATED: Pool[] = [
       organicScore: 97,
       organicScoreLabel: 'high',
       isVerified: true,
+      audit: {
+        mintAuthorityDisabled: true,
+        freezeAuthorityDisabled: true,
+        topHoldersPercentage: 9.4,
+        lpBurnedPercentage: 100,
+        devBalancePercentage: 0,
+        snipersCount: 0,
+      },
       stats5m: {
         priceChange: 3.5,
         buyVolume: 9800,
