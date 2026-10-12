@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { SUPPORTED_PRESET } from '@/lib/launch';
 import { DBCPreset, DBC_PRESETS } from './presets';
 
 interface PresetMarketplaceProps {
@@ -46,14 +47,15 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
           <div className="flex items-center gap-2">
             <span className="iconify h-5 w-5 text-amber-500 ph--storefront-bold" />
             <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground font-mono uppercase">
-              DBC Config Preset Marketplace
+              DBC Preset Previews
             </h2>
             <span className="rounded-full bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 font-mono text-[10px] font-bold text-amber-600 dark:text-amber-400">
-              OFFICIAL & COMMUNITY
+              CONCEPT CATALOG
             </span>
           </div>
           <p className="mt-1 text-xs md:text-sm text-neutral-300 font-sans">
-            Battle-tested algorithmic launchpad parameters verified for maximum liquidity depth, bot protection, and fee accrual.
+            Illustrative settings. Only Anti-Snipe Fair Launch is deployable on devnet; these curves
+            are not live quotes.
           </p>
         </div>
 
@@ -87,7 +89,9 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                 {/* Header row */}
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex flex-col">
-                    <span className={`inline-block w-fit rounded-full border px-2 py-0.5 text-[9px] font-mono font-bold uppercase mb-1.5 ${preset.badgeColor}`}>
+                    <span
+                      className={`inline-block w-fit rounded-full border px-2 py-0.5 text-[9px] font-mono font-bold uppercase mb-1.5 ${preset.badgeColor}`}
+                    >
                       {preset.badge}
                     </span>
                     <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
@@ -96,7 +100,9 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                   </div>
 
                   <div className="flex items-center gap-1.5 font-mono text-[11px] text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-400/20">
-                    <span>{preset.rating || '4.9 ★'}</span>
+                    <span>
+                      {preset.id === SUPPORTED_PRESET ? 'Devnet launch available' : 'Preview only'}
+                    </span>
                   </div>
                 </div>
 
@@ -110,11 +116,17 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                   </div>
                   <div>
                     <span className="text-[10px] text-neutral-400 uppercase block">Target Cap</span>
-                    <strong className="text-foreground">{preset.migrationMarketCapSol} {preset.quoteToken}</strong>
+                    <strong className="text-foreground">
+                      {preset.migrationMarketCapSol} {preset.quoteToken}
+                    </strong>
                   </div>
                   <div>
-                    <span className="text-[10px] text-neutral-400 uppercase block">Creator Yield</span>
-                    <strong className="text-emerald-600 dark:text-emerald-400">{preset.royaltyYield || '50% Share'}</strong>
+                    <span className="text-[10px] text-neutral-400 uppercase block">
+                      Creator fee share
+                    </span>
+                    <strong className="text-emerald-600 dark:text-emerald-400">
+                      {preset.creatorFeeSharePercent}%
+                    </strong>
                   </div>
                 </div>
               </div>
@@ -140,15 +152,19 @@ export const PresetMarketplace: React.FC<PresetMarketplaceProps> = ({ onSelectPr
                     <span className="iconify h-3.5 w-3.5 ph--play-bold" />
                   </button>
 
-                  <Link href={`/create-pool?preset=${preset.id}`}>
-                    <button
-                      type="button"
-                      className="flex items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 px-3.5 py-1.5 text-xs font-mono font-bold text-white shadow-md shadow-indigo-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                      <span>Deploy Pool</span>
-                      <span className="iconify h-3.5 w-3.5 ph--arrow-right-bold" />
-                    </button>
-                  </Link>
+                  {preset.id === SUPPORTED_PRESET ? (
+                    <Link href="/create-pool">
+                      <button
+                        type="button"
+                        className="flex items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 px-3.5 py-1.5 text-xs font-mono font-bold text-white shadow-md shadow-indigo-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                      >
+                        <span>Deploy Pool</span>
+                        <span className="iconify h-3.5 w-3.5 ph--arrow-right-bold" />
+                      </button>
+                    </Link>
+                  ) : (
+                    <span className="text-xs text-neutral-400">Deployment unavailable</span>
+                  )}
                 </div>
               </div>
             </div>

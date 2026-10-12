@@ -31,7 +31,7 @@ export const TokenPageWithContext = () => {
   // Subscribe to token txns
   useEffect(() => {
     if (!tokenId) {
-      return;
+      return undefined;
     }
     subscribeTxns([tokenId]);
     return () => {
@@ -41,7 +41,7 @@ export const TokenPageWithContext = () => {
 
   useEffect(() => {
     if (!poolId) {
-      return;
+      return undefined;
     }
 
     subscribePools([poolId]);

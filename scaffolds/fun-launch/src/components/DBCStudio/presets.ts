@@ -1,3 +1,4 @@
+type CurvePoint = { supplyPercent: number; priceSol: number };
 export interface DBCPreset {
   id: string;
   name: string;
@@ -7,7 +8,6 @@ export interface DBCPreset {
   description: string;
   assetClass: 'MEME' | 'EQUITY' | 'DEGEN' | 'DAO' | 'CUSTOM';
   quoteToken: 'SOL' | 'USDC';
-  configKey: string;
   buildCurveMode: number;
   curveModeName: string;
   initialMarketCapSol: number;
@@ -20,24 +20,21 @@ export interface DBCPreset {
   feeDecayDurationSlots: number;
   dynamicFee: boolean;
   creatorFeeSharePercent: number;
-  migrationTarget: 'DAMM v2' | 'DLMM v2';
-  rating?: string;
-  royaltyYield?: string;
-  curvePoints: { supplyPercent: number; priceSol: number }[];
+  migrationTarget: 'DAMM v2';
+  curvePoints: [CurvePoint, ...CurvePoint[]];
 }
 
-export const DBC_PRESETS: DBCPreset[] = [
+export const DBC_PRESETS: [DBCPreset, ...DBCPreset[]] = [
   {
     id: 'anti-snipe',
     name: 'Anti-Snipe Fair Launch',
-    tagline: 'Decaying MEV Penalty + Gradual Slope',
+    tagline: 'Early trading fee decay',
     badge: 'Meme Fair Launch',
     badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
     description:
-      'Protects retail buyers from MEV bots with a 99% starting fee decaying over 120 slots down to 1.25%. Frontrunners forfeit fees to creator pool.',
+      'The supported devnet launch starts at a 99% base fee and decays to 1.25% over 120 slots. This does not guarantee protection from bots.',
     assetClass: 'MEME',
     quoteToken: 'SOL',
-    configKey: 'F72k1sY5Zk6Vw4fP3zR6L3sX4pY2nN1b2a3c4d5e6f7g',
     buildCurveMode: 2,
     curveModeName: 'buildCurveWithTwoSegments',
     initialMarketCapSol: 30,
@@ -50,9 +47,7 @@ export const DBC_PRESETS: DBCPreset[] = [
     feeDecayDurationSlots: 120,
     dynamicFee: true,
     creatorFeeSharePercent: 50,
-    migrationTarget: 'DLMM v2',
-    rating: '4.95 ★ (1,840 launches)',
-    royaltyYield: '50% Permanent LP Fees',
+    migrationTarget: 'DAMM v2',
     curvePoints: [
       { supplyPercent: 0, priceSol: 0.00003 },
       { supplyPercent: 20, priceSol: 0.000055 },
@@ -65,14 +60,13 @@ export const DBC_PRESETS: DBCPreset[] = [
   {
     id: 'rwa-equity',
     name: 'xStock & Tokenized Equity (Stocklana)',
-    tagline: 'USDC-Paired Linear Floor + Ondo/Backpack Tether',
+    tagline: 'Illustrative USDC quote concept',
     badge: 'Tokenized Stock & RWA',
     badgeColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400',
     description:
-      'Engineered for tokenized equities (xTSLA, xNVDA), real-world assets, and pre-IPO instruments. Flat floor price reserve backed by USDC eliminates speculative dumps.',
+      'Preview of a USDC-quoted launch. No stock backing, redemption, price tether or external asset integration is implemented.',
     assetClass: 'EQUITY',
     quoteToken: 'USDC',
-    configKey: 'EqTY1sY5Zk6Vw4fP3zR6L3sX4pY2nN1b2a3c4d5e6f8h',
     buildCurveMode: 4,
     curveModeName: 'buildCurveWithMidPrice',
     initialMarketCapSol: 100,
@@ -85,9 +79,7 @@ export const DBC_PRESETS: DBCPreset[] = [
     feeDecayDurationSlots: 0,
     dynamicFee: true,
     creatorFeeSharePercent: 70,
-    migrationTarget: 'DLMM v2',
-    rating: '5.0 ★ (Institutional Grade)',
-    royaltyYield: '70% Institutional Yield',
+    migrationTarget: 'DAMM v2',
     curvePoints: [
       { supplyPercent: 0, priceSol: 0.0001 },
       { supplyPercent: 20, priceSol: 0.00012 },
@@ -104,10 +96,9 @@ export const DBC_PRESETS: DBCPreset[] = [
     badge: 'High Momentum',
     badgeColor: 'border-amber-500/30 bg-amber-500/10 text-amber-400',
     description:
-      'Low starting entry with parabolic scaling as bonding supply fills. Accelerates early buy pressure and achieves rapid Meteora DLMM graduation.',
+      'Illustrative curve with a low starting price and steeper later prices. Deployment and graduation are not implemented for this preview.',
     assetClass: 'DEGEN',
     quoteToken: 'SOL',
-    configKey: 'Hyp31sY5Zk6Vw4fP3zR6L3sX4pY2nN1b2a3c4d5e6f9j',
     buildCurveMode: 1,
     curveModeName: 'buildCurveWithMarketCap',
     initialMarketCapSol: 15,
@@ -120,9 +111,7 @@ export const DBC_PRESETS: DBCPreset[] = [
     feeDecayDurationSlots: 60,
     dynamicFee: false,
     creatorFeeSharePercent: 50,
-    migrationTarget: 'DLMM v2',
-    rating: '4.85 ★ (2,410 launches)',
-    royaltyYield: 'Fast Graduation (60 SOL)',
+    migrationTarget: 'DAMM v2',
     curvePoints: [
       { supplyPercent: 0, priceSol: 0.000015 },
       { supplyPercent: 20, priceSol: 0.000028 },
@@ -134,17 +123,16 @@ export const DBC_PRESETS: DBCPreset[] = [
   },
   {
     id: 'dao-conviction',
-    name: 'DAO Conviction & Compounding Vault',
-    tagline: 'Meteora DAMM v2 Auto-Compounding Liquidity',
+    name: 'DAO Liquidity Concept',
+    tagline: 'Illustrative DAO liquidity allocation',
     badge: 'DAO & Governance',
     badgeColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400',
     description:
-      'Tokens graduate into a compounding DAMM v2 liquidity vault. 100% of trading fees automatically reinvest into deepening the liquidity floor permanently.',
+      'Preview of DAO-oriented launch settings. Compounding and fee reinvestment are not implemented.',
     assetClass: 'DAO',
     quoteToken: 'SOL',
-    configKey: 'DaoC1sY5Zk6Vw4fP3zR6L3sX4pY2nN1b2a3c4d5e6f0k',
     buildCurveMode: 3,
-    curveModeName: 'buildCurveWithCompoundingVault',
+    curveModeName: 'buildCurveWithLiquidityWeights',
     initialMarketCapSol: 50,
     migrationMarketCapSol: 800,
     migrationQuoteThresholdSol: 120,
@@ -156,8 +144,6 @@ export const DBC_PRESETS: DBCPreset[] = [
     dynamicFee: true,
     creatorFeeSharePercent: 80,
     migrationTarget: 'DAMM v2',
-    rating: '4.92 ★ (Protocol Treasury)',
-    royaltyYield: '100% Compounding Vault',
     curvePoints: [
       { supplyPercent: 0, priceSol: 0.00005 },
       { supplyPercent: 20, priceSol: 0.00008 },
@@ -174,10 +160,9 @@ export const DBC_PRESETS: DBCPreset[] = [
     badge: 'Pro Configurator',
     badgeColor: 'border-purple-500/30 bg-purple-500/10 text-purple-400',
     description:
-      'Configure every facet of Meteora DBC: curve modes, migration quote thresholds, decaying fee curves, and dynamic bin liquidity distribution.',
+      'Explore illustrative curve and fee settings. Custom parameters are not connected to deployment.',
     assetClass: 'CUSTOM',
     quoteToken: 'SOL',
-    configKey: 'Cust1sY5Zk6Vw4fP3zR6L3sX4pY2nN1b2a3c4d5e6f1m',
     buildCurveMode: 0,
     curveModeName: 'buildCurve',
     initialMarketCapSol: 25,
@@ -190,9 +175,7 @@ export const DBC_PRESETS: DBCPreset[] = [
     feeDecayDurationSlots: 100,
     dynamicFee: true,
     creatorFeeSharePercent: 50,
-    migrationTarget: 'DLMM v2',
-    rating: 'Developer Pro Tool',
-    royaltyYield: 'Customizable Yield',
+    migrationTarget: 'DAMM v2',
     curvePoints: [
       { supplyPercent: 0, priceSol: 0.000025 },
       { supplyPercent: 20, priceSol: 0.000045 },

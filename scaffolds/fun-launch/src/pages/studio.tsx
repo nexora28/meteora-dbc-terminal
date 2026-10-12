@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Page from '@/components/ui/Page/Page';
 import { Button } from '@/components/ui/button';
+import { SUPPORTED_PRESET } from '@/lib/launch';
 import {
   BondingCurveChart,
   PresetSelector,
@@ -35,10 +36,10 @@ export default function StudioPage() {
   return (
     <Page>
       <Head>
-        <title>Aegis Curve Studio & Preset Marketplace | Meteora DBC</title>
+        <title>Aegis Curve Studio & Preset Previews | Meteora DBC</title>
         <meta
           name="description"
-          content="Simulate and design custom Meteora Dynamic Bonding Curves with anti-sniper fee schedules, Stocklana equity pair support, and DAMM v2 migration."
+          content="Explore illustrative DBC settings and launch the supported fixed configuration on devnet."
         />
       </Head>
 
@@ -55,26 +56,37 @@ export default function StudioPage() {
                 Meteora DBC v1.5 Engine
               </div>
               <h1 className="text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
-                Dynamic Bonding <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400">Studio</span>
+                Dynamic Bonding{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400">
+                  Studio
+                </span>
               </h1>
               <p className="mt-1 text-xs md:text-sm text-neutral-400 font-sans">
-                Simulate multi-segment DBC curves, test anti-snipe fee decay, and export production SDK configs.
+                Explore illustrative curves and fee settings. Preview settings do not control
+                deployment.
               </p>
             </div>
 
             <div className="flex items-center gap-3 shrink-0">
               <Link href="/docs">
-                <Button variant="outline" className="h-10 px-4 gap-1.5 text-xs font-mono border-neutral-800 bg-neutral-900/60 text-neutral-300 hover:text-white">
+                <Button
+                  variant="outline"
+                  className="h-10 px-4 gap-1.5 text-xs font-mono border-neutral-800 bg-neutral-900/60 text-neutral-300 hover:text-white"
+                >
                   <span className="iconify h-3.5 w-3.5 text-violet-400 ph--book-open-bold" />
                   Docs & Math ↗
                 </Button>
               </Link>
-              <Link href={`/create-pool?preset=${selectedPreset.id}`}>
-                <Button className="h-10 px-4 gap-2 text-xs md:text-sm font-bold shadow-lg shadow-indigo-500/25 bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 text-white border-0 transition-all hover:scale-[1.02] active:scale-[0.98]">
-                  <span className="iconify h-4 w-4 ph--rocket-launch-bold" />
-                  Launch this Curve
-                </Button>
-              </Link>
+              {selectedPreset.id === SUPPORTED_PRESET ? (
+                <Link href="/create-pool">
+                  <Button className="h-10 px-4 gap-2 text-xs md:text-sm font-bold shadow-lg shadow-indigo-500/25 bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:from-violet-500 hover:via-indigo-500 hover:to-cyan-400 text-white border-0 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                    <span className="iconify h-4 w-4 ph--rocket-launch-bold" />
+                    Launch fixed devnet preset
+                  </Button>
+                </Link>
+              ) : (
+                <span className="text-sm text-neutral-400">This preset is preview only</span>
+              )}
             </div>
           </div>
         </div>
@@ -103,7 +115,7 @@ export default function StudioPage() {
               }`}
             >
               <span className="iconify h-4 w-4 ph--storefront-bold" />
-              <span>Preset Marketplace</span>
+              <span>Preset Previews</span>
               <span className="rounded bg-cyan-400/20 border border-cyan-400/30 px-1.5 py-0.2 text-[9px] font-bold text-cyan-400">
                 POPULAR
               </span>
@@ -134,23 +146,36 @@ export default function StudioPage() {
               {/* Economic Summary */}
               <div className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-5 space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between text-neutral-400">
-                  <span className="text-[10px] uppercase font-bold tracking-wider">Estimated Creator Revenue</span>
+                  <span className="text-[10px] uppercase font-bold tracking-wider">
+                    Estimated Creator Revenue
+                  </span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-                    ~{(selectedPreset.migrationQuoteThresholdSol * (selectedPreset.creatorFeeSharePercent / 100) * 0.05).toFixed(2)}{' '}
+                    ~
+                    {(
+                      selectedPreset.migrationQuoteThresholdSol *
+                      (selectedPreset.creatorFeeSharePercent / 100) *
+                      0.05
+                    ).toFixed(2)}{' '}
                     {selectedPreset.quoteToken}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-neutral-400">
-                  <span className="text-[10px] uppercase font-bold tracking-wider">Decay Slot Window</span>
+                  <span className="text-[10px] uppercase font-bold tracking-wider">
+                    Decay Slot Window
+                  </span>
                   <span className="text-foreground font-semibold">
-                    {selectedPreset.decayDurationSlots > 0
-                      ? `${selectedPreset.decayDurationSlots} slots (~20s)`
+                    {selectedPreset.feeDecayDurationSlots > 0
+                      ? `${selectedPreset.feeDecayDurationSlots} slots`
                       : 'None (Linear Floor)'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-neutral-400">
-                  <span className="text-[10px] uppercase font-bold tracking-wider">Graduation Target</span>
-                  <span className="text-cyan-600 dark:text-cyan-400 font-bold">{selectedPreset.migrationTarget}</span>
+                  <span className="text-[10px] uppercase font-bold tracking-wider">
+                    Graduation Target
+                  </span>
+                  <span className="text-cyan-600 dark:text-cyan-400 font-bold">
+                    {selectedPreset.migrationTarget}
+                  </span>
                 </div>
               </div>
             </div>
@@ -166,7 +191,9 @@ export default function StudioPage() {
                   selectedPreset.id === 'custom-studio' ? customParams.migrationMcap : undefined
                 }
                 customMigrationThreshold={
-                  selectedPreset.id === 'custom-studio' ? customParams.migrationThreshold : undefined
+                  selectedPreset.id === 'custom-studio'
+                    ? customParams.migrationThreshold
+                    : undefined
                 }
               />
             </div>
@@ -176,7 +203,15 @@ export default function StudioPage() {
         {/* Developer Multi-Stack Code & CLI Exporter */}
         <DeveloperStackExporter
           preset={selectedPreset}
-          customParams={selectedPreset.id === 'custom-studio' ? customParams : undefined}
+          customInitialMcap={
+            selectedPreset.id === 'custom-studio' ? customParams.initialMcap : undefined
+          }
+          customMigrationMcap={
+            selectedPreset.id === 'custom-studio' ? customParams.migrationMcap : undefined
+          }
+          customMigrationThreshold={
+            selectedPreset.id === 'custom-studio' ? customParams.migrationThreshold : undefined
+          }
         />
 
         {/* Feature Comparison Matrix */}
@@ -214,14 +249,14 @@ export default function StudioPage() {
                     <td className="py-3.5 pr-4 font-bold text-foreground flex items-center gap-2">
                       <span
                         className={`h-2 w-2 rounded-full ${
-                          selectedPreset.id === p.id ? 'bg-primary' : 'bg-neutral-400 dark:bg-neutral-600'
+                          selectedPreset.id === p.id
+                            ? 'bg-primary'
+                            : 'bg-neutral-400 dark:bg-neutral-600'
                         }`}
                       />
                       {p.name}
                     </td>
-                    <td className="py-3.5 px-4 text-neutral-300">
-                      {p.badge}
-                    </td>
+                    <td className="py-3.5 px-4 text-neutral-300">{p.badge}</td>
                     <td className="py-3.5 px-4 font-bold text-cyan-600 dark:text-cyan-400">
                       {p.quoteToken}
                     </td>

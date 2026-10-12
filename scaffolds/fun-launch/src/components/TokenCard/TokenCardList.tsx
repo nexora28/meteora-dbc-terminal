@@ -63,10 +63,10 @@ export const TokenCardList = memo(
 
       const { subscribePools, unsubscribePools } = useDataStream();
       useEffect(() => {
-        if (!trackPools) return;
+        if (!trackPools) return undefined;
 
         const poolIds = Array.from(visiblePoolIds);
-        if (!poolIds.length) return;
+        if (!poolIds.length) return undefined;
         subscribePools(poolIds);
         return () => unsubscribePools(poolIds);
       }, [trackPools, visiblePoolIds, subscribePools, unsubscribePools]);

@@ -66,12 +66,36 @@ const ChecklistAuthority: React.FC = () => {
       </HoverPopover>
 
       <div className={cn('inline-flex items-center text-sm')}>
-        <div className={cn(audit?.mintAuthorityDisabled ? 'text-emerald' : 'text-rose')}>
-          {audit?.mintAuthorityDisabled ? 'Disabled' : 'Enabled'}
+        <div
+          className={cn(
+            audit?.mintAuthorityDisabled === undefined
+              ? 'text-neutral-500'
+              : audit.mintAuthorityDisabled
+                ? 'text-emerald'
+                : 'text-rose'
+          )}
+        >
+          {audit?.mintAuthorityDisabled === undefined
+            ? 'Unknown'
+            : audit.mintAuthorityDisabled
+              ? 'Disabled'
+              : 'Enabled'}
         </div>
         <span className="px-1 text-xs text-neutral-750">&bull;</span>
-        <div className={cn(audit?.freezeAuthorityDisabled ? 'text-emerald' : 'text-rose')}>
-          {audit?.freezeAuthorityDisabled ? 'Disabled' : 'Enabled'}
+        <div
+          className={cn(
+            audit?.freezeAuthorityDisabled === undefined
+              ? 'text-neutral-500'
+              : audit.freezeAuthorityDisabled
+                ? 'text-emerald'
+                : 'text-rose'
+          )}
+        >
+          {audit?.freezeAuthorityDisabled === undefined
+            ? 'Unknown'
+            : audit.freezeAuthorityDisabled
+              ? 'Disabled'
+              : 'Enabled'}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
 import { Pool } from '../Explore/types';
 import { cn } from '@/lib/utils';
 import { HoverPopover } from '../ui/HoverPopover';

@@ -46,8 +46,8 @@ export const ColumnMeta: Record<
   },
   [ExploreTab.GRADUATED]: {
     title: 'MIGRATED / BONDED',
-    sub: '100% Permanently Locked Meteora LP',
-    badge: 'METEORA DLMM',
+    sub: 'Illustrative migrated markets',
+    badge: 'SAMPLE',
     dotColor: 'bg-emerald-400',
     badgeColor: 'bg-emerald-400/10 text-emerald-400 border-emerald-400/25',
     icon: 'ph--check-circle-bold',
@@ -62,9 +62,9 @@ export const ExploreColumn: React.FC<ExploreColumnProps> = ({ tab }) => {
     [setTabPaused, tab]
   );
   const meta = ColumnMeta[tab] || {
-    title: ExploreTabTitleMap[tab] || 'POOLS',
+    title: 'POOLS',
     sub: 'Dynamic Bonding Curve',
-    badge: 'LIVE',
+    badge: 'SAMPLE',
     dotColor: 'bg-primary',
     badgeColor: 'bg-primary/10 text-primary border-primary/25',
     icon: 'ph--activity-bold',
@@ -77,13 +77,25 @@ export const ExploreColumn: React.FC<ExploreColumnProps> = ({ tab }) => {
       <div className="flex items-center justify-between px-3.5 py-3 max-lg:hidden border-b border-neutral-800 bg-neutral-900/80 backdrop-blur-md">
         <div className="flex items-center gap-2.5">
           <div className="relative flex h-2 w-2">
-            <span className={cn('animate-ping absolute inline-flex h-full w-full rounded-full opacity-75', meta.dotColor)} />
+            <span
+              className={cn(
+                'animate-ping absolute inline-flex h-full w-full rounded-full opacity-75',
+                meta.dotColor
+              )}
+            />
             <span className={cn('relative inline-flex rounded-full h-2 w-2', meta.dotColor)} />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <h2 className="font-mono text-xs font-bold tracking-wider text-foreground uppercase">{meta.title}</h2>
-              <span className={cn('rounded px-1.5 py-0.5 font-mono text-[9px] font-bold border', meta.badgeColor)}>
+              <h2 className="font-mono text-xs font-bold tracking-wider text-foreground uppercase">
+                {meta.title}
+              </h2>
+              <span
+                className={cn(
+                  'rounded px-1.5 py-0.5 font-mono text-[9px] font-bold border',
+                  meta.badgeColor
+                )}
+              >
                 {meta.badge}
               </span>
             </div>
@@ -156,7 +168,7 @@ const TokenCardListContainer: React.FC<TokenCardListContainerProps> = memo(
         },
         (prev?: QueryData<typeof ApeQueries.gemsTokenList>) => {
           const prevPools = prev?.[tab]?.pools;
-          if (!prevPools) return;
+          if (!prevPools) return undefined;
 
           const pools = [...prevPools];
 
@@ -211,7 +223,7 @@ const TokenCardListContainer: React.FC<TokenCardListContainerProps> = memo(
 
     // Handle scroll pausing on mobile
     useEffect(() => {
-      if (!isMobile) return;
+      if (!isMobile) return undefined;
 
       // Initial check
       handleScroll();

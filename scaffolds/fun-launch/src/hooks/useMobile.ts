@@ -8,7 +8,7 @@ export const useMobile = (width = 1024) => {
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === 'undefined') {
-      return;
+      return undefined;
     }
 
     function updateSize() {

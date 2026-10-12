@@ -130,7 +130,7 @@ export type TokenListFilters = z.Infer<typeof TokenListFiltersSchema>;
 
 type TokenListFilter = keyof TokenListFilters;
 
-export function resolveTokenListFilter(filter: TokenListFilter, timeframe: TokenListTimeframe) {
+export function resolveTokenListFilter(filter: TokenListFilter) {
   return filter;
 }
 
@@ -138,7 +138,7 @@ export function resolveTokenListFilters(
   filters: TokenListFilters | undefined
 ): ResolvedTokenListFilters | undefined {
   if (!filters) {
-    return;
+    return undefined;
   }
   // We can't use ResolvedTokenListFilters as the assignment is not type safe
   const resolved: Record<string, TokenListFilters[keyof TokenListFilters]> = {};

@@ -49,7 +49,7 @@ export function usePoolMinimalTokenInfo() {
     enabled: !!tokenId,
     select: (pool) => {
       if (!pool) {
-        return;
+        return undefined;
       }
       return formatPoolAsTokenInfo(pool);
     },

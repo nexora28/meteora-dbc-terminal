@@ -1,5 +1,5 @@
 import '@/styles/globals.css';
-import { Adapter, UnifiedWalletProvider } from '@jup-ag/wallet-adapter';
+import { Adapter, UnifiedWalletProvider, WalletAdapterNetwork } from '@jup-ag/wallet-adapter';
 import type { AppProps } from 'next/app';
 import { ThemeProvider, useTheme } from 'next-themes';
 import { Toaster } from 'sonner';
@@ -7,14 +7,18 @@ import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adap
 import { useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useWindowWidthListener } from '@/lib/device';
+import { LAUNCH_NETWORK } from '@/lib/launch';
 
 function AppProviders({ Component, pageProps }: AppProps) {
   const { resolvedTheme } = useTheme();
+  const metadataOrigin =
+    typeof window === 'undefined' ? 'http://127.0.0.1:3000' : window.location.origin;
 
   const wallets: Adapter[] = useMemo(() => {
-    return [new PhantomWalletAdapter(), new SolflareWalletAdapter()].filter(
-      (item) => item && item.name && item.icon
-    ) as Adapter[];
+    return [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+    ].filter((item) => item && item.name && item.icon) as Adapter[];
   }, []);
 
   const queryClient = useMemo(() => new QueryClient(), []);
@@ -28,13 +32,13 @@ function AppProviders({ Component, pageProps }: AppProps) {
       <UnifiedWalletProvider
         wallets={wallets}
         config={{
-          env: 'mainnet-beta',
+          env: LAUNCH_NETWORK,
           autoConnect: false,
           metadata: {
             name: 'Meteora DBC Studio',
             description: 'Meteora Dynamic Bonding Curve Studio on Solana',
-            url: 'https://jup.ag',
-            iconUrls: ['https://jup.ag/favicon.ico'],
+            url: metadataOrigin,
+            iconUrls: [`${metadataOrigin}/favicon.ico`],
           },
           theme: walletTheme,
           lang: 'en',

@@ -64,7 +64,10 @@ export const Header = () => {
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
                   <span className="font-extrabold tracking-tight text-foreground text-base md:text-lg">
-                    AEGIS <span className="bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent font-black">DBC</span>
+                    AEGIS{' '}
+                    <span className="bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent font-black">
+                      DBC
+                    </span>
                   </span>
                   <span className="rounded bg-violet-500/10 border border-violet-500/25 px-1.5 py-0.2 text-[9px] font-mono font-bold text-violet-400 uppercase">
                     v1.5
@@ -111,6 +114,12 @@ export const Header = () => {
                 <span>Docs</span>
               </Link>
 
+              <Link
+                href="/my-launches"
+                className="rounded-lg px-3 py-1.5 text-xs font-semibold text-violet-400"
+              >
+                My launches
+              </Link>
               {/* Dropdown Menu Trigger Button */}
               <div className="relative" ref={dropdownRef}>
                 <button
@@ -158,7 +167,7 @@ export const Header = () => {
                             </span>
                           </div>
                           <div className="text-[11px] text-neutral-300 font-sans mt-0.5 leading-snug">
-                            Mathematical models, anti-snipe formulas, and DLMM graduation specs.
+                            Launch economics, workflow and implementation limits.
                           </div>
                         </div>
                       </Link>
@@ -186,9 +195,9 @@ export const Header = () => {
                           <span className="iconify h-4 w-4 ph--storefront-bold" />
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-foreground">Preset Marketplace</div>
+                          <div className="text-xs font-bold text-foreground">Preset Previews</div>
                           <div className="text-[11px] text-neutral-300 font-sans mt-0.5 leading-snug">
-                            1-click deployment for Anti-Snipe, Stocklana xStock, and Hype curves.
+                            Illustrative settings and the supported fixed devnet launch.
                           </div>
                         </div>
                       </Link>
@@ -201,7 +210,9 @@ export const Header = () => {
                           <span className="iconify h-4 w-4 ph--code-bold" />
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-foreground">Developer Stack Exporter</div>
+                          <div className="text-xs font-bold text-foreground">
+                            Developer Stack Exporter
+                          </div>
                           <div className="text-[11px] text-neutral-300 font-sans mt-0.5 leading-snug">
                             Export TypeScript SDK code snippets and Meteora Invent CLI commands.
                           </div>
@@ -276,6 +287,12 @@ export const Header = () => {
                       className="rounded-lg px-3 py-2 text-amber-600 dark:text-amber-400 hover:bg-neutral-800/60 font-semibold"
                     >
                       + Launch Token
+                    </Link>
+                    <Link
+                      href="/my-launches"
+                      className="rounded-lg px-3 py-2 text-violet-400 hover:bg-neutral-800/60 font-semibold"
+                    >
+                      My launches
                     </Link>
                   </div>
                 </div>

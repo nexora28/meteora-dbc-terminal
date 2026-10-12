@@ -20,34 +20,24 @@ type TokenCardProps = {
 
 export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef }) => {
   const stats = pool.baseAsset[`stats${timeframe}`];
-  const bondingProgress = Math.min(100, Math.max(0, pool.baseAsset.bondingCurve ?? (pool as any).bondingCurve ?? 24));
+  const bondingProgress = Math.min(100, Math.max(0, pool.bondingCurve ?? 0));
   const isBonded = bondingProgress >= 100;
-  const [customSol, setCustomSol] = React.useState<string>('');
 
   const archetypeTag = React.useMemo(() => {
     if (isBonded) {
-      return { label: 'DLMM BONDED', color: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' };
+      return {
+        label: 'DLMM BONDED',
+        color: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+      };
     }
     if (bondingProgress >= 70) {
-      return { label: 'GRADUATING', color: 'bg-violet-500/15 text-violet-400 border-violet-500/30' };
+      return {
+        label: 'GRADUATING',
+        color: 'bg-violet-500/15 text-violet-400 border-violet-500/30',
+      };
     }
     return { label: 'ANTI-SNIPE DECAY', color: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30' };
   }, [bondingProgress, isBonded]);
-
-  const handleQuickBuy = (e: React.MouseEvent, solAmount: number) => {
-    e.stopPropagation();
-    e.preventDefault();
-    window.location.href = `/token/${pool.baseAsset.id}?buy=${solAmount}`;
-  };
-
-  const handleCustomBuySubmit = (e: React.FormEvent | React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const parsed = parseFloat(customSol);
-    if (!isNaN(parsed) && parsed > 0) {
-      window.location.href = `/token/${pool.baseAsset.id}?buy=${parsed}`;
-    }
-  };
 
   return (
     <div
@@ -73,7 +63,12 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
               <span className="truncate font-mono text-sm font-bold text-foreground group-hover:text-primary transition-colors">
                 {pool.baseAsset.symbol}
               </span>
-              <span className={cn('rounded px-1.5 py-0.2 font-mono text-[9px] font-bold border uppercase shrink-0', archetypeTag.color)}>
+              <span
+                className={cn(
+                  'rounded px-1.5 py-0.2 font-mono text-[9px] font-bold border uppercase shrink-0',
+                  archetypeTag.color
+                )}
+              >
                 {archetypeTag.label}
               </span>
             </div>
@@ -92,13 +87,17 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
                 copyText={pool.baseAsset.id}
                 className="z-[2] flex items-center text-neutral-400 duration-300 hover:text-foreground"
               >
-                {(copied) => (
+                {(copied) =>
                   copied ? (
                     <span className="iconify h-3 w-3 text-primary ph--check-bold" />
                   ) : (
-                    <CopyIconSVG className="h-3 w-3 opacity-60 hover:opacity-100" width={11} height={11} />
+                    <CopyIconSVG
+                      className="h-3 w-3 opacity-60 hover:opacity-100"
+                      width={11}
+                      height={11}
+                    />
                   )
-                )}
+                }
               </Copyable>
             </div>
 
@@ -115,7 +114,9 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
         <div className="flex items-center justify-between font-mono text-[10px] text-neutral-400">
           <span className="flex items-center gap-1">
             <span className="text-violet-400 font-bold">DBC CURVE:</span>
-            <span>{isBonded ? 'GRADUATED TO METEORA DLMM' : `${bondingProgress.toFixed(1)}% PROGRESS`}</span>
+            <span>
+              {isBonded ? 'GRADUATED TO METEORA DLMM' : `${bondingProgress.toFixed(1)}% PROGRESS`}
+            </span>
           </span>
           <span className="text-neutral-400">TARGET: $69K</span>
         </div>
@@ -132,87 +133,40 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
         </div>
       </div>
 
-      {/* Security & Risk Forensics Strip (Axiom / GMGN style) */}
-      <div className="z-[2] flex items-center justify-between gap-1 rounded-md bg-neutral-950/70 px-2 py-1 border border-neutral-800/80 font-mono text-[10px]">
-        {/* Dev Hold */}
-        <div className="flex items-center gap-1" title="Dev Wallet Holding %">
-          <span className="text-neutral-500">DEV</span>
+      {/* Missing measurements are unknown, never a safety confirmation. */}
+      <div className="z-[2] flex flex-wrap items-center justify-between gap-2 rounded-md bg-neutral-950/70 px-2 py-1 font-mono text-[10px]">
+        <span>
+          DEV{' '}
+          {pool.baseAsset.audit?.devBalancePercentage === undefined
+            ? 'Unknown'
+            : `${pool.baseAsset.audit.devBalancePercentage}%`}
+        </span>
+        <span>
+          TOP10{' '}
+          {pool.baseAsset.audit?.topHoldersPercentage === undefined
+            ? 'Unknown'
+            : `${pool.baseAsset.audit.topHoldersPercentage}%`}
+        </span>
+        {(
+          [
+            ['MINT', pool.baseAsset.audit?.mintAuthorityDisabled],
+            ['FRZ', pool.baseAsset.audit?.freezeAuthorityDisabled],
+          ] as const
+        ).map(([label, disabled]) => (
           <span
-            className={cn(
-              'font-semibold',
-              (pool.baseAsset.audit?.devBalancePercentage ?? 0) === 0
-                ? 'text-emerald-400'
-                : (pool.baseAsset.audit?.devBalancePercentage ?? 0) <= 5
-                ? 'text-cyan-400'
-                : (pool.baseAsset.audit?.devBalancePercentage ?? 0) <= 12
-                ? 'text-amber-400'
-                : 'text-rose-400'
-            )}
+            key={label}
+            className={
+              disabled === undefined
+                ? 'text-neutral-400'
+                : disabled
+                  ? 'text-emerald-400'
+                  : 'text-rose-400'
+            }
           >
-            {pool.baseAsset.audit?.devBalancePercentage !== undefined
-              ? `${pool.baseAsset.audit.devBalancePercentage}%`
-              : '0%'}
+            {label} {disabled === undefined ? 'Unknown' : disabled ? 'Revoked' : 'Active'}
           </span>
-        </div>
-
-        {/* Top 10 Concentration */}
-        <div className="flex items-center gap-1" title="Top 10 Holders Concentration %">
-          <span className="text-neutral-500">TOP10</span>
-          <span
-            className={cn(
-              'font-semibold',
-              (pool.baseAsset.audit?.topHoldersPercentage ?? 12) <= 15
-                ? 'text-emerald-400'
-                : (pool.baseAsset.audit?.topHoldersPercentage ?? 12) <= 30
-                ? 'text-amber-400'
-                : 'text-rose-400'
-            )}
-          >
-            {pool.baseAsset.audit?.topHoldersPercentage !== undefined
-              ? `${pool.baseAsset.audit.topHoldersPercentage}%`
-              : '12.4%'}
-          </span>
-        </div>
-
-        {/* Mint / Freeze Badges */}
-        <div className="flex items-center gap-1">
-          <span
-            className={cn(
-              'rounded px-1 py-0.2 text-[9px] font-bold border',
-              pool.baseAsset.audit?.mintAuthorityDisabled !== false
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                : 'bg-rose-500/15 text-rose-400 border-rose-500/30'
-            )}
-            title={pool.baseAsset.audit?.mintAuthorityDisabled !== false ? 'Mint Authority Revoked (Safe)' : 'Mint Authority Active (Risk)'}
-          >
-            MINT {pool.baseAsset.audit?.mintAuthorityDisabled !== false ? '✓' : '⚠️'}
-          </span>
-          <span
-            className={cn(
-              'rounded px-1 py-0.2 text-[9px] font-bold border',
-              pool.baseAsset.audit?.freezeAuthorityDisabled !== false
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                : 'bg-rose-500/15 text-rose-400 border-rose-500/30'
-            )}
-            title={pool.baseAsset.audit?.freezeAuthorityDisabled !== false ? 'Freeze Authority Revoked (Safe)' : 'Freeze Authority Active (Risk)'}
-          >
-            FRZ {pool.baseAsset.audit?.freezeAuthorityDisabled !== false ? '✓' : '⚠️'}
-          </span>
-        </div>
-
-        {/* Sniper Count */}
-        <div
-          className={cn(
-            'flex items-center gap-0.5 text-[9px] font-semibold',
-            (pool.baseAsset.audit?.snipersCount ?? 0) === 0
-              ? 'text-emerald-400'
-              : 'text-amber-400'
-          )}
-          title="Slot 0 / Sniper Bundle Detections"
-        >
-          <span className="iconify h-2.5 w-2.5 ph--shield-check-bold" />
-          <span>{pool.baseAsset.audit?.snipersCount ?? 0}s</span>
-        </div>
+        ))}
+        <span>Snipers {pool.baseAsset.audit?.snipersCount ?? 'Unknown'}</span>
       </div>
 
       {/* Dynamic Anti-Snipe Fee Decay Strip (Meteora DBC Feature Moat) */}
@@ -230,7 +184,10 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
             <span className="text-neutral-500">➔</span>
             <span className="text-emerald-400 font-bold">1.0%</span>
           </div>
-          <div className="flex items-center gap-1 font-semibold text-neutral-400" title="Slots remaining until floor fee is reached (~400ms per slot)">
+          <div
+            className="flex items-center gap-1 font-semibold text-neutral-400"
+            title="Slots remaining until floor fee is reached (~400ms per slot)"
+          >
             <span className="text-amber-300">{pool.antiSnipe.remainingSlots}</span>
             <span className="text-[8.5px] text-neutral-500 uppercase">slots left</span>
           </div>
@@ -253,51 +210,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({ pool, timeframe, rowRef })
           <TokenSocials className="z-[2]" token={pool.baseAsset} />
         </div>
 
-        {/* Quick Buy Action Pills & Inline Custom Input (Axiom / GMGN style) */}
-        <div className="z-[2] flex items-center gap-1">
-          <button
-            onClick={(e) => handleQuickBuy(e, 0.1)}
-            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700 active:scale-95"
-            title="Quick buy 0.1 SOL"
-          >
-            0.1
-          </button>
-          <button
-            onClick={(e) => handleQuickBuy(e, 0.5)}
-            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700 active:scale-95"
-            title="Quick buy 0.5 SOL"
-          >
-            0.5
-          </button>
-          <button
-            onClick={(e) => handleQuickBuy(e, 1.0)}
-            className="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-neutral-200 transition-all hover:bg-gradient-to-r hover:from-violet-600 hover:to-indigo-600 hover:text-white border border-neutral-700 active:scale-95"
-            title="Quick buy 1.0 SOL"
-          >
-            1.0
-          </button>
-          <form
-            onSubmit={handleCustomBuySubmit}
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center rounded border border-neutral-700 bg-neutral-950/80 px-1 py-0.5"
-          >
-            <input
-              type="text"
-              placeholder="SOL"
-              value={customSol}
-              onChange={(e) => setCustomSol(e.target.value)}
-              className="w-9 bg-transparent font-mono text-[10px] text-neutral-200 placeholder-neutral-600 outline-none"
-            />
-            <button
-              type="submit"
-              disabled={!customSol}
-              className="rounded bg-violet-600/80 px-1 py-0.2 font-mono text-[9px] font-bold text-white transition-all hover:bg-violet-500 disabled:opacity-40"
-              title="Instant inline buy custom SOL"
-            >
-              BUY
-            </button>
-          </form>
-        </div>
+        <span className="text-[10px] text-neutral-400">Sample market ? trading disabled</span>
       </div>
 
       {/* Main card navigation link */}

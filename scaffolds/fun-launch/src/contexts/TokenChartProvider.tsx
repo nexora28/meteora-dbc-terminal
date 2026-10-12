@@ -65,7 +65,7 @@ export const TokenChartProvider: React.FC<PropsWithChildren> = ({ children }) =>
 
   useDataStreamListener(
     ['actions'],
-    useCallback((get, set, msg) => {
+    useCallback((_get, _set, msg) => {
       // Update chart data
       const resolution = resolutionRef.current;
       const baseAsset = baseAssetRef.current;

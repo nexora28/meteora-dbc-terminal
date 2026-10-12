@@ -19,7 +19,7 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
     { id: 'anti-snipe', label: 'ANTI-SNIPE', icon: 'ph--shield-check-bold' },
     { id: 'rwa', label: 'xSTOCKS & RWA', icon: 'ph--buildings-bold' },
     { id: 'exponential', label: 'HYPE CURVES', icon: 'ph--rocket-launch-bold' },
-    { id: 'graduated', label: 'METEORA DLMM', icon: 'ph--diamond-bold' },
+    { id: 'graduated', label: 'GRADUATED PREVIEWS', icon: 'ph--diamond-bold' },
   ];
 
   return (
@@ -45,7 +45,8 @@ export const ExploreHero: React.FC<ExploreHeroProps> = ({
                 </span>
               </div>
               <p className="text-[11px] text-neutral-300 font-sans">
-                Bot-proof fair launches with 99% anti-snipe fee decay & permanent Meteora DLMM migration.
+                Preview sample markets or launch a DBC token on devnet with DAMM v2 migration
+                configured.
               </p>
             </div>
           </div>

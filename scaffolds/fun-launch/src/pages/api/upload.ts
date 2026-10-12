@@ -1,219 +1,163 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PutObjectCommand, PutObjectCommandOutput, S3Client } from '@aws-sdk/client-s3';
-import { Connection, PublicKey } from '@solana/web3.js';
-import { DynamicBondingCurveClient } from '@meteora-ag/dynamic-bonding-curve-sdk';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { PublicKey } from '@solana/web3.js';
+import { z } from 'zod';
+import { launchRequestSchema, MAX_LOGO_BYTES } from '@/lib/launch';
+import {
+  devnetConnection,
+  prepareLaunchTransaction,
+  verifyUploadSignature,
+} from '@/lib/server/launch';
 
-// Environment variables with safe fallbacks
-const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || '';
-const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || '';
-const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || '';
-const R2_BUCKET = process.env.R2_BUCKET || '';
-const RPC_URL =
-  process.env.RPC_URL &&
-  process.env.RPC_URL !== 'your_rpc_url' &&
-  process.env.RPC_URL.startsWith('http')
-    ? process.env.RPC_URL
-    : 'https://api.devnet.solana.com';
-const POOL_CONFIG_KEY = process.env.POOL_CONFIG_KEY || 'F72k1sY5Zk6Vw4fP3zR6L3sX4pY2nN1b2a3c4d5e6f7g';
-
-const hasValidR2 = Boolean(
-  R2_ACCESS_KEY_ID &&
-  R2_SECRET_ACCESS_KEY &&
-  R2_ACCOUNT_ID &&
-  R2_BUCKET &&
-  R2_ACCESS_KEY_ID !== 'your_r2_access_key_id'
-);
-
-const PRIVATE_R2_URL = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
-const PUBLIC_R2_URL = 'https://pub-85c7f5f0dc104dc784e656b623d999e5.r2.dev';
-
-// Types
-type UploadRequest = {
-  tokenLogo: string;
-  tokenName: string;
-  tokenSymbol: string;
-  mint: string;
-  userWallet: string;
-  configKey?: string;
-  presetId?: string;
+export const config = { api: { bodyParser: { sizeLimit: '3mb' } } };
+const requestSchema = z
+  .object({ request: launchRequestSchema, signature: z.string().max(88) })
+  .strict();
+// ponytail: per-process throttle; use a shared limiter before deploying multiple instances.
+const recentUploads = new Map<string, number>();
+const storageKeys = [
+  'R2_ACCESS_KEY_ID',
+  'R2_SECRET_ACCESS_KEY',
+  'R2_ACCOUNT_ID',
+  'R2_BUCKET',
+  'R2_PUBLIC_URL',
+];
+const hasStorage = () => {
+  if (!storageKeys.every((key) => process.env[key] && !process.env[key]?.includes('your_')))
+    return false;
+  try {
+    const url = new URL(process.env.R2_PUBLIC_URL!);
+    return url.protocol === 'https:' && !url.search && !url.hash;
+  } catch {
+    return false;
+  }
 };
-
-type Metadata = {
-  name: string;
-  symbol: string;
-  image: string;
-};
-
-type MetadataUploadParams = {
-  tokenName: string;
-  tokenSymbol: string;
-  mint: string;
-  image: string;
-};
-
-// R2 client setup (only if credentials provided)
-const r2 = hasValidR2
-  ? new S3Client({
-      endpoint: PRIVATE_R2_URL,
-      credentials: {
-        accessKeyId: R2_ACCESS_KEY_ID,
-        secretAccessKey: R2_SECRET_ACCESS_KEY,
-      },
-      region: 'auto',
-    })
-  : null;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    res.setHeader('Cache-Control', 'no-store');
+    return res.status(200).json({
+      ready: hasStorage(),
+      network: 'devnet',
+      error: hasStorage()
+        ? null
+        : 'Token storage is not configured. Set the R2 credentials, bucket and R2_PUBLIC_URL.',
+    });
+  }
   if (req.method !== 'POST') {
+    res.setHeader('Allow', 'GET, POST');
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
+  const parsed = requestSchema.safeParse(req.body);
+  if (!parsed.success)
+    return res.status(400).json({ error: parsed.error.issues[0]?.message || 'Invalid request' });
+  const { request, signature } = parsed.data;
   try {
-    const { tokenLogo, tokenName, tokenSymbol, mint, userWallet, configKey } =
-      req.body as UploadRequest;
-
-    // Validate required fields
-    if (!tokenLogo || !tokenName || !tokenSymbol || !mint || !userWallet) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    if (!(await verifyUploadSignature(request, signature))) {
+      return res.status(401).json({ error: 'Invalid or expired wallet authorization' });
     }
-
-    // Upload image and metadata
-    const imageUrl = await uploadImage(tokenLogo, mint);
-    if (!imageUrl) {
-      return res.status(400).json({ error: 'Failed to upload image' });
+    const image = Buffer.from(
+      request.tokenLogo.slice(request.tokenLogo.indexOf(',') + 1),
+      'base64'
+    );
+    const contentType = request.tokenLogo.slice(5, request.tokenLogo.indexOf(';'));
+    const validImage =
+      contentType === 'image/png'
+        ? image.subarray(0, 8).equals(Buffer.from('89504e470d0a1a0a', 'hex'))
+        : contentType === 'image/jpeg'
+          ? image.subarray(0, 3).equals(Buffer.from('ffd8ff', 'hex'))
+          : image.subarray(0, 4).toString() === 'RIFF' &&
+            image.subarray(8, 12).toString() === 'WEBP';
+    if (!validImage || image.length > MAX_LOGO_BYTES) {
+      return res
+        .status(400)
+        .json({ error: 'Upload a PNG, JPEG or WebP image no larger than 2 MB' });
     }
-
-    const metadataUrl = await uploadMetadata({ tokenName, tokenSymbol, mint, image: imageUrl });
-    if (!metadataUrl) {
-      return res.status(400).json({ error: 'Failed to upload metadata' });
+    if (!hasStorage()) {
+      return res.status(503).json({
+        error: 'Token storage is not configured. Set the R2 credentials, bucket and R2_PUBLIC_URL.',
+      });
     }
-
-    // Create pool transaction
-    const poolTx = await createPoolTransaction({
-      mint,
-      tokenName,
-      tokenSymbol,
+    const publicUrl = new URL(process.env.R2_PUBLIC_URL!);
+    if (publicUrl.protocol !== 'https:' || publicUrl.search || publicUrl.hash) {
+      return res.status(503).json({ error: 'R2_PUBLIC_URL must be a public HTTPS bucket URL' });
+    }
+    const now = Date.now();
+    for (const [wallet, time] of recentUploads)
+      if (now - time >= 60_000) recentUploads.delete(wallet);
+    if (recentUploads.has(request.userWallet) || recentUploads.size >= 5000) {
+      return res.status(429).json({ error: 'Please wait a minute before uploading another token' });
+    }
+    recentUploads.set(request.userWallet, now);
+    const connection = await devnetConnection();
+    const mint = new PublicKey(request.mint);
+    if (await connection.getAccountInfo(mint))
+      return res.status(409).json({ error: 'Mint already exists' });
+    const r2 = new S3Client({
+      endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+      region: 'auto',
+      credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
+      },
+    });
+    const baseUrl = publicUrl.toString().replace(/\/$/, '');
+    const imageKey = `images/${request.mint}.${contentType.split('/')[1]}`;
+    const metadataKey = `metadata/${request.mint}.json`;
+    const metadataUrl = `${baseUrl}/${metadataKey}`;
+    if (new TextEncoder().encode(metadataUrl).length > 128) {
+      return res
+        .status(503)
+        .json({ error: 'Public metadata URL is too long; use a shorter bucket domain' });
+    }
+    // Immutable keys prevent replays from replacing already published token metadata.
+    await r2.send(
+      new PutObjectCommand({
+        Bucket: process.env.R2_BUCKET,
+        Key: imageKey,
+        Body: image,
+        ContentType: contentType,
+        IfNoneMatch: '*',
+      })
+    );
+    const metadata = {
+      name: request.tokenName,
+      symbol: request.tokenSymbol,
+      image: `${baseUrl}/${imageKey}`,
+      extensions: { website: request.website, twitter: request.twitter },
+    };
+    await r2.send(
+      new PutObjectCommand({
+        Bucket: process.env.R2_BUCKET,
+        Key: metadataKey,
+        Body: JSON.stringify(metadata),
+        ContentType: 'application/json',
+        IfNoneMatch: '*',
+      })
+    );
+    const published = await fetch(metadataUrl, {
+      signal: AbortSignal.timeout(10_000),
+      cache: 'no-store',
+    });
+    if (!published.ok || JSON.stringify(await published.json()) !== JSON.stringify(metadata)) {
+      throw new Error('Uploaded metadata is not publicly retrievable; check R2_PUBLIC_URL');
+    }
+    // Prepare after publishing so storage latency does not age the wallet's blockhash.
+    const fresh = await prepareLaunchTransaction(connection, request, metadataUrl);
+    return res.status(200).json({
+      poolTx: fresh.transaction.serialize({ requireAllSignatures: false }).toString('base64'),
+      mint: request.mint,
+      configAddress: fresh.configAddress,
+      poolAddress: fresh.poolAddress,
       metadataUrl,
-      userWallet,
-      configKey,
-    });
-
-    res.status(200).json({
-      success: true,
-      poolTx: poolTx
-        .serialize({
-          requireAllSignatures: false,
-          verifySignatures: false,
-        })
-        .toString('base64'),
+      blockhash: fresh.blockhash,
+      lastValidBlockHeight: fresh.lastValidBlockHeight,
+      network: 'devnet',
     });
   } catch (error) {
-    console.error('Upload error:', error);
-    res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    console.error('Launch preparation failed:', error);
+    return res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : 'Launch preparation failed' });
   }
-}
-
-async function uploadImage(tokenLogo: string, mint: string): Promise<string | false> {
-  if (!r2) {
-    return `https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png`;
-  }
-
-  const matches = tokenLogo.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
-  if (!matches || matches.length !== 3) {
-    return false;
-  }
-
-  const [, contentType, base64Data] = matches;
-
-  if (!contentType || !base64Data) {
-    return false;
-  }
-
-  const fileBuffer = Buffer.from(base64Data, 'base64');
-  const fileName = `images/${mint}.${contentType.split('/')[1]}`;
-
-  try {
-    await uploadToR2(fileBuffer, contentType, fileName);
-    return `${PUBLIC_R2_URL}/${fileName}`;
-  } catch (error) {
-    console.error('Error uploading image to R2, falling back to public image:', error);
-    return `https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png`;
-  }
-}
-
-async function uploadMetadata(params: MetadataUploadParams): Promise<string | false> {
-  if (!r2) {
-    return `https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/metadata.json`;
-  }
-
-  const metadata: Metadata = {
-    name: params.tokenName,
-    symbol: params.tokenSymbol,
-    image: params.image,
-  };
-  const fileName = `metadata/${params.mint}.json`;
-
-  try {
-    await uploadToR2(Buffer.from(JSON.stringify(metadata, null, 2)), 'application/json', fileName);
-    return `${PUBLIC_R2_URL}/${fileName}`;
-  } catch (error) {
-    console.error('Error uploading metadata to R2, falling back:', error);
-    return `https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/metadata.json`;
-  }
-}
-
-async function uploadToR2(
-  fileBuffer: Buffer,
-  contentType: string,
-  fileName: string
-): Promise<PutObjectCommandOutput> {
-  if (!r2) throw new Error('R2 not initialized');
-  return r2.send(
-    new PutObjectCommand({
-      Bucket: R2_BUCKET,
-      Key: fileName,
-      Body: fileBuffer,
-      ContentType: contentType,
-    })
-  );
-}
-
-async function createPoolTransaction({
-  mint,
-  tokenName,
-  tokenSymbol,
-  metadataUrl,
-  userWallet,
-  configKey,
-}: {
-  mint: string;
-  tokenName: string;
-  tokenSymbol: string;
-  metadataUrl: string;
-  userWallet: string;
-  configKey?: string;
-}) {
-  const connection = new Connection(RPC_URL, 'confirmed');
-  const client = new DynamicBondingCurveClient(connection, 'confirmed');
-
-  const selectedConfig =
-    configKey?.trim() && configKey !== 'your_pool_config_key'
-      ? configKey.trim()
-      : POOL_CONFIG_KEY;
-
-  const poolTx = await client.creator.createPool({
-    config: new PublicKey(selectedConfig),
-    baseMint: new PublicKey(mint),
-    name: tokenName,
-    symbol: tokenSymbol,
-    uri: metadataUrl,
-    payer: new PublicKey(userWallet),
-    poolCreator: new PublicKey(userWallet),
-  });
-
-  const { blockhash } = await connection.getLatestBlockhash();
-  poolTx.feePayer = new PublicKey(userWallet);
-  poolTx.recentBlockhash = blockhash;
-
-  return poolTx;
 }

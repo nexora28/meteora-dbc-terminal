@@ -7,6 +7,22 @@ on:
     branches: [main, develop]
 
 jobs:
+  launchpad:
+    name: Launchpad checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @meteora-invent/scaffold/fun-launch lint
+      - run: pnpm --filter @meteora-invent/scaffold/fun-launch type-check
+      - run: pnpm --filter @meteora-invent/scaffold/fun-launch test
+      - run: pnpm --filter @meteora-invent/scaffold/fun-launch build
+
   lint-and-format:
     name: Lint and Format Check
     runs-on: ubuntu-latest

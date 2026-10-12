@@ -13,14 +13,14 @@ import { assertNever } from '@/lib/utils';
 export const ExploreMsgHandler: React.FC = () => {
   const queryClient = useQueryClient();
 
-  useDataStreamListener(['updates'], (get, set, msg) => {
+  useDataStreamListener(['updates'], (_get, _set, msg) => {
     queryClient.setQueriesData(
       {
         type: 'active',
         queryKey: ['explore', 'gems'],
       },
       (prev?: QueryData<typeof ApeQueries.gemsTokenList>) => {
-        if (!prev) return;
+        if (!prev) return undefined;
 
         // Update, insert then re-sort
         let recentPools = prev.recent && [...prev.recent.pools];
@@ -255,11 +255,11 @@ export const ExploreMsgHandler: React.FC = () => {
         graduatedPools?.splice(30);
 
         const next: QueryData<typeof ApeQueries.gemsTokenList> = {
-          [ExploreTab.NEW]: recentPools ? { pools: recentPools } : undefined,
+          [ExploreTab.NEW]: { pools: recentPools ?? [] },
           [ExploreTab.GRADUATING]: aboutToGraduatePools
             ? { pools: aboutToGraduatePools }
-            : undefined,
-          [ExploreTab.GRADUATED]: graduatedPools ? { pools: graduatedPools } : undefined,
+            : { pools: [] },
+          [ExploreTab.GRADUATED]: { pools: graduatedPools ?? [] },
           args: prev.args,
         };
 

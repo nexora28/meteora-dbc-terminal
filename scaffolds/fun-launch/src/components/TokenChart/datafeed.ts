@@ -155,9 +155,9 @@ export function createDataFeed(
 
     subscribeBars: (
       _,
-      resolution,
+      _resolution,
       onRealtimeCallback,
-      subscriberUID,
+      _subscriberUID,
       onResetCacheNeededCallback
     ) => {
       const baseAssetId = baseAssetRef.current?.id;

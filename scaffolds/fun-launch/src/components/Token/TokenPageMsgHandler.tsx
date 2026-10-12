@@ -11,7 +11,7 @@ export const TokenPageMsgHandler: React.FC = () => {
   useDataStreamListener(
     ['updates'],
     useCallback(
-      (get, set, msg) => {
+      (_get, _set, msg) => {
         for (const m of msg.data) {
           queryClient.setQueriesData(
             {
@@ -21,7 +21,7 @@ export const TokenPageMsgHandler: React.FC = () => {
             },
             (prev?: QueryData<typeof ApeQueries.tokenInfo>) => {
               if (!prev) {
-                return;
+                return undefined;
               }
               return patchStreamPool(m.pool, prev);
             }

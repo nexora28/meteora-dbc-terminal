@@ -1,5 +1,4 @@
 import { useTokenInfo } from '@/hooks/queries';
-import { formatReadablePercentChange } from '@/lib/format/number';
 import { cn } from '@/lib/utils';
 
 type BondingCurveProps = {
@@ -12,12 +11,27 @@ export const BondingCurve: React.FC<BondingCurveProps> = ({ className }) => {
   const isBonded = progress >= 100;
 
   return (
-    <div className={cn('flex flex-col gap-2.5 rounded-xl border border-white/[0.08] bg-neutral-900/60 p-3.5 backdrop-blur-sm', className)}>
+    <div
+      className={cn(
+        'flex flex-col gap-2.5 rounded-xl border border-white/[0.08] bg-neutral-900/60 p-3.5 backdrop-blur-sm',
+        className
+      )}
+    >
       <div className="flex items-center justify-between font-mono">
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 relative">
-            <span className={cn('animate-ping absolute inline-flex h-full w-full rounded-full opacity-75', isBonded ? 'bg-emerald-400' : 'bg-primary')} />
-            <span className={cn('relative inline-flex rounded-full h-2 w-2', isBonded ? 'bg-emerald-400' : 'bg-primary')} />
+            <span
+              className={cn(
+                'animate-ping absolute inline-flex h-full w-full rounded-full opacity-75',
+                isBonded ? 'bg-emerald-400' : 'bg-primary'
+              )}
+            />
+            <span
+              className={cn(
+                'relative inline-flex rounded-full h-2 w-2',
+                isBonded ? 'bg-emerald-400' : 'bg-primary'
+              )}
+            />
           </span>
           <span className="text-xs font-bold text-white uppercase tracking-wider">
             {isBonded ? 'DLMM MIGRATED' : 'DBC GRADUATION PROGRESS'}
@@ -54,7 +68,9 @@ export const BondingCurve: React.FC<BondingCurveProps> = ({ className }) => {
       </div>
 
       <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 pt-0.5 border-t border-white/[0.04]">
-        <span>Destination: <strong className="text-white">Meteora DLMM v2</strong></span>
+        <span>
+          Destination: <strong className="text-white">Meteora DLMM v2</strong>
+        </span>
         <span className="text-emerald-400">🔒 100% Permanently Locked LP</span>
       </div>
     </div>

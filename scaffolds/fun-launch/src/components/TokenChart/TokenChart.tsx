@@ -1,4 +1,13 @@
-import { CSSProperties, memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  CSSProperties,
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useLocalStorage } from 'react-use';
 
 import { useTheme } from 'next-themes';
@@ -173,7 +182,7 @@ export const TokenChart: React.FC<ChartProps> = memo(({ renderingId, style, opt 
   useEffect(() => {
     if (!symbol) {
       console.error('createWidget: missing symbol, breaking: ', { symbol });
-      return;
+      return undefined;
     }
 
     let disposed = false;
@@ -414,36 +423,39 @@ export const TokenChart: React.FC<ChartProps> = memo(({ renderingId, style, opt 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [symbol, chartTheme]);
 
-  function updateButtonTitles(config: ChartConfig) {
-    if (!priceMcapTogglerRef.current) {
-      return;
-    }
-
-    // Price/mcap toggle
-    if (config.chartType === 'mcap') {
-      priceMcapTogglerRef.current.innerHTML = `Price / <span style="color:${chartColors.accent}">Mcap</span>`;
-    } else {
-      priceMcapTogglerRef.current.innerHTML = `<span style="color:${chartColors.accent}">Price</span> / Mcap`;
-    }
-
-    // Show dev trades toggle
-    if (devTradesTogglerRef.current) {
-      if (config.showDevTrades) {
-        devTradesTogglerRef.current.textContent = 'Hide Dev Trades';
-      } else {
-        devTradesTogglerRef.current.textContent = 'Show Dev Trades';
+  const updateButtonTitles = useCallback(
+    (config: ChartConfig) => {
+      if (!priceMcapTogglerRef.current) {
+        return;
       }
-    }
 
-    // Show user trades toggle
-    if (userTradesTogglerRef.current) {
-      if (config.showUserTrades) {
-        userTradesTogglerRef.current.textContent = 'Hide My Trades';
+      // Price/mcap toggle
+      if (config.chartType === 'mcap') {
+        priceMcapTogglerRef.current.innerHTML = `Price / <span style="color:${chartColors.accent}">Mcap</span>`;
       } else {
-        userTradesTogglerRef.current.textContent = 'Show My Trades';
+        priceMcapTogglerRef.current.innerHTML = `<span style="color:${chartColors.accent}">Price</span> / Mcap`;
       }
-    }
-  }
+
+      // Show dev trades toggle
+      if (devTradesTogglerRef.current) {
+        if (config.showDevTrades) {
+          devTradesTogglerRef.current.textContent = 'Hide Dev Trades';
+        } else {
+          devTradesTogglerRef.current.textContent = 'Show Dev Trades';
+        }
+      }
+
+      // Show user trades toggle
+      if (userTradesTogglerRef.current) {
+        if (config.showUserTrades) {
+          userTradesTogglerRef.current.textContent = 'Hide My Trades';
+        } else {
+          userTradesTogglerRef.current.textContent = 'Show My Trades';
+        }
+      }
+    },
+    [chartColors.accent]
+  );
 
   // Reset chart data when config changes
   useEffect(() => {
@@ -486,7 +498,7 @@ export const TokenChart: React.FC<ChartProps> = memo(({ renderingId, style, opt 
 
     onResetCacheNeededCallback();
     activeChart.resetData();
-  }, [chartConfig, isLoaded, isDataReady, symbol, baseAssetRef]);
+  }, [chartConfig, isLoaded, isDataReady, symbol, baseAssetRef, updateButtonTitles]);
 
   return (
     <>

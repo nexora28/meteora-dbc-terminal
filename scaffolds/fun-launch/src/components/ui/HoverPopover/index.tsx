@@ -16,10 +16,11 @@ import { cn } from '@/lib/utils';
 const HoverPopoverTrigger = forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>
->(({ className, ...props }) => {
+>(({ className, ...props }, ref) => {
   const { handleMouseEnter, handleMouseLeave, open } = useHoverPopover();
   return (
     <PopoverPrimitive.Trigger
+      ref={ref}
       className={cn('outline-none', className, { 'z-50': open })}
       {...props}
       onMouseLeave={handleMouseLeave}

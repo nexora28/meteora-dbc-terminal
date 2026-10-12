@@ -31,6 +31,8 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
   const graphHeight = height - padding.top - padding.bottom;
 
   const points = preset.curvePoints;
+  const first = points[0];
+  const last = points[points.length - 1] ?? first;
 
   // Values based on view mode
   const getYValue = (p: { supplyPercent: number; priceSol: number }) => {
@@ -56,6 +58,7 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
     if (index === 0) return `M ${x} ${y}`;
 
     const prev = points[index - 1];
+    if (!prev) return acc;
     const prevX = getX(prev.supplyPercent);
     const prevY = getY(getYValue(prev));
     const cp1x = prevX + (x - prevX) / 2;
@@ -66,24 +69,20 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
   }, '');
 
   // Fill area path
-  const firstX = getX(points[0].supplyPercent);
-  const lastX = getX(points[points.length - 1].supplyPercent);
+  const firstX = getX(first.supplyPercent);
+  const lastX = getX(last.supplyPercent);
   const bottomY = padding.top + graphHeight;
   const areaD = `${pathD} L ${lastX} ${bottomY} L ${firstX} ${bottomY} Z`;
 
   // Simulation calculations
-  const simProgressPercent = Math.min(100, Math.max(0, (simulatedBuySol / migrationThreshold) * 100));
+  const simProgressPercent = Math.min(
+    100,
+    Math.max(0, (simulatedBuySol / migrationThreshold) * 100)
+  );
   const simCurrentPrice =
-    points[0].priceSol +
-    ((points[points.length - 1].priceSol - points[0].priceSol) * (simProgressPercent / 100));
-  const simCurrentMcap =
-    initialMcap + ((migrationMcap - initialMcap) * simProgressPercent) / 100;
+    first.priceSol + (last.priceSol - first.priceSol) * (simProgressPercent / 100);
+  const simCurrentMcap = initialMcap + ((migrationMcap - initialMcap) * simProgressPercent) / 100;
   const simSlippage = (simProgressPercent * 0.08).toFixed(2);
-
-  const activePoint = hoverIndex !== null ? points[hoverIndex] : points[points.length - 1];
-  const activePrice = activePoint.priceSol;
-  const activeMcap =
-    initialMcap + ((migrationMcap - initialMcap) * activePoint.supplyPercent) / 100;
 
   return (
     <div className="terminal-panel rounded-2xl p-5 md:p-6 shadow-2xl space-y-4">
@@ -98,12 +97,14 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
               <h3 className="text-sm md:text-base font-bold text-white tracking-tight">
                 Meteora Bonding Curve Visualizer
               </h3>
-              <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${preset.badgeColor}`}>
+              <span
+                className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${preset.badgeColor}`}
+              >
                 {preset.curveModeName}
               </span>
             </div>
             <p className="text-[11px] text-neutral-400 font-mono">
-              Dynamic price & fee simulation
+              Illustrative curve preview — not an on-chain trade quote
             </p>
           </div>
         </div>
@@ -153,7 +154,13 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
             </linearGradient>
 
             <filter id="cyberGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#8b5cf6" floodOpacity="0.8" />
+              <feDropShadow
+                dx="0"
+                dy="0"
+                stdDeviation="4"
+                floodColor="#8b5cf6"
+                floodOpacity="0.8"
+              />
             </filter>
           </defs>
 
@@ -209,11 +216,7 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
           {/* Interactive Simulation Marker */}
           {(() => {
             const simX = getX(simProgressPercent);
-            const simY = getY(
-              viewMode === 'mcap'
-                ? simCurrentMcap
-                : simCurrentPrice
-            );
+            const simY = getY(viewMode === 'mcap' ? simCurrentMcap : simCurrentPrice);
 
             return (
               <g>
@@ -323,7 +326,8 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
               Est. Price: <strong className="text-white">{simCurrentPrice.toFixed(6)} SOL</strong>
             </span>
             <span className="text-neutral-400">
-              Valuation: <strong className="text-emerald-400">{simCurrentMcap.toFixed(1)} SOL</strong>
+              Valuation:{' '}
+              <strong className="text-emerald-400">{simCurrentMcap.toFixed(1)} SOL</strong>
             </span>
             <span className="text-neutral-400">
               Slippage: <strong className="text-amber-400">~{simSlippage}%</strong>
@@ -361,7 +365,9 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
         <div>
           <div className="flex justify-between text-xs font-mono text-neutral-400 mb-1">
             <span>Pool Fill Progress</span>
-            <span className="text-cyan-400 font-bold">{simProgressPercent.toFixed(1)}% to Graduation</span>
+            <span className="text-cyan-400 font-bold">
+              {simProgressPercent.toFixed(1)}% to Graduation
+            </span>
           </div>
           <input
             type="range"
@@ -385,7 +391,8 @@ export const BondingCurveChart: React.FC<BondingCurveChartProps> = ({
           <div className="mt-1 font-mono text-xs font-bold text-white">
             {preset.antiSnipeFeeEnabled ? (
               <span className="text-emerald-400">
-                {preset.startingFeePercent}% → {preset.endingFeePercent}% ({preset.feeDecayDurationSlots} slots)
+                {preset.startingFeePercent}% → {preset.endingFeePercent}% (
+                {preset.feeDecayDurationSlots} slots)
               </span>
             ) : (
               <span className="text-neutral-500">None (Standard)</span>
