@@ -1,0 +1,16 @@
+.git/
+.vercel/
+node_modules/
+**/node_modules/
+**/.next/
+**/.turbo/
+**/*.tsbuildinfo
+.env*
+**/.env*
+!.env.example
+!**/.env.example
+**/*keypair*.json
+**/*.pem
+test-ledger/
+studio/data/kv_proofs/
+studio/data/whitelist_wallet.csv
