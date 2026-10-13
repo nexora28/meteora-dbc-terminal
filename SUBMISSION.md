@@ -52,7 +52,7 @@ token route. Storage preflight reported ready on devnet. Malformed upload, trade
 transaction and mint-lookup requests returned HTTP 400. These checks do not simulate a connected
 wallet or prove browser-extension compatibility.
 
-- [ ] Working hosted URL, with server-side R2 credentials and a devnet RPC. Never commit `.env`.
+- [x] Hosted demo: https://meteora-dbc-terminal.vercel.app — server-side R2 credentials and devnet RPC configured; pages, storage readiness, input validation and live RPC discovery verified. Local `.env` excluded from deployment source.
 - [ ] Funded wallet creates a real token: retain mint, DBC config/pool and confirmed transaction.
 - [ ] Reload and locate the pool using My launches or its mint.
 - [ ] Confirm one buy and one sell; capture quoted fees/minimum output and transaction links.
@@ -76,5 +76,5 @@ error. Do not report that attempt as a live launch or funded simulation pass.
 The current upload limiter is local to one server process. Add a shared limiter and storage quotas
 before exposing uploads across multiple instances. Use a production public bucket domain instead
 of relying on an R2 development URL for a public release. Check the deployment's RPC and R2 settings,
-and test its wallet metadata/explorer links on that domain. No deployment or mainnet transaction has
-been performed during this preparation.
+and test its wallet metadata/explorer links on that domain. The devnet demo is deployed to Vercel;
+no funded wallet walkthrough or mainnet transaction has been performed during this preparation.

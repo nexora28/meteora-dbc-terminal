@@ -119,6 +119,15 @@ devnet walkthrough; the regression suite stubs RPC accounts and never broadcasts
 The upload throttle is local to one server process. Use a shared rate limiter before a public
 deployment across multiple instances.
 
+## Hosted demo
+
+https://meteora-dbc-terminal.vercel.app
+
+Vercel hosts the devnet demo with server-side R2 credentials. Production pages, storage readiness,
+malformed request rejection and live devnet discovery have been checked. A funded wallet launch,
+buy/sell and migration walkthrough remains required. Deploy from the repository root with
+`vercel deploy --prod`; the Vercel GitHub integration must be connected for automatic deployments.
+
 ## Attribution
 
 Built on the Meteora Invent toolkit and `@meteora-ag/dynamic-bonding-curve-sdk`. Package license:

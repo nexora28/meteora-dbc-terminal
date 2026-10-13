@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "eslint src scripts --max-warnings 0",
     "type-check": "tsc --noEmit --composite false",
-    "test": "node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-launch.ts && node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-discovery.ts && node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-trade.ts && node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-migration.ts",
+    "test": "node --no-experimental-require-module scripts/check-runtime.cjs && node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-launch.ts && node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-discovery.ts && node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-trade.ts && node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-migration.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
