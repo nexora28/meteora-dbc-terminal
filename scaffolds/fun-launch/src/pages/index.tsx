@@ -29,13 +29,29 @@ export default function Index() {
           <Link className="text-violet-400 underline" href="/docs">
             Guide and limitations
           </Link>
+          <Link
+            className="text-violet-400 underline"
+            href="/launch/AngiHBZqNhVxk4d9Rqmi37TmCp5zHdRmwY8qPC2tcENa"
+          >
+            View verified demo token
+          </Link>
         </nav>
+        <Link className="text-violet-400 underline" href="/pitch">
+          Project pitch and judge walkthrough
+        </Link>
         <p className="text-sm text-neutral-400">
-          The Explore terminal below contains sample markets. Use My launches for actual devnet
-          accounts.
+          NUI is a devnet test token with verified creation, buy and sell transactions. Use My
+          launches for your own accounts. Sample markets are separate previews below.
         </p>
       </section>
-      <Explore />
+      <details className="mx-auto w-full max-w-5xl rounded-xl border border-neutral-700 p-5">
+        <summary className="cursor-pointer font-semibold">
+          Explore sample markets — preview only
+        </summary>
+        <div className="mt-4">
+          <Explore />
+        </div>
+      </details>
     </Page>
   );
 }

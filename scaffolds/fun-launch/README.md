@@ -116,12 +116,21 @@ Lint treats warnings as failures, and production builds enforce lint and TypeScr
 CI has a dedicated launchpad job for these checks. Passing these checks does not replace a funded
 devnet walkthrough; the regression suite stubs RPC accounts and never broadcasts trades or migration.
 
-The upload throttle is local to one server process. Use a shared rate limiter before a public
-deployment across multiple instances.
+Uploads use shared R2 conditional-write quotas: one attempt per wallet per minute, ten per wallet
+per UTC day and 100 across the demo per UTC day. Failed preparations consume permits. Quota reads
+or writes failing prevent uploads. This bounds authenticated storage writes across instances;
+edge throttling for all API traffic remains a prerequisite for a broader public release.
+
+To verify real R2 quota concurrency with isolated temporary objects (removed afterwards), run
+`node ../../studio/node_modules/tsx/dist/cli.mjs --tsconfig tsconfig.json scripts/check-storage-quota.ts --live`
+from this frontend directory. The local `.env` must contain working R2 read/write/delete credentials.
 
 ## Hosted demo
 
 https://meteora-dbc-terminal.vercel.app
+
+Pitch deck: https://meteora-dbc-terminal.vercel.app/pitch
+Verified token demo: https://meteora-dbc-terminal.vercel.app/launch/AngiHBZqNhVxk4d9Rqmi37TmCp5zHdRmwY8qPC2tcENa
 
 Vercel hosts the devnet demo with server-side R2 credentials. Production pages, storage readiness,
 malformed request rejection and live devnet discovery have been checked. A funded wallet launch,

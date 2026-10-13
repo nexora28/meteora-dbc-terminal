@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { PublicKey } from '@solana/web3.js';
 import { z } from 'zod';
+import { reserveUploadQuota, r2QuotaStore, UploadQuotaError } from '@/lib/server/upload-quota';
 import { launchRequestSchema, MAX_LOGO_BYTES } from '@/lib/launch';
 import {
   devnetConnection,
@@ -13,8 +14,6 @@ export const config = { api: { bodyParser: { sizeLimit: '3mb' } } };
 const requestSchema = z
   .object({ request: launchRequestSchema, signature: z.string().max(88) })
   .strict();
-// ponytail: per-process throttle; use a shared limiter before deploying multiple instances.
-const recentUploads = new Map<string, number>();
 const storageKeys = [
   'R2_ACCESS_KEY_ID',
   'R2_SECRET_ACCESS_KEY',
@@ -82,13 +81,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (publicUrl.protocol !== 'https:' || publicUrl.search || publicUrl.hash) {
       return res.status(503).json({ error: 'R2_PUBLIC_URL must be a public HTTPS bucket URL' });
     }
-    const now = Date.now();
-    for (const [wallet, time] of recentUploads)
-      if (now - time >= 60_000) recentUploads.delete(wallet);
-    if (recentUploads.has(request.userWallet) || recentUploads.size >= 5000) {
-      return res.status(429).json({ error: 'Please wait a minute before uploading another token' });
-    }
-    recentUploads.set(request.userWallet, now);
     const connection = await devnetConnection();
     const mint = new PublicKey(request.mint);
     if (await connection.getAccountInfo(mint))
@@ -110,6 +102,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .status(503)
         .json({ error: 'Public metadata URL is too long; use a shorter bucket domain' });
     }
+    await reserveUploadQuota(r2QuotaStore(r2, process.env.R2_BUCKET!), request.userWallet);
     // Immutable keys prevent replays from replacing already published token metadata.
     await r2.send(
       new PutObjectCommand({
@@ -155,6 +148,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       network: 'devnet',
     });
   } catch (error) {
+    if (error instanceof UploadQuotaError) {
+      res.setHeader('Retry-After', '60');
+      return res.status(429).json({ error: error.message });
+    }
     console.error('Launch preparation failed:', error);
     return res
       .status(500)

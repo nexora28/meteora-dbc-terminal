@@ -1,6 +1,19 @@
 # Aegis submission preparation
 
-Prepared 12 October 2026 for https://superteam.fun/earn/listing/meteora-dbc.
+Updated 13 October 2026 for https://superteam.fun/earn/listing/meteora-dbc.
+
+## Submission fields
+
+- Project name: Aegis
+- GitHub: https://github.com/nexora28/meteora-dbc-terminal (public; judges already have read access)
+- Website: https://meteora-dbc-terminal.vercel.app
+- Required pitch deck or Loom/video presentation: https://meteora-dbc-terminal.vercel.app/pitch
+- Required Colosseum submission answer: the owner must answer Yes/No truthfully.
+- Optional fields: project X link, Colosseum project link and Colosseum profile link.
+
+The listing's public submission schema was checked on 13 October. GitHub and presentation links
+are required; the website is optional. A video is not compulsory when a pitch deck is provided.
+Check the logged-in form before submitting; this file does not submit the application.
 
 **Deadline:** the listing's embedded published data gives `2026-10-13T06:59:00.000Z`, which is
 **13 October 2026 at 7:59 a.m. Africa/Lagos**. This was checked directly in the listing HTML on
@@ -39,7 +52,22 @@ creator/mint discovery, metadata bounds and migration thresholds. RPC account fi
 these are not funded on-chain proofs. Frontend checks enable strict null analysis and do not ignore
 type errors during the build.
 
-## Required live demo evidence — not yet completed
+## Verification and remaining evidence
+
+On 13 October the NUI demo token was checked against confirmed devnet account data and transaction
+history. Creation, buy and sell are finalized with no transaction errors. The swap token-balance
+changes confirm receipt on the buy and a balance decrease on the sell. This demonstrates operation,
+not adoption or meaningful trading volume.
+
+- Token: https://meteora-dbc-terminal.vercel.app/launch/AngiHBZqNhVxk4d9Rqmi37TmCp5zHdRmwY8qPC2tcENa
+- Pool: `7q8DyTnUtAAg3Mo1TyicMFuw12iXW31svLzaVQawyEDa`
+- Config: `2vZzqigZWVq21S1MmZhXYfdk3BQ7kqdfbx8MCE6aND3N`
+- [Creation](https://explorer.solana.com/tx/qji4ib8BxRvC87Jri14JTzEWBLzJFFbDg3JyJvDbqWrTppPBkgzRAaFSRSthkPwtR1E5x3ztcTmtqn8TGQ6xfWL?cluster=devnet)
+- [Buy](https://explorer.solana.com/tx/4NrxphtzxDXVx5xgZyv5rKMJ1CsRFz3j9q9uRn2tBExhN3XhgbnosSeX7UHKBoeCKnvq6ePCECybY8yijnxAcRzM?cluster=devnet)
+- [Sell](https://explorer.solana.com/tx/5cwh2VUXhdD27fJZCMG4bNyjd5CbdVSYGxhDwDqfPNqrK2Rk25k9mrJuR26nf1PjQ6vgmQfuLchaeWNn5CAAuBaP?cluster=devnet)
+
+The pool was still bonding, with 0.098749993 SOL quote reserve against its 85 SOL target. Token supply
+was one billion, with mint and freeze authorities revoked. Migration remains unverified.
 
 Local verification on 12 October 2026: repository and frontend type checking passed, including
 strict null analysis; ESLint passed with zero
@@ -53,16 +81,14 @@ transaction and mint-lookup requests returned HTTP 400. These checks do not simu
 wallet or prove browser-extension compatibility.
 
 - [x] Hosted demo: https://meteora-dbc-terminal.vercel.app — server-side R2 credentials and devnet RPC configured; pages, storage readiness, input validation and live RPC discovery verified. Local `.env` excluded from deployment source.
-- [ ] Funded wallet creates a real token: retain mint, DBC config/pool and confirmed transaction.
+- [x] Funded wallet creates a real token: mint, config, pool and finalized transaction recorded above.
 - [ ] Reload and locate the pool using My launches or its mint.
-- [ ] Confirm one buy and one sell; capture quoted fees/minimum output and transaction links.
+- [x] Confirm one buy and one sell; finalized transaction links recorded above. Quoted fee screenshots were not retained.
 - [ ] Complete the curve and confirm DAMM v2 migration; retain its transaction and target pool link.
 - [ ] Decode resulting positions before claiming actual LP locks; current app verifies target address
       ownership and displays configured allocations only.
-- [ ] Record a short walkthrough showing real account/transaction evidence. Avoid sample volumes
-      or preset illustrations as traction evidence.
-- [ ] Provide repository access; for a private repository, the listing asks for read access for
-      GitHub user `dannxbt`. No access changes have been made.
+- [x] Prepare a hosted pitch deck; video is an alternative, not an additional listing requirement.
+- [x] Repository is public and readable by judges. If made private, grant `dannxbt` read access.
 - [x] Verify the listing's published deadline: 13 October 2026 at 7:59 a.m. Lagos time.
 - [ ] Check required submission fields and any deadline updates on Superteam before submitting.
 
@@ -73,8 +99,12 @@ error. Do not report that attempt as a live launch or funded simulation pass.
 
 ## Deployment boundary
 
-The current upload limiter is local to one server process. Add a shared limiter and storage quotas
-before exposing uploads across multiple instances. Use a production public bucket domain instead
+Uploads use shared R2 conditional-write quotas: one attempt per wallet per minute, ten per wallet
+per UTC day, and 100 across the demo per UTC day. Failed preparations consume permits. These quotas
+bound authenticated storage writes, not all HTTP/RPC traffic; edge request throttling is still needed
+for a wider release. Live R2 concurrency and conditional updates were tested on 13 October using
+isolated temporary records, which were removed after verification. Use a production public bucket domain instead
 of relying on an R2 development URL for a public release. Check the deployment's RPC and R2 settings,
 and test its wallet metadata/explorer links on that domain. The devnet demo is deployed to Vercel;
-no funded wallet walkthrough or mainnet transaction has been performed during this preparation.
+launch, buy and sell were independently verified from finalized devnet transactions. Migration, verified liquidity positions and
+mainnet usage remain unverified.

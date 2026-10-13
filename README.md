@@ -1,7 +1,22 @@
-# Meteora Invent & DBC Terminal
+# Aegis — Meteora DBC launchpad
 
-> 🌟 **Featured Hackathon Submission**: [**Meteora DBC Launch Terminal & Algorithmic Curve Studio**](scaffolds/fun-launch)  
-> An institutional-grade launch terminal, interactive curve simulator, preset marketplace, and developer exporter powered by Meteora Dynamic Bonding Curves (DBC).
+Launch, discover and trade a devnet token through one wallet-reviewed workflow using Meteora DBC.
+Eligible pools can prepare manual DAMM v2 graduation. Built on the Meteora Invent scaffold.
+
+- [Live devnet app](https://meteora-dbc-terminal.vercel.app)
+- [Pitch deck and judge walkthrough](https://meteora-dbc-terminal.vercel.app/pitch)
+- [Frontend setup and limitations](scaffolds/fun-launch/README.md)
+- [Submission checklist](SUBMISSION.md)
+
+Creation, buy and sell for the [NUI demo token](https://meteora-dbc-terminal.vercel.app/launch/AngiHBZqNhVxk4d9Rqmi37TmCp5zHdRmwY8qPC2tcENa)
+were independently verified as finalized on devnet. Explorer evidence is in [SUBMISSION.md](SUBMISSION.md)
+and the hosted deck. Graduation and resulting LP locks remain unverified. Studio curves,
+preset browsing and exports are previews; no paid marketplace, stock backing, compounding vault,
+mainnet usage or measured traction is claimed.
+
+The contribution is the app lifecycle, signed metadata authorization, validated transaction
+preparation, creator discovery, confirmation receipts and regression checks. The protocol, SDK and
+original toolkit are Meteora's. The following sections document that upstream toolkit.
 
 A toolkit consisting of everything you need to invent innovative token launches on Meteora.
 
@@ -26,7 +41,7 @@ A toolkit consisting of everything you need to invent innovative token launches 
 ### Clone the repository
 
 ```bash
-git clone https://github.com/MeteoraAg/meteora-invent.git
+git clone https://github.com/nexora28/meteora-dbc-terminal.git
 ```
 
 ### Installation

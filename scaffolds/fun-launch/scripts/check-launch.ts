@@ -13,11 +13,54 @@ import submit from '../src/pages/api/send-transaction';
 import { ApeQueries } from '../src/components/Explore/queries';
 import { S3Client } from '@aws-sdk/client-s3';
 import { DEVNET_GENESIS_HASH } from '../src/lib/launch';
+import { reserveUploadQuota, QuotaStore } from '../src/lib/server/upload-quota';
 
 async function main() {
   const payer = Keypair.generate();
   const mint = Keypair.generate();
   const now = Date.now();
+  const counters = new Map<
+    string,
+    { value: { day: string; count: number; lastAt: number }; etag: string }
+  >();
+  const store: QuotaStore = {
+    read: async (key) => counters.get(key) ?? null,
+    write: async (key, value, etag) => {
+      if (counters.get(key)?.etag !== etag) return false;
+      counters.set(key, { value, etag: String(value.count) });
+      return true;
+    },
+  };
+  const parallel = await Promise.allSettled(
+    Array.from({ length: 5 }, () => reserveUploadQuota(store, 'same-wallet', now))
+  );
+  assert.equal(parallel.filter((result) => result.status === 'fulfilled').length, 1);
+  await reserveUploadQuota(store, 'same-wallet', now + 60_001);
+  const walletCounter = [...counters].find(([key]) => key.includes('/wallet/'))!;
+  walletCounter[1].value.count = 10;
+  await assert.rejects(
+    reserveUploadQuota(store, 'same-wallet', now + 120_002),
+    /daily upload limit/
+  );
+  await reserveUploadQuota(store, 'same-wallet', now + 86_400_000);
+  const globalCounter = [...counters].find(([key]) =>
+    key.endsWith(`${new Date(now).toISOString().slice(0, 10)}.json`)
+  )!;
+  globalCounter[1].value.count = 100;
+  await assert.rejects(reserveUploadQuota(store, 'other-wallet', now), /Demo daily/);
+  await assert.rejects(
+    reserveUploadQuota(
+      {
+        ...store,
+        read: async () => {
+          throw new Error('storage unavailable');
+        },
+      },
+      'another-wallet',
+      now
+    ),
+    /storage unavailable/
+  );
   const request = launchRequestSchema.parse({
     tokenName: 'Test Token',
     tokenSymbol: 'TEST',
@@ -151,6 +194,26 @@ async function main() {
     Connection.prototype.getAccountInfo = async () => null;
     Connection.prototype.getLatestBlockhash = connection.getLatestBlockhash;
     S3Client.prototype.send = (async (command: any) => {
+      if (command.constructor.name === 'GetObjectCommand') {
+        const value = objects.get(command.input.Key);
+        if (!value) throw { $metadata: { httpStatusCode: 404 } };
+        return {
+          ETag: String(value),
+          ContentLength: Buffer.byteLength(String(value)),
+          Body: { transformToString: async () => String(value) },
+        };
+      }
+      if (command.input.Key.startsWith('limits/')) {
+        const previous = objects.get(command.input.Key);
+        if (
+          command.input.IfMatch
+            ? command.input.IfMatch !== String(previous)
+            : previous !== undefined
+        )
+          throw { $metadata: { httpStatusCode: 412 } };
+        objects.set(command.input.Key, command.input.Body);
+        return {};
+      }
       assert.equal(command.input.IfNoneMatch, '*', 'Published metadata must not be overwritable');
       objects.set(command.input.Key, command.input.Body);
       return {};
