@@ -3,6 +3,7 @@ import { useWallet, useUnifiedWalletContext } from '@jup-ag/wallet-adapter';
 import { ComputeBudgetProgram, Transaction } from '@solana/web3.js';
 import { DYNAMIC_BONDING_CURVE_PROGRAM_ID } from '@meteora-ag/dynamic-bonding-curve-sdk';
 import bs58 from 'bs58';
+import { verifyReviewedTransaction } from '@/lib/wallet-transaction';
 import { Button } from './ui/button';
 import { explorerUrl, transactionReceiptSchema, TransactionReceipt } from '@/lib/launch';
 
@@ -85,16 +86,11 @@ export default function DBCMigration({
         )
       )
         throw new Error('Unexpected migration transaction');
-      const message = transaction.serializeMessage();
+      const reviewed = transaction.serialize({ requireAllSignatures: false });
       const signed = await signTransaction(transaction);
-      if (
-        !signed.serializeMessage().equals(message) ||
-        !signed.verifySignatures() ||
-        !signed.signature
-      )
-        throw new Error('Wallet did not sign the reviewed migration');
+      verifyReviewedTransaction(reviewed, signed);
       const signedTransaction = signed.serialize().toString('base64');
-      const signature = bs58.encode(signed.signature);
+      const signature = bs58.encode(signed.signature!);
       save({ signature, status: 'pending' });
       const submitted = await fetch('/api/send-transaction', {
         method: 'POST',

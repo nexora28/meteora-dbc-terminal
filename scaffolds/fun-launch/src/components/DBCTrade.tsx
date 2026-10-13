@@ -4,6 +4,7 @@ import { Transaction, ComputeBudgetProgram, SystemProgram } from '@solana/web3.j
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { DYNAMIC_BONDING_CURVE_PROGRAM_ID } from '@meteora-ag/dynamic-bonding-curve-sdk';
 import bs58 from 'bs58';
+import { verifyReviewedTransaction } from '@/lib/wallet-transaction';
 import { Button } from './ui/button';
 import { displayUnits, PreparedTrade, preparedTradeSchema, tokenUnits } from '@/lib/trade';
 import { explorerUrl, transactionReceiptSchema, TransactionReceipt } from '@/lib/launch';
@@ -102,17 +103,12 @@ export default function DBCTrade({
         transaction.instructions.some((ix) => !allowed.some((id) => id.equals(ix.programId)))
       )
         throw new Error('Unexpected trade transaction');
-      const message = transaction.serializeMessage();
+      const reviewed = transaction.serialize({ requireAllSignatures: false });
       const signed = await signTransaction(transaction);
-      if (
-        !signed.serializeMessage().equals(message) ||
-        !signed.verifySignatures() ||
-        !signed.signature
-      )
-        throw new Error('Wallet did not sign the reviewed trade');
+      verifyReviewedTransaction(reviewed, signed);
       if (Date.now() >= quote.expiresAt)
         throw new Error('Quote expired during wallet review. Get a new quote.');
-      const signature = bs58.encode(signed.signature);
+      const signature = bs58.encode(signed.signature!);
       const signedTransaction = signed.serialize().toString('base64');
       save({ signature, status: 'pending' });
       setQuote(null);

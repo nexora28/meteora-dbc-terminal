@@ -5,10 +5,10 @@ import { ComputeBudgetProgram, Keypair, Transaction } from '@solana/web3.js';
 import { DYNAMIC_BONDING_CURVE_PROGRAM_ID } from '@meteora-ag/dynamic-bonding-curve-sdk';
 import { useUnifiedWalletContext, useWallet } from '@jup-ag/wallet-adapter';
 import bs58 from 'bs58';
+import { verifyReviewedTransaction } from '@/lib/wallet-transaction';
 import { toast } from 'sonner';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
-import { DBC_PRESETS } from '@/components/DBCStudio/presets';
 import {
   explorerUrl,
   LaunchReceipt,
@@ -148,15 +148,15 @@ export default function CreatePool() {
       }
       // Preserve the config signature supplied by the server.
       transaction.partialSign(mint);
+      const reviewed = transaction.serialize({ requireAllSignatures: false });
       const signed = await signTransaction(transaction);
-      if (!signed.signature || !signed.verifySignatures())
-        throw new Error('Wallet did not sign the launch');
+      verifyReviewedTransaction(reviewed, signed);
       const pending = launchReceiptSchema.parse({
         mint: request.mint,
         configAddress: prepared.configAddress,
         poolAddress: prepared.poolAddress,
         metadataUrl: prepared.metadataUrl,
-        signature: bs58.encode(signed.signature),
+        signature: bs58.encode(signed.signature!),
         status: 'pending',
       });
       const signedTransaction = signed.serialize().toString('base64');
@@ -294,21 +294,11 @@ export default function CreatePool() {
           </section>
         ) : (
           <form onSubmit={submit} className="terminal-panel space-y-5 rounded-2xl p-6">
-            <label className="block space-y-2">
-              <span>Launch preset</span>
-              <select className={inputClass} value={SUPPORTED_PRESET} disabled>
-                {DBC_PRESETS.map((preset) => (
-                  <option
-                    key={preset.id}
-                    value={preset.id}
-                    disabled={preset.id !== SUPPORTED_PRESET}
-                  >
-                    {preset.name}
-                    {preset.id !== SUPPORTED_PRESET ? ' — preview only' : ''}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <div className="grid gap-3 text-sm sm:grid-cols-3" aria-label="Launch steps">
+              <p className="rounded-xl bg-violet-500/10 p-3">1. Add token details</p>
+              <p className="rounded-xl bg-violet-500/10 p-3">2. Authorize metadata</p>
+              <p className="rounded-xl bg-violet-500/10 p-3">3. Sign and launch</p>
+            </div>
             <div className="rounded-xl border border-neutral-700 p-4 text-sm">
               <p className="font-semibold">Anti-Snipe Fair Launch · SOL quote</p>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-neutral-400">
@@ -317,7 +307,7 @@ export default function CreatePool() {
                 <li>
                   Graduation threshold: 85 SOL; migration configured for DAMM v2 with a 1% pool fee.
                 </li>
-                <li>All post-migration LP is permanently locked: 50% creator, 50% partner.</li>
+                <li>Permanent LP lock configured: 50% creator, 50% partner after migration.</li>
                 <li>Creator and partner fee recipients both use your wallet for this launch.</li>
               </ul>
               <p className="mt-2 text-neutral-400">

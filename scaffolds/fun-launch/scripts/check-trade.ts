@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import BN from 'bn.js';
-import { Connection, Keypair, Transaction } from '@solana/web3.js';
+import bs58 from 'bs58';
+import { Connection, Keypair, Transaction, Message } from '@solana/web3.js';
+import { verifyReviewedTransaction } from '../src/lib/wallet-transaction';
 import {
   AccountLayout,
   MintLayout,
@@ -165,7 +167,47 @@ async function main() {
     )!;
     assert.equal(new BN(swap.data.subarray(8, 16), 'le').toString(), buy.amountIn);
     assert.equal(new BN(swap.data.subarray(16, 24), 'le').toString(), buy.minimumAmountOut);
+    const reviewedBytes = tx.serialize({ requireAllSignatures: false });
     tx.partialSign(wallet);
+    verifyReviewedTransaction(reviewedBytes, tx);
+    // Some wallets recompile legacy account indices without changing operations.
+    const message = tx.compileMessage();
+    const last = message.accountKeys.length - 1;
+    // Only exchange two read-only unsigned accounts so permissions are unchanged.
+    const readOnlyStart = message.accountKeys.length - message.header.numReadonlyUnsignedAccounts;
+    const a = readOnlyStart;
+    const b = last;
+    assert(a < b);
+    const map = (index: number) => (index === a ? b : index === b ? a : index);
+    const keys = [...message.accountKeys];
+    [keys[a], keys[b]] = [keys[b]!, keys[a]!];
+    const rebuilt = Transaction.populate(
+      new Message({
+        header: message.header,
+        accountKeys: keys,
+        recentBlockhash: message.recentBlockhash,
+        instructions: message.instructions.map((ix) => ({
+          ...ix,
+          programIdIndex: map(ix.programIdIndex),
+          accounts: ix.accounts.map(map),
+        })),
+      }),
+      Array.from({ length: message.header.numRequiredSignatures }, () =>
+        bs58.encode(new Uint8Array(64))
+      )
+    );
+    rebuilt.partialSign(wallet);
+    assert(
+      !rebuilt.serializeMessage().equals(tx.serializeMessage()),
+      'Fixture must change wire account ordering'
+    );
+    verifyReviewedTransaction(reviewedBytes, rebuilt);
+    const tampered = Transaction.from(reviewedBytes);
+    tampered.instructions[0]!.data[0] = tampered.instructions[0]!.data[0]! ^ 1;
+    tampered.partialSign(wallet);
+    assert.throws(() => verifyReviewedTransaction(reviewedBytes, tampered), /changed/);
+    const unsigned = Transaction.from(reviewedBytes);
+    assert.throws(() => verifyReviewedTransaction(reviewedBytes, unsigned), /signature/);
     assert(tx.verifySignatures());
     assert(tx.serialize().length <= 1232);
     // Move the fixture through the actual SDK buy quote before quoting a sell.
