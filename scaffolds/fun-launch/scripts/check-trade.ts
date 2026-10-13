@@ -1,7 +1,14 @@
 import assert from 'node:assert/strict';
 import BN from 'bn.js';
 import bs58 from 'bs58';
-import { Connection, Keypair, Transaction, Message } from '@solana/web3.js';
+import {
+  Connection,
+  Keypair,
+  Transaction,
+  Message,
+  ComputeBudgetProgram,
+  SystemProgram,
+} from '@solana/web3.js';
 import { verifyReviewedTransaction } from '../src/lib/wallet-transaction';
 import {
   AccountLayout,
@@ -208,6 +215,49 @@ async function main() {
     assert.throws(() => verifyReviewedTransaction(reviewedBytes, tampered), /changed/);
     const unsigned = Transaction.from(reviewedBytes);
     assert.throws(() => verifyReviewedTransaction(reviewedBytes, unsigned), /signature/);
+    const withPriorityFee = Transaction.from(reviewedBytes);
+    withPriorityFee.instructions.unshift(
+      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 100_000 })
+    );
+    withPriorityFee.partialSign(wallet);
+    verifyReviewedTransaction(reviewedBytes, withPriorityFee, true);
+    assert.throws(
+      () => verifyReviewedTransaction(reviewedBytes, withPriorityFee),
+      /instruction count/
+    );
+    const excessive = Transaction.from(reviewedBytes);
+    excessive.instructions.unshift(
+      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10_000_000 })
+    );
+    excessive.partialSign(wallet);
+    assert.throws(() => verifyReviewedTransaction(reviewedBytes, excessive, true), /exceeds/);
+    const changedSwap = Transaction.from(reviewedBytes);
+    const changedInstruction = changedSwap.instructions.find((ix) =>
+      ix.programId.equals(DYNAMIC_BONDING_CURVE_PROGRAM_ID)
+    )!;
+    changedInstruction.data[8] = changedInstruction.data[8]! ^ 1;
+    changedSwap.partialSign(wallet);
+    assert.throws(
+      () => verifyReviewedTransaction(reviewedBytes, changedSwap, true),
+      /swap instruction/
+    );
+    const extraTransfer = Transaction.from(reviewedBytes);
+    extraTransfer.add(
+      SystemProgram.transfer({
+        fromPubkey: wallet.publicKey,
+        toPubkey: Keypair.generate().publicKey,
+        lamports: 1,
+      })
+    );
+    extraTransfer.partialSign(wallet);
+    assert.throws(
+      () => verifyReviewedTransaction(reviewedBytes, extraTransfer, true),
+      /instruction count/
+    );
+    const newBlockhash = Transaction.from(reviewedBytes);
+    newBlockhash.recentBlockhash = Keypair.generate().publicKey.toBase58();
+    newBlockhash.partialSign(wallet);
+    assert.throws(() => verifyReviewedTransaction(reviewedBytes, newBlockhash, true), /blockhash/);
     assert(tx.verifySignatures());
     assert(tx.serialize().length <= 1232);
     // Move the fixture through the actual SDK buy quote before quoting a sell.

@@ -105,7 +105,7 @@ export default function DBCTrade({
         throw new Error('Unexpected trade transaction');
       const reviewed = transaction.serialize({ requireAllSignatures: false });
       const signed = await signTransaction(transaction);
-      verifyReviewedTransaction(reviewed, signed);
+      verifyReviewedTransaction(reviewed, signed, true);
       if (Date.now() >= quote.expiresAt)
         throw new Error('Quote expired during wallet review. Get a new quote.');
       const signature = bs58.encode(signed.signature!);
@@ -267,6 +267,10 @@ export default function DBCTrade({
               </p>
               <p>
                 Included swap fees: {displayUnits(quote.fee, quote.feeDecimals)} {quote.feeToken}
+              </p>
+              <p className="text-sm text-neutral-400">
+                Your wallet may adjust the network priority fee, capped here at 0.001 SOL. This is
+                separate from swap fees and token-account rent.
               </p>
               <p>Quote valid for 45 seconds; the transaction enforces this minimum output.</p>
               <Button onClick={execute} disabled={busy || receipt?.status === 'pending'}>
